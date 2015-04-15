@@ -11,7 +11,6 @@ public class Flight {
 
     String nameEn;
     String nameRu;
-    String name;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
@@ -37,14 +36,6 @@ public class Flight {
 
     public void setNameRu(String nameRu) {
         this.nameRu = nameRu;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Country getCountry() {

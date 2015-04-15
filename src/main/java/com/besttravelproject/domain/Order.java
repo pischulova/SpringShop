@@ -15,7 +15,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    Client client;
+    User user;
 
     @ElementCollection
     @CollectionTable(name="order_items", joinColumns = @JoinColumn(name="order_id"))
@@ -25,7 +25,7 @@ public class Order {
 
     Long sum;
 
-    int isApproved;
+    Boolean isApproved;
 
     public Order() { }
 
@@ -41,12 +41,12 @@ public class Order {
         this.date = date;
     }
 
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Map<Flight, Integer> getFlights() { return flights; }
@@ -57,13 +57,9 @@ public class Order {
 
     public void setSum(Long sum) { this.sum = sum; }
 
-    public int getIsApproved() {
-        return isApproved;
-    }
+    public Boolean getIsApproved() { return isApproved; }
 
-    public void setIsApproved(int isApproved) {
-        this.isApproved = isApproved;
-    }
+    public void setIsApproved(Boolean isApproved) { this.isApproved = isApproved; }
 
     @PrePersist
     @PreUpdate

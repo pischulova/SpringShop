@@ -11,7 +11,6 @@ public class Country {
 
     String nameEn;
     String nameRu;
-    String name;
 
     public Country() { }
 
@@ -35,11 +34,4 @@ public class Country {
         this.nameRu = nameRu;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
