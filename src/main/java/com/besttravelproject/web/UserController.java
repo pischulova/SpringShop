@@ -39,7 +39,7 @@ public class UserController {
     String createUser(@ModelAttribute("userDTO") @Valid User user, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:home";
+            return "redirect:/user";
         }
 
         // check username in DB
