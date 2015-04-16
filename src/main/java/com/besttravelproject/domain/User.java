@@ -1,6 +1,11 @@
 package com.besttravelproject.domain;
 
+import com.besttravelproject.domain.validators.Phone;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,11 +19,20 @@ public class User {
     @Enumerated
     UserRole userRole;
 
+    @Size(min=2, max=20)
     String username;
+
+    @Size(min=2, max=20)
     String password;
+
     String name;
+
+    @NotEmpty @Email
     String email;
+
+    @NotEmpty @Phone
     String phone;
+
     Boolean isBad;
 
     Integer orderAmount;
