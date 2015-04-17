@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    String createUser(@ModelAttribute("userDTO") @Valid User user, BindingResult bindingResult, Model model) {
+    String createUser(@ModelAttribute("userDTO") @Validated @Valid User user, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/user";
+            return "home";
         }
 
         // check username in DB

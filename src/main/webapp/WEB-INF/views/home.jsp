@@ -6,7 +6,7 @@
 
 <style>
     .error {
-        color: gray;
+        color: black;
     }
 </style>
 

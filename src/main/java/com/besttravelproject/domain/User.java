@@ -1,13 +1,11 @@
 package com.besttravelproject.domain;
 
-import com.besttravelproject.domain.validators.Phone;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +28,7 @@ public class User {
     @NotEmpty @Email
     String email;
 
-    @NotEmpty @Phone
+    @NotEmpty
     String phone;
 
     Boolean isBad;
