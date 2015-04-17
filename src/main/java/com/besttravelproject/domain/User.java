@@ -17,18 +17,19 @@ public class User {
     @Enumerated
     UserRole userRole;
 
-    @Size(min=2, max=20)
     String username;
 
-    @Size(min=2, max=20)
     String password;
+
+    @Transient
+    String confirmPassword;
 
     String name;
 
-    @NotEmpty @Email
+    @NotEmpty (message = "Required field")
+    @Email (message = "Invalid email address")
     String email;
 
-    @NotEmpty
     String phone;
 
     Boolean isBad;
@@ -51,6 +52,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getConfirmPassword() { return confirmPassword; }
+
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
 
     public String getName() {
         return name;

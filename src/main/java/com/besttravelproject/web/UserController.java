@@ -8,9 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,10 +26,10 @@ public class UserController {
     @Qualifier("userValidator")
     private Validator validator;
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
+//    @InitBinder
+//    private void initBinder(WebDataBinder binder) {
+//        binder.setValidator(validator);
+//    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     String activate(Model model) {
@@ -37,7 +38,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    String createUser(@ModelAttribute("userDTO") @Validated @Valid User user, BindingResult bindingResult, Model model) {
+    String createUser(@Valid @ModelAttribute("userDTO") User user, BindingResult bindingResult, Model model) {
+        validator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "home";

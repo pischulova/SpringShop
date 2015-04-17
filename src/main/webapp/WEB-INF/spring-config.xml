@@ -43,8 +43,6 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="userValidator" class="com.besttravelproject.domain.validators.UserFormValidator" />
-
     <!--language/locale settings-->
 
     <mvc:interceptors>
