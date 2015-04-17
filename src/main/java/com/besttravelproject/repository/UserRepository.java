@@ -9,5 +9,6 @@ public interface UserRepository {
     boolean delete(User user);
     boolean update(User user);
     User findById(Long id);
+    User findByUsername(String username);
     List<User> findAll();
 }

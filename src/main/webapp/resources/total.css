@@ -1,0 +1,204 @@
+/*
+    Common style
+------------------------------------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font: normal 14px Arial, 'Helvetica Neue', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #838383;
+}
+
+a:hover {
+    color: #000;
+}
+
+h1, h2 {
+    margin: 0 0 1em;
+}
+
+h1 {
+    font-size: 21px;
+}
+
+p {
+    margin: 0 0 2em;
+    line-height: 1.5em;
+}
+
+form {
+    margin: 0;
+}
+
+input[type="text"],
+input[type="password"] {
+    border: 1px solid #DCD7D3;
+    height: 2em;
+    margin: 10px 0;
+    padding: 0 0.5em;
+}
+
+/*Tables*/
+table {
+    border-collapse: collapse;
+    margin: 0 0 2em;
+    font-size: 14px;
+}
+
+thead {
+    color: #fffdf1;
+    background: #afa089;
+}
+
+th {
+    text-align: left;
+    font-weight: normal;
+}
+
+td, th {
+    border: 1px solid #b2b1ac;
+    padding: 0.7em 1em;
+}
+
+tbody tr:nth-child(even) {
+    background: #F4F1EA;
+}
+
+/*
+    Header
+------------------------------------- */
+
+.header {
+    height: 300px;
+    background-image: url(34.jpg);
+    background-size: cover;
+    overflow: hidden;
+    box-shadow: 0 0 20px -5px #000;
+}
+
+.logo {
+    float: left;
+    margin: 3px 0 0;
+}
+
+.navigation,
+.body,
+.footer{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/*Navigation*/
+.navigation {
+    margin-top: 30px;
+    height: 60px;
+    background: white;
+    padding: 0 30px;
+    box-shadow: 0 0px 22px rgba(0, 0, 0, 0.26);
+}
+
+.navigation a {
+    font-size: 16px;
+}
+
+/*Menu*/
+.menu, .lang-menu {
+    padding: 0;
+    margin: 18px 0;
+}
+
+.menu {
+    float: left;
+    border-left: 1px solid #EFEFEF;
+    padding-left: 20px;
+    margin-left: 25px;
+}
+
+.lang-menu {
+    float: right;
+}
+
+.lang-menu .menu-item:first-child {
+    border-right: 1px solid rgb(239, 239, 239);
+}
+
+.menu-item {
+    display: inline-block;
+    padding: 0 15px;
+    line-height: 27px;
+}
+
+
+/*
+    Body
+------------------------------------- */
+.body {
+    padding: 50px 0 20px;
+}
+
+.body:before,
+.body:after {
+    content: " ";
+    display: table;
+}
+
+.body:after {
+    clear: both;
+}
+
+/*Content*/
+.content {
+    width: 80%;
+    float: left;
+    padding: 0 60px 0 0;
+}
+
+/*Side*/
+.side {
+    width: 20%;
+    float: right;
+    background: #F4F1EA;
+    box-shadow: 2px 3px 17px -3px rgba(0, 0, 0, 0.26);
+    padding: 10px 30px;
+}
+
+.side-menu {
+    font-size: 16px;
+}
+
+.side input[type="text"],
+.side input[type="password"] {
+    width: 100%;
+}
+
+.side .login-form {
+    padding: 1em 0;
+}
+
+.side ul {
+    padding: 0;
+}
+
+.side li {
+    list-style: none;
+    margin: 0 0 15px;
+}
+
+/*
+    Footer
+------------------------------------- */
+.footer {
+    text-align: center;
+    border-top: #C8C8C8 double 1px;
+    margin-top: 40px;
+    padding: 20px;
+}
+

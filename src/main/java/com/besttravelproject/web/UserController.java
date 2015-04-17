@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UserController {
 //        binder.setValidator(validator);
 //    }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     String activate(Model model) {
         model.addAttribute("userDTO", new User());
         return "home";
@@ -62,5 +63,25 @@ public class UserController {
             sb.append(user.toString()).append("\n");
         }
         return sb.toString();
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    String loginUser(@ModelAttribute("userDTO") User user, BindingResult bindingResult, Model model,
+                     HttpSession session) {
+//        if (!model.containsAttribute("userDTO")) {
+//            model.addAttribute("userDTO", new User());
+//   user = null. откуда брать юзера?
+// }
+
+        if (!userService.login(user.getUsername(), user.getPassword())) {
+            System.out.println(user.getUsername()+" "+ user.getPassword());
+            model.addAttribute("message", "bad_login");
+            return "home";
+        }
+
+        session.setAttribute("user", user);
+        model.addAttribute("user", user);
+        model.addAttribute("message", "Login successful");
+        return "home";
     }
 }

@@ -22,8 +22,16 @@ public class UserServiceSample implements UserService {
     }
 
     @Override
-    public User login(String username, String password) {
-        return null;
+    public boolean login(String username, String password) {
+        User user = repository.findByUsername(username);
+        if (null == user) {
+            System.out.println("service: user null");
+            return false;
+        }
+        boolean re = password.equals(user.getPassword());
+        if (!re)
+            System.out.println("service: password no good");
+        return re;
     }
 
     @Override

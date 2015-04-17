@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Repository("userRepository")
 public class JPAUserRepository implements UserRepository {
     static final String FIND_ALL_USERS = "SELECT u FROM User u";
+    static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = ?1";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
@@ -36,6 +38,19 @@ public class JPAUserRepository implements UserRepository {
     @Override
     public User findById(Long id) {
         return null;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        Query query = em.createQuery(FIND_BY_USERNAME);
+        query.setParameter(1, username);
+        User result = null;
+        try {
+            result = (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("repos: no user found by username");
+        }
+        return result;
     }
 
     @Override
