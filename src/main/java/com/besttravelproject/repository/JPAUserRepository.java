@@ -47,9 +47,7 @@ public class JPAUserRepository implements UserRepository {
         User result = null;
         try {
             result = (User) query.getSingleResult();
-        } catch (NoResultException e) {
-            System.out.println("repos: no user found by username");
-        }
+        } catch (NoResultException e) {}
         return result;
     }
 

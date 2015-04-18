@@ -7,9 +7,11 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
-        <%--<c:if test="${not empty sessionScope.user}">--%>
-        <%--<p><fmt:message key="greeting"/> ${user.login}!</p>--%>
-        <%--</c:if>--%>
+        <c:out value="${sessionScope.user.userRole}"/>
+
+        <c:if test="${not empty sessionScope.user}">
+            <p><fmt:message key="login_successful"/> ${sessionScope.user.username}.</p>
+        </c:if>
 
         <c:if test="${not empty message}">
             <p><spring:message code="${message}"/></p>

@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${userLocale}" />
-<fmt:setBundle basename="resources.bundle"/>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm"%>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 

@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,31 +25,34 @@ public class UserController {
     @Qualifier("userValidator")
     private Validator validator;
 
-//    @InitBinder
-//    private void initBinder(WebDataBinder binder) {
-//        binder.setValidator(validator);
-//    }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     String activate(Model model) {
         model.addAttribute("userDTO", new User());
-        return "home";
+        return "register_user";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    String createUser(@Valid @ModelAttribute("userDTO") User user, BindingResult bindingResult, Model model) {
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    String createUser(@Valid @ModelAttribute("userDTO") User user, Errors errors,
+                      BindingResult bindingResult, Model model) {
         validator.validate(user, bindingResult);
 
-        if (bindingResult.hasErrors()) {
-            return "home";
+        User foundUser = userService.findByUsername(user.getUsername());
+        if (null != foundUser) {
+            errors.rejectValue("username", "username_busy");
+            return "register_user";
         }
 
-        // check username in DB
+        if (bindingResult.hasErrors()) {
+            return "register_user";
+        }
+
+
 
         userService.save(user);
         model.addAttribute("user", user);
-        model.addAttribute("message", "User saved successfully");
-        return "redirect:/user/show_all";
+        model.addAttribute("message", "sign_up_successful");
+        return "home";
     }
 
     @RequestMapping(value = "/show_all", method = RequestMethod.GET)
@@ -66,22 +67,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    String loginUser(@ModelAttribute("userDTO") User user, BindingResult bindingResult, Model model,
-                     HttpSession session) {
-//        if (!model.containsAttribute("userDTO")) {
-//            model.addAttribute("userDTO", new User());
-//   user = null. откуда брать юзера?
-// }
+    String loginUser(@RequestParam String username,
+                     @RequestParam String pass,
+                     Model model, HttpSession session) {
 
-        if (!userService.login(user.getUsername(), user.getPassword())) {
-            System.out.println(user.getUsername()+" "+ user.getPassword());
+        User user = userService.login(username, pass);
+        if (null == user) {
             model.addAttribute("message", "bad_login");
             return "home";
         }
 
         session.setAttribute("user", user);
         model.addAttribute("user", user);
-        model.addAttribute("message", "Login successful");
         return "home";
     }
 }

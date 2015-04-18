@@ -18,21 +18,21 @@ public class UserFormValidator implements Validator {
         User user = (User) obj;
 
         if (user.getUsername().length() < 3 || user.getUsername().length() > 20 || user.getUsername().contains(" ")) {
-            errors.rejectValue("username", "username.not.valid");
+            errors.rejectValue("username", "username_not_valid");
         }
 
         if (user.getPassword().length() < 3 || user.getPassword().length() > 20 || user.getPassword().contains(" ")) {
-            errors.rejectValue("password", "password.not.valid");
+            errors.rejectValue("password", "password_not_valid");
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            errors.rejectValue("confirmPassword", "passwords.not.match");
+            errors.rejectValue("confirmPassword", "passwords_not_match");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
 
         if (!user.getPhone().matches("0[0-9]{9}")) {
-            errors.rejectValue("phone", "phone.not.valid");
+            errors.rejectValue("phone", "phone_not_valid");
         }
     }
 }

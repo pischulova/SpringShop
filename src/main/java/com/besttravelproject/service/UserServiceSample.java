@@ -1,6 +1,7 @@
 package com.besttravelproject.service;
 
 import com.besttravelproject.domain.User;
+import com.besttravelproject.domain.UserRole;
 import com.besttravelproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,17 @@ public class UserServiceSample implements UserService {
 
     @Override
     public Long save(User user) {
+        user.setUserRole(UserRole.CLIENT);
         return repository.save(user);
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         User user = repository.findByUsername(username);
-        if (null == user) {
-            System.out.println("service: user null");
-            return false;
+        if (null == user || !password.equals(user.getPassword())) {
+            return null;
         }
-        boolean re = password.equals(user.getPassword());
-        if (!re)
-            System.out.println("service: password no good");
-        return re;
+        return user;
     }
 
     @Override
@@ -47,5 +45,10 @@ public class UserServiceSample implements UserService {
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 }

@@ -4,8 +4,9 @@
 <%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 
 <div class="side">
+
     <c:choose>
-        <c:when test="${sessionScope.isAdmin=='true'}">
+        <c:when test="${sessionScope.user.userRole==UserRole.ADMIN}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="javascript:document.orders.submit();"><spring:message code="orders"/></a></li>
@@ -18,7 +19,7 @@
                 </form>
             </ul>
         </c:when>
-        <c:when test="${sessionScope.isAdmin=='false'}">
+        <c:when test="${sessionScope.user.userRole==UserRole.CLIENT}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="javascript:document.orders.submit();"><spring:message code="my_orders"/></a></li>
@@ -29,13 +30,14 @@
             </ul>
         </c:when>
         <c:otherwise>
-            <springForm:form commandName="userDTO" method="post" action="/user/login" class="login-form">
-                <label for="login-name"><spring:message code="name"/></label>
-                <input type="text" name="name" id="login-name" required><br/>
+            <spring:message code="log_in" var="submitText"/>
+            <springForm:form method="post" action="/user/login" class="login-form">
+                <label for="login-name"><spring:message code="username"/></label>
+                <input type="text" name="username" id="login-name" required><br/>
                 <label for="login-pass"><spring:message code="pass"/></label>
                 <input type="password" name="pass" id="login-pass" required><br/>
-                <input type="hidden" name="command" value="login">
-                <input type="submit" value="ok">
+                <input type="submit" value="${submitText}">
+                <a href="/user"><spring:message code="sign_up"/></a><br>
             </springForm:form>
         </c:otherwise>
     </c:choose>
