@@ -35,10 +35,6 @@ public class JPAUserRepository implements UserRepository {
         return false;
     }
 
-    @Override
-    public User findById(Long id) {
-        return null;
-    }
 
     @Override
     public User findByUsername(String username) {

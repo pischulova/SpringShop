@@ -10,12 +10,8 @@ import java.util.List;
 
 @Service("userService")
 public class UserServiceSample implements UserService {
-    private UserRepository repository;
-
     @Autowired
-    public UserServiceSample(UserRepository userRepository) {
-        this.repository = userRepository;
-    }
+    private UserRepository repository;
 
     @Override
     public Long save(User user) {

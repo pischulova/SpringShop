@@ -1,4 +1,4 @@
-package com.besttravelproject.domain.validators;
+package com.besttravelproject.domain;
 
 import com.besttravelproject.domain.User;
 import org.springframework.stereotype.Component;

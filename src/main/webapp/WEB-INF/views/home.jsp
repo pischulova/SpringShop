@@ -7,6 +7,7 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
+        Current Locale : ${pageContext.response.locale} <br>
 
         <c:if test="${not empty sessionScope.user}">
             <p><fmt:message key="login_successful"/> ${sessionScope.user.username}.</p>

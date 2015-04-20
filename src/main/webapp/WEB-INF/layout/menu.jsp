@@ -5,7 +5,7 @@
 <div class="navigation">
     <img class="logo" width="150" height="50" src="/resources/new-logo.png" alt=""/>
     <ul class="menu">
-        <li class="menu-item"><a href="/home"><spring:message code="home"/></a></li>
+        <li class="menu-item"><a href="/"><spring:message code="home"/></a></li>
         <li class="menu-item"><a href="/flights"><spring:message code="flights"/></a></li>
         <c:choose>
             <c:when test="${not empty sessionScope.user}">
