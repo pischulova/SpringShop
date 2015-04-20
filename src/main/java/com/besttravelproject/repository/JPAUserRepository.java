@@ -56,17 +56,4 @@ public class JPAUserRepository implements UserRepository {
         Query query = em.createQuery(FIND_ALL_USERS);
         return query.getResultList();
     }
-
-//    @PostConstruct
-//    public void createDB() {
-//        for (int i = 0; i < 10; i++) {
-//            User user = new User();
-//            user.setName("name"+i);
-//            user.setUsername("userName"+i);
-//            user.setPassword("pass"+i);
-//            user.setPhone("0"+i+9471104);
-//            em.persist(user);
-//        }
-//    }
-
 }

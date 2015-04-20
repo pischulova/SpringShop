@@ -6,7 +6,18 @@
 <div class="side">
 
     <c:choose>
-        <c:when test="${sessionScope.user.userRole==UserRole.ADMIN}">
+        <c:when test="${empty sessionScope.user}">
+            <spring:message code="log_in" var="submitText"/>
+            <springForm:form method="post" action="/user/login" class="login-form">
+                <label for="login-name"><spring:message code="username"/></label>
+                <input type="text" name="username" id="login-name" required><br/>
+                <label for="login-pass"><spring:message code="pass"/></label>
+                <input type="password" name="pass" id="login-pass" required><br/>
+                <input type="submit" value="${submitText}">
+                <a href="/user"><spring:message code="sign_up"/></a><br>
+            </springForm:form>
+        </c:when>
+        <c:when test="${sessionScope.user.userRole=='ADMIN'}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="javascript:document.orders.submit();"><spring:message code="orders"/></a></li>
@@ -19,7 +30,7 @@
                 </form>
             </ul>
         </c:when>
-        <c:when test="${sessionScope.user.userRole==UserRole.CLIENT}">
+        <c:when test="${sessionScope.user.userRole=='CLIENT'}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="javascript:document.orders.submit();"><spring:message code="my_orders"/></a></li>
@@ -29,16 +40,5 @@
                 </form>
             </ul>
         </c:when>
-        <c:otherwise>
-            <spring:message code="log_in" var="submitText"/>
-            <springForm:form method="post" action="/user/login" class="login-form">
-                <label for="login-name"><spring:message code="username"/></label>
-                <input type="text" name="username" id="login-name" required><br/>
-                <label for="login-pass"><spring:message code="pass"/></label>
-                <input type="password" name="pass" id="login-pass" required><br/>
-                <input type="submit" value="${submitText}">
-                <a href="/user"><spring:message code="sign_up"/></a><br>
-            </springForm:form>
-        </c:otherwise>
     </c:choose>
 </div>

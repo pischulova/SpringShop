@@ -9,13 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
-@RequestMapping(value = "/user")
+//@RequestMapping(value = "/user")
 @Controller
 public class UserController {
     @Autowired
@@ -26,15 +28,15 @@ public class UserController {
     private Validator validator;
 
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     String activate(Model model) {
         model.addAttribute("userDTO", new User());
         return "register_user";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     String createUser(@Valid @ModelAttribute("userDTO") User user, Errors errors,
-                      BindingResult bindingResult, Model model) {
+                      BindingResult bindingResult, Model model, HttpSession session) {
         validator.validate(user, bindingResult);
 
         User foundUser = userService.findByUsername(user.getUsername());
@@ -47,26 +49,24 @@ public class UserController {
             return "register_user";
         }
 
-
-
         userService.save(user);
+        session.setAttribute("user", user);
         model.addAttribute("user", user);
         model.addAttribute("message", "sign_up_successful");
         return "home";
     }
 
-    @RequestMapping(value = "/show_all", method = RequestMethod.GET)
-    @ResponseBody
-    public String show() {
-        List<User> userList = userService.findAll();
-        StringBuilder sb = new StringBuilder();
-        for (User user : userList) {
-            sb.append(user.toString()).append("\n");
-        }
-        return sb.toString();
+    @RequestMapping(value = "/user/register", method = RequestMethod.GET)
+    String changeLangRegister() {
+        return "home";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/login", method = RequestMethod.GET)
+    String changeLangLogin() {
+        return "home";
+    }
+
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     String loginUser(@RequestParam String username,
                      @RequestParam String pass,
                      Model model, HttpSession session) {
@@ -79,6 +79,15 @@ public class UserController {
 
         session.setAttribute("user", user);
         model.addAttribute("user", user);
+        return "home";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    String logout(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null != user) {
+            session.removeAttribute("user");
+        }
         return "home";
     }
 }
