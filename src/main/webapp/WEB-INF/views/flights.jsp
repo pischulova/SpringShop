@@ -8,10 +8,10 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
-        <c:if test="${sessionScope.flightChanged == true}">
-            <fmt:message key="flight_updated"/><br><br>
-            <c:remove var="flightChanged" scope="session"/>
-        </c:if>
+        <%--<c:if test="${sessionScope.flightChanged == true}">--%>
+        <%--<fmt:message key="flight_updated"/><br><br>--%>
+        <%--<c:remove var="flightChanged" scope="session"/>--%>
+        <%--</c:if>--%>
 
         <c:choose>
             <c:when test="${pageContext.response.locale == 'en'}">
@@ -22,48 +22,23 @@
             </c:otherwise>
         </c:choose>
 
-        <h1><fmt:message key="choose"/></h1>
-        <form action="/auth" method="post">
-            <p>
-                <form:select path="countryItems">
-                    <form:option value="NONE" label="----------" />
-                    <form:options items="${countryList}"/>
-                    <%--<c:choose>--%>
-                        <%--<c:when test="${pageContext.response.locale == 'en'}">--%>
-                            <%--<form:options items="${countryListEN}"/>--%>
-                        <%--</c:when>--%>
-                        <%--<c:otherwise>--%>
-                            <%--<form:options items="${countryListRU}"/>--%>
-                        <%--</c:otherwise>--%>
-                    <%--</c:choose>--%>
 
-                </form:select>
+        <%--<form action="/auth" method="post">--%>
+        <%--<p>--%>
+        <%--<form:select path="countryItems">--%>
+        <%--<form:option value="NONE" label="----------" />--%>
+        <%--<form:options items="${countryList}"/>--%>
+        <%--</form:select>--%>
 
-
-                <%--<select name="country">--%>
-                    <%--<option value="">-----</option>--%>
-                    <%--<option value="<fmt:message key="Great_Britain"/>"><fmt:message key="Great_Britain"/></option>--%>
-                    <%--<option value="<fmt:message key="Greece"/>"><fmt:message key="Greece"/></option>--%>
-                    <%--<option value="<fmt:message key="Sri_Lanka"/>"><fmt:message key="Sri_Lanka"/></option>--%>
-                    <%--<option value="<fmt:message key="Sweden"/>"><fmt:message key="Sweden"/></option>--%>
-                <%--</select>--%>
-                <%--<select name="city">--%>
-                    <%--<option value="">-----</option>--%>
-
-                    <%--<option value="<fmt:message key="London"/>"><fmt:message key="London"/></option>--%>
-                    <%--<option value="<fmt:message key="Liverpool"/>"><fmt:message key="Liverpool"/></option>--%>
-                    <%--<option value="<fmt:message key="Glasgow"/>"><fmt:message key="Glasgow"/></option>--%>
-                    <%--<option value="<fmt:message key="Athens"/>"><fmt:message key="Athens"/></option>--%>
-                    <%--<option value="<fmt:message key="Heraklion"/>"><fmt:message key="Heraklion"/></option>--%>
-                    <%--<option value="<fmt:message key="Thessaloniki"/>"><fmt:message key="Thessaloniki"/></option>--%>
-                    <%--<option value="<fmt:message key="Colombo"/>"><fmt:message key="Colombo"/></option>--%>
-                    <%--<option value="<fmt:message key="Stockholm"/>"><fmt:message key="Stockholm"/></option>--%>
-                    <%--<option value="<fmt:message key="Malmo"/>"><fmt:message key="Malmo"/></option>--%>
-                <%--</select>--%>
-                <%--<input type="hidden" name="command" value="show_flights">--%>
-                <%--<input type="submit" value="ok">--%>
-            </p>
-        </form>
+        <%--</p>--%>
+        <%--</form>--%>
+        <h1><fmt:message key="type_country"/></h1>
+        <springForm:form method="post" commandName="chooseCountryForm" action="/flights">
+            <spring:message code="search" var="submitText"/>
+            <%--<label for="login-name"><spring:message code="type_country"/></label>--%>
+            <input type="text" name="country" id="login-name"><br/>
+            <input type="submit" value="${submitText}">
+        </springForm:form>
 
         <table width="100%">
             <c:if test="${not empty sessionScope.flightsList}">

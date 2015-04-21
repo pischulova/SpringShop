@@ -48,6 +48,7 @@ public class JPAFlightRepository implements FlightRepository {
 
     @Override
     public List<Flight> findAll() {
-        return null;
+        Query query = em.createQuery(FIND_ALL_FLIGHTS);
+        return query.getResultList();
     }
 }
