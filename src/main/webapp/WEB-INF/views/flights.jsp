@@ -13,14 +13,14 @@
         <%--<c:remove var="flightChanged" scope="session"/>--%>
         <%--</c:if>--%>
 
-        <c:choose>
-            <c:when test="${pageContext.response.locale == 'en'}">
-                <c:set var="countryList" value="${countryListEN}"/>
-            </c:when>
-            <c:otherwise>
-                <c:set var="countryList" value="${countryListRU}"/>
-            </c:otherwise>
-        </c:choose>
+        <%--<c:choose>--%>
+            <%--<c:when test="${pageContext.response.locale == 'en'}">--%>
+                <%--<c:set var="countryList" value="${countryListEN}"/>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+                <%--<c:set var="countryList" value="${countryListRU}"/>--%>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
 
 
         <%--<form action="/auth" method="post">--%>
@@ -36,47 +36,62 @@
         <springForm:form method="post" commandName="chooseCountryForm" action="/flights">
             <spring:message code="search" var="submitText"/>
             <%--<label for="login-name"><spring:message code="type_country"/></label>--%>
-            <input type="text" name="country" id="login-name"><br/>
-            <input type="submit" value="${submitText}">
+            <input type="text" name="country" id="login-name">
+            <input type="submit" value="${submitText}"><br>
         </springForm:form>
 
         <table width="100%">
-            <c:if test="${not empty sessionScope.flightsList}">
+            <c:if test="${not empty flightList}">
                 <thead>
                 <tr>
                     <th><fmt:message key="country"/></th>
                     <th><fmt:message key="destination"/></th>
                     <th><fmt:message key="price"/></th>
                     <c:choose>
-                        <c:when test="${sessionScope.user != null}">
+                        <c:when test="${not empty sessionScope.user}">
                             <th></th>
                         </c:when>
                     </c:choose>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="flight" items="${sessionScope.flightsList}">
+                <c:forEach var="flight" items="${flightList}">
                     <tr>
-                        <td><c:out value="${flight.country.name}"/></td>
-                        <td><c:out value="${flight.name}"/></td>
+                        <c:choose>
+                            <c:when test="${pageContext.response.locale == 'en'}">
+                                <td><c:out value="${flight.country.nameEn}"/></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><c:out value="${flight.country.nameRu}"/></td>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${pageContext.response.locale == 'en'}">
+                                <td><c:out value="${flight.nameEn}"/></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><c:out value="${flight.nameRu}"/></td>
+                            </c:otherwise>
+                        </c:choose>
+
                         <td><c:out value="${flight.price}"/></td>
 
                         <c:choose>
-                            <c:when test="${sessionScope.user != null}">
+                            <c:when test="${not empty sessionScope.user}">
                                 <td>
-                                    <c:if test="${sessionScope.isAdmin=='true'}">
+                                    <c:if test="${sessionScope.user.userRole=='ADMIN'}">
                                         <form action="/auth" method="post">
                                             <input type="submit" value="<fmt:message key="edit"/>">
                                             <input type="hidden" name="flight" value="${flight.id}">
-                                            <input type="hidden" name="command" value="find_flight">
+                                            <%--<input type="hidden" name="command" value="find_flight">--%>
                                         </form>
                                     </c:if>
-                                    <c:if test="${sessionScope.isAdmin=='false'}">
+                                    <c:if test="${sessionScope.user.userRole=='CLIENT'}">
                                         <form action="/auth" method="post">
                                             <input type="submit" value="<fmt:message key="add_to_cart"/>">
                                             <input type="hidden" name="flightId" value="${flight.id}">
-                                            <input type="hidden" name="action" value="add">
-                                            <input type="hidden" name="command" value="change_cart">
+                                            <%--<input type="hidden" name="action" value="add">--%>
+                                            <%--<input type="hidden" name="command" value="change_cart">--%>
                                         </form>
                                     </c:if>
                                 </td>
@@ -85,7 +100,6 @@
                     </tr>
                 </c:forEach>
                 </tbody>
-                <c:remove var="flightsList" scope="session"/>
             </c:if>
         </table>
     </div>
