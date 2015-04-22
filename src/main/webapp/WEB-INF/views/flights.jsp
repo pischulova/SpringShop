@@ -8,10 +8,9 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
-        <%--<c:if test="${sessionScope.flightChanged == true}">--%>
-        <%--<fmt:message key="flight_updated"/><br><br>--%>
-        <%--<c:remove var="flightChanged" scope="session"/>--%>
-        <%--</c:if>--%>
+        <c:if test="${not empty message}">
+            <p><spring:message code="${message}"/></p>
+        </c:if>
 
         <%--<c:choose>--%>
             <%--<c:when test="${pageContext.response.locale == 'en'}">--%>
@@ -21,7 +20,6 @@
                 <%--<c:set var="countryList" value="${countryListRU}"/>--%>
             <%--</c:otherwise>--%>
         <%--</c:choose>--%>
-
 
         <%--<form action="/auth" method="post">--%>
         <%--<p>--%>
@@ -33,12 +31,12 @@
         <%--</p>--%>
         <%--</form>--%>
         <h1><fmt:message key="type_country"/></h1>
-        <springForm:form method="post" commandName="chooseCountryForm" action="/flights">
+        <form:form method="post" commandName="chooseCountryForm" action="/flights">
             <spring:message code="search" var="submitText"/>
-            <%--<label for="login-name"><spring:message code="type_country"/></label>--%>
-            <input type="text" name="country" id="login-name">
-            <input type="submit" value="${submitText}"><br>
-        </springForm:form>
+
+            <form:input type="text" path="countryName"/>
+            <input type="submit" value="${submitText}">
+        </form:form><br>
 
         <table width="100%">
             <c:if test="${not empty flightList}">
@@ -80,19 +78,14 @@
                             <c:when test="${not empty sessionScope.user}">
                                 <td>
                                     <c:if test="${sessionScope.user.userRole=='ADMIN'}">
-                                        <form action="/auth" method="post">
-                                            <input type="submit" value="<fmt:message key="edit"/>">
-                                            <input type="hidden" name="flight" value="${flight.id}">
-                                            <%--<input type="hidden" name="command" value="find_flight">--%>
-                                        </form>
+                                        <a href="<c:url value="editflight/?id=${flight.id}"/>">
+                                            <fmt:message key="edit"/>
+                                        </a>
                                     </c:if>
                                     <c:if test="${sessionScope.user.userRole=='CLIENT'}">
-                                        <form action="/auth" method="post">
-                                            <input type="submit" value="<fmt:message key="add_to_cart"/>">
-                                            <input type="hidden" name="flightId" value="${flight.id}">
-                                            <%--<input type="hidden" name="action" value="add">--%>
-                                            <%--<input type="hidden" name="command" value="change_cart">--%>
-                                        </form>
+                                        <a href="<c:url value="addtocart/?id=${flight.id}"/>">
+                                            <fmt:message key="add_to_cart"/>
+                                        </a>
                                     </c:if>
                                 </td>
                             </c:when>

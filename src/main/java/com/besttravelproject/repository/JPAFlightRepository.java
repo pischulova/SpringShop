@@ -11,8 +11,8 @@ import java.util.List;
 @Repository("flightRepository")
 public class JPAFlightRepository implements FlightRepository {
     static final String FIND_ALL_FLIGHTS = "SELECT f FROM Flight f";
-    static final String FIND_BY_COUNTRY = "SELECT f FROM Flight f WHERE f.country.nameEn = ?1 OR f.country.nameRu = ?1";
-    static final String FIND_BY_CITY = "SELECT f FROM Flight f WHERE f.nameEn = ?1 OR f.nameRu = ?1";
+    static final String FIND_BY_COUNTRY =
+            "SELECT f FROM Flight f WHERE f.country.nameEn LIKE ?1 OR f.country.nameRu LIKE ?2";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
@@ -35,14 +35,8 @@ public class JPAFlightRepository implements FlightRepository {
     @Override
     public List<Flight> findByCountry(String country) {
         Query query = em.createQuery(FIND_BY_COUNTRY);
-        query.setParameter(1, country);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Flight> findByCity(String city) {
-        Query query = em.createQuery(FIND_BY_CITY);
-        query.setParameter(1, city);
+        query.setParameter(1, country+"%");
+        query.setParameter(2, country+"%");
         return query.getResultList();
     }
 
@@ -50,5 +44,10 @@ public class JPAFlightRepository implements FlightRepository {
     public List<Flight> findAll() {
         Query query = em.createQuery(FIND_ALL_FLIGHTS);
         return query.getResultList();
+    }
+
+    @Override
+    public Flight findById(Long id) {
+        return em.find(Flight.class, id);
     }
 }

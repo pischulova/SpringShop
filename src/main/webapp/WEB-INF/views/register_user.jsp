@@ -8,9 +8,10 @@
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
         <c:if test="${not empty message}">
-            <p><spring:message code="${message}"/></p>
+        <p><spring:message code="${message}"/></p>
         </c:if>
 
+        <spring:message code="sign_up" var="submitText"/>
         <springForm:form commandName="userDTO" method="post" action="/user/register">
         <table>
             <tr>
@@ -44,7 +45,8 @@
                 <td><springForm:errors path="phone" cssClass="error" /></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Register"></td>
+                <td></td>
+                <td><input type="submit" value="${submitText}"></td>
             </tr>
         </table>
         </springForm:form>

@@ -9,6 +9,6 @@ public interface FlightRepository {
     boolean delete(Flight flight);
     boolean update(Flight flight);
     List<Flight> findByCountry(String country);
-    List<Flight> findByCity(String city);
     List<Flight> findAll();
+    Flight findById(Long id);
 }
