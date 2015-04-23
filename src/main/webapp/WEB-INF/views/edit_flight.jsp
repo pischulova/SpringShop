@@ -11,11 +11,6 @@
         <form:form commandName="editFlightForm" action="/editflight" method="post">
             <table>
                 <tr>
-                    <td><fmt:message key="product_id"/></td>
-                    <td><form:input path="id" value="${flight.id}" readonly="true" /></td>
-                    <td><form:errors path="id" cssClass="error" /></td>
-                </tr>
-                <tr>
                     <td><fmt:message key="product_name_en"/></td>
                     <td><form:input path="nameEn" value="${flight.nameEn}" /></td>
                     <td><form:errors path="nameEn" cssClass="error" /></td>
@@ -25,16 +20,16 @@
                     <td><form:input path="nameRu" value="${flight.nameRu}" /></td>
                     <td><form:errors path="nameRu" cssClass="error" /></td>
                 </tr>
-                <%--<tr>--%>
+                    <%--<tr>--%>
                     <%--<td><fmt:message key="country_name_en"/></td>--%>
                     <%--<td><springForm:input path="countryNameEn" value="${flight.country.nameEn}" /></td>--%>
                     <%--<td><springForm:errors path="countryNameEn" cssClass="error" /></td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
                     <%--<td><fmt:message key="country_name_ru"/></td>--%>
                     <%--<td><springForm:input path="countryNameRu" value="${flight.country.nameRu}" /></td>--%>
                     <%--<td><springForm:errors path="countryNameRu" cssClass="error" /></td>--%>
-                <%--</tr>--%>
+                    <%--</tr>--%>
                 <tr>
                     <td><fmt:message key="price"/></td>
                     <td><form:input path="price" value="${flight.price}" /></td>
@@ -43,24 +38,33 @@
                 <tr>
                     <td><fmt:message key="country"/></td>
                     <td>
-                    <form:select path="country">
-                        <form:option value="NONE" label="------------" />
+                        <form:select path="country">
+                            <form:option value="NONE" label="------------" />
 
-                        <c:choose>
-                            <c:when test="${pageContext.response.locale == 'en'}">
-                                <form:options items="${countryListEn}"/>
-                            </c:when>
-                            <c:otherwise>
-                                <form:options items="${countryListRu}"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </form:select>
+                            <%--<c:forEach var="factory" items="${factories}" >--%>
+                                <%--<option value="${factory.id}" label="${factory.address.city} ${factory.address.street}"/>--%>
+                            <%--</c:forEach>--%>
+
+
+
+                            <c:choose>
+                                <c:when test="${pageContext.response.locale == 'en'}">
+                                    <form:options items="${countryListEn}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <form:options items="${countryListRu}"/>
+                                </c:otherwise>
+                            </c:choose>
+
+
+
+                        </form:select>
                     </td>
                     <td><form:errors path="country" cssClass="error" /></td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td><input type="submit" value="<fmt:message key="save"/>"></td>
+                    <td></td>
                     <td></td>
                 </tr>
             </table>

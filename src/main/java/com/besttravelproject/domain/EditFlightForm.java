@@ -1,19 +1,22 @@
 package com.besttravelproject.domain;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 public class EditFlightForm {
-    Long id;
+    @Size(min = 2, max = 20)
     String nameEn;
+
+    @Size(min = 2, max = 20)
     String nameRu;
+
     Country country;
+
+    @Min(50)
+    @Max(100000)
     Integer price;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNameEn() {
         return nameEn;

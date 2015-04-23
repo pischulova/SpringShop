@@ -32,10 +32,10 @@
         <%--</form>--%>
         <h1><fmt:message key="type_country"/></h1>
         <form:form method="post" commandName="chooseCountryForm" action="/flights">
-            <spring:message code="search" var="submitText"/>
 
             <form:input type="text" path="countryName"/>
-            <input type="submit" value="${submitText}">
+            <input type="submit" value="<fmt:message key="search"/>"> <br>
+            <form:errors path="countryName" cssClass="error" />
         </form:form><br>
 
         <table width="100%">
