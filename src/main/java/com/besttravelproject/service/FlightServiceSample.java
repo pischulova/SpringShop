@@ -30,4 +30,29 @@ public class FlightServiceSample implements FlightService{
         flight.getCountry();
         return flight;
     }
+
+    @Transactional
+    @Override
+    public boolean update(Flight flight) {
+        if (null != flight) {
+            return repository.update(flight);
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public void delete(Flight flight) {
+        if (null != flight) {
+            repository.delete(flight);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        if (null != id) {
+            repository.delete(findById(id));
+        }
+    }
 }

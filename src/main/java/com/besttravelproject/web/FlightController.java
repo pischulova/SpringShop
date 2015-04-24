@@ -8,12 +8,12 @@ import com.besttravelproject.service.CountryService;
 import com.besttravelproject.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -39,76 +39,104 @@ public class FlightController {
     }
 
     @RequestMapping(value = "/flights", method = RequestMethod.GET)
-    String show(Model model) {
+    ModelAndView show(ModelAndView model) {
         List<Flight> flights = flightService.findAll();
 
         if (null != flights && !flights.isEmpty()) {
-            model.addAttribute("flightList", flights);
+            model.addObject("flightList", flights);
         }
 
-        return "flights";
+        model.setViewName("flights");
+        return model;
     }
 
     @RequestMapping(value = "/flights", method = RequestMethod.POST)
-    String showFlights(@Valid @ModelAttribute("chooseCountryForm") ChooseCountryForm form,
-                       BindingResult result, Model model) {
+    ModelAndView showFlights(@Valid @ModelAttribute("chooseCountryForm") ChooseCountryForm form,
+                       BindingResult result, ModelAndView model) {
 
         if (result.hasErrors()) {
-            return "flights";
+            model.setViewName("flights");
+            return model;
         }
 
         List<Flight> flights = flightService.findByCountry(form.getCountryName());
 
         if (null != flights && !flights.isEmpty()) {
-            model.addAttribute("flightList", flights);
+            model.addObject("flightList", flights);
         } else {
-            model.addAttribute("message", "nothing_found");
+            model.addObject("message", "nothing_found");
         }
 
-        return "flights";
+        model.setViewName("flights");
+        return model;
     }
 
     @RequestMapping(value = "/editflight", method = RequestMethod.GET)
-    String showEditFlightPage(@RequestParam("id") Long id, Model model) {
+    ModelAndView showEditFlightPage(@RequestParam("id") Long id, ModelAndView model) {
         Flight flight = flightService.findById(id);
 
         if (null != flight) {
-            model.addAttribute("flight", flight);
-            model.addAttribute("message", "flight_updated");
+            model.addObject("flight", flight);
+            model.addObject("message", "flight_updated");
 
-            Map<Long, Country> countryListEn = new HashMap<>();
-            Map<Long, Country> countryListRu = new HashMap<>();
-            List<Country> countries = countryService.findAll();
-            for (Country country : countries) {
-                countryListEn.put(country.getId(), country);
-                countryListRu.put(country.getId(), country);
-            }
-            model.addAttribute("countryListEn", countryListEn);
-            model.addAttribute("countryListRu", countryListRu);
-
+            populateCountryLists(model);
         } else {
-            model.addAttribute("message", "nothing_found");
+            model.addObject("message", "nothing_found");
         }
 
-        return "edit_flight";
+        model.setViewName("edit_flight");
+        return model;
     }
 
-    @RequestMapping(value = "/editflight", method = RequestMethod.POST)
-    String editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
-                      BindingResult result, Model model) {
-//        Flight flight = flightService.findById(id);
-//
-//        if (null != flight) {
-//            model.addAttribute("flight", flight);
-//            model.addAttribute("message", "flight_updated");
-//        } else {
-//            model.addAttribute("message", "nothing_found");
-//        }
+    @RequestMapping(value = "/editflight", params = "save", method = RequestMethod.POST)
+    ModelAndView editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
+                      BindingResult result, ModelAndView model) {
 
         if (result.hasErrors()) {
-            return "edit_flight";
+            populateCountryLists(model);
+            model.setViewName("edit_flight");
+            return model;
         }
 
-        return "flights";
+        Flight flight = flightService.findById(form.getId());
+
+        if (null != flight) {
+            flight.setNameEn(form.getNameEn());
+            flight.setNameRu(form.getNameRu());
+            flight.setCountry(form.getCountry());
+            flight.setPrice(form.getPrice());
+
+            flightService.update(flight);
+//                model.addObject("message", "flight_updated");
+        } else {
+            model.addObject("message", "flight_not_updated");
+        }
+
+        model.setViewName("redirect:/flights");
+        return model;
+    }
+
+    @RequestMapping(value = "/editflight", params = "delete", method = RequestMethod.POST)
+    ModelAndView deleteFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
+                           ModelAndView model) {
+
+        if (null != form) {
+            flightService.deleteById(form.getId());
+        }
+        model.setViewName("redirect:/flights");
+        return model;
+    }
+
+    private void populateCountryLists(ModelAndView model) {
+        Map<Long, String> countryListEn = new HashMap<>();
+        Map<Long, String> countryListRu = new HashMap<>();
+        List<Country> countries = countryService.findAll();
+        for (Country country : countries) {
+            countryListEn.put(country.getId(), country.getNameEn());
+            countryListRu.put(country.getId(), country.getNameRu());
+        }
+        model.addObject("countryListEn", countryListEn);
+        model.addObject("countryListRu", countryListRu);
+
     }
 }

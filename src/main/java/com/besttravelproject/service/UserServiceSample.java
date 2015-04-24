@@ -55,7 +55,7 @@ public class UserServiceSample implements UserService {
 //            user.setName("name"+i);
 //            user.setUsername("user" + i);
 //            user.setPassword("pass" + i);
-//            user.setPhone("0" + i + 111111111);
+//            user.setPhone("0" + i + 11111111);
 //            user.setEmail("us"+i+"@m.co");
 //            user.setUserRole(UserRole.CLIENT);
 //            repository.save(user);
@@ -65,7 +65,7 @@ public class UserServiceSample implements UserService {
 //            user.setName("name"+i);
 //            user.setUsername("admin" + i);
 //            user.setPassword("pass" + i);
-//            user.setPhone("0" + i + 111111111);
+//            user.setPhone("0" + i + 11111111);
 //            user.setEmail("adm"+i+"@m.co");
 //            user.setUserRole(UserRole.ADMIN);
 //            repository.save(user);

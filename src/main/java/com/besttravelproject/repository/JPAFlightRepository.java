@@ -23,12 +23,14 @@ public class JPAFlightRepository implements FlightRepository {
     }
 
     @Override
-    public boolean delete(Flight flight) {
-        return false;
+    public void delete(Flight flight) {
+        em.remove(flight);
     }
 
     @Override
     public boolean update(Flight flight) {
+        if (null != em.merge(flight))
+            return true;
         return false;
     }
 

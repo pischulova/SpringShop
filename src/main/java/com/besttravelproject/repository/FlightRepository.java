@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FlightRepository {
     Long save(Flight flight);
-    boolean delete(Flight flight);
+    void delete(Flight flight);
     boolean update(Flight flight);
     List<Flight> findByCountry(String country);
     List<Flight> findAll();
