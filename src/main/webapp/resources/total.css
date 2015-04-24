@@ -17,7 +17,7 @@ a {
     color: #838383;
 }
 
-a:hover {
+a:hover, a:active {
     color: #000;
 }
 
@@ -26,7 +26,7 @@ h1, h2 {
 }
 
 h1 {
-    font-size: 21px;
+    font-size: 20px;
 }
 
 p {
@@ -55,7 +55,7 @@ table {
 
 thead {
     color: #fffdf1;
-    background: #afa089;
+    background: rgba(195, 170, 150, 1);
 }
 
 th {
@@ -111,16 +111,22 @@ tbody tr:nth-child(even) {
 }
 
 /*Menu*/
-.menu, .lang-menu {
+.menu, .lang-menu, .users-menu {
     padding: 0;
     margin: 18px 0;
 }
 
 .menu {
     float: left;
-    border-left: 1px solid #EFEFEF;
+    border-left: 1px solid #D2D2D2;
     padding-left: 20px;
     margin-left: 25px;
+}
+
+.users-menu {
+    float: left;
+    border-left: 1px solid #D2D2D2;
+    font-size: 16px;
 }
 
 .lang-menu {
@@ -128,7 +134,11 @@ tbody tr:nth-child(even) {
 }
 
 .lang-menu .menu-item:first-child {
-    border-right: 1px solid rgb(239, 239, 239);
+    border-right: 1px solid #D2D2D2;
+}
+
+.users-menu .menu-item {
+    border-right: 1px solid #D2D2D2;
 }
 
 .menu-item {

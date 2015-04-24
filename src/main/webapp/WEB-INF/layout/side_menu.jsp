@@ -20,8 +20,8 @@
         <c:when test="${sessionScope.user.userRole=='ADMIN'}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
-                <li><a href="javascript:document.orders.submit();"><spring:message code="orders"/></a></li>
-                <li><a href="javascript:document.clients.submit();"><spring:message code="clients"/></a></li>
+                <li><a href="/show_orders"><spring:message code="orders"/></a></li>
+                <li><a href="/show_clients"><spring:message code="clients"/></a></li>
                 <form action="/auth" method="POST" name="orders">
                     <input type="hidden" name="command" value="show_orders">
                 </form>

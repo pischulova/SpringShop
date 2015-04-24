@@ -16,6 +16,8 @@ public class UserServiceSample implements UserService {
     @Override
     public Long save(User user) {
         user.setUserRole(UserRole.CLIENT);
+        user.setIsBad(false);
+        user.setOrderAmount(0);
         return repository.save(user);
     }
 
@@ -44,6 +46,22 @@ public class UserServiceSample implements UserService {
     }
 
     @Override
+    public List<User> findAllByRole(UserRole role) {
+        if (null == role) {
+            return null;
+        }
+        return repository.findAllByRole(role);
+    }
+
+    @Override
+    public List<User> findAllByStatus(Boolean status) {
+        if (null == status) {
+            return null;
+        }
+        return repository.findAllByStatus(status);
+    }
+
+    @Override
     public User findByUsername(String username) {
         return repository.findByUsername(username);
     }
@@ -58,6 +76,8 @@ public class UserServiceSample implements UserService {
 //            user.setPhone("0" + i + 11111111);
 //            user.setEmail("us"+i+"@m.co");
 //            user.setUserRole(UserRole.CLIENT);
+//            user.setIsBad(false);
+//            user.setOrderAmount(0);
 //            repository.save(user);
 //        }
 //        for (int i = 0; i < 2; i++) {
@@ -68,6 +88,8 @@ public class UserServiceSample implements UserService {
 //            user.setPhone("0" + i + 11111111);
 //            user.setEmail("adm"+i+"@m.co");
 //            user.setUserRole(UserRole.ADMIN);
+//            user.setIsBad(false);
+//            user.setOrderAmount(0);
 //            repository.save(user);
 //        }
 //    }
