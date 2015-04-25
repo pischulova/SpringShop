@@ -16,7 +16,7 @@ insert into clients (login, passw, name, email, phone, is_bad) values
 
 create table countries (country_id int auto_increment, country_name_en varchar(20) NOT NULL, 
 	country_name_ru varchar(20) NOT NULL, primary key (country_id));
-insert into countries (country_name_en, country_name_ru) values ('Sweden', 'Швеция'), ('Great Britain', 'Великобритания'), 
+insert into countries (nameEn, nameRu) values ('Sweden', 'Швеция'), ('Great Britain', 'Великобритания'),
 	('Sri Lanka', 'Шри-Ланка'), ('Greece', 'Греция');
 
 create table products (product_id int auto_increment, product_name_en varchar(30) NOT NULL, 

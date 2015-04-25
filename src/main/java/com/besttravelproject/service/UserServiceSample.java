@@ -65,25 +65,25 @@ public class UserServiceSample implements UserService {
     public User findByUsername(String username) {
         return repository.findByUsername(username);
     }
-
+//
 //    @PostConstruct
 //    public void load() {
-//        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < 100; i++) {
 //            User user = new User();
 //            user.setName("name"+i);
-//            user.setUsername("user" + i);
+//            user.setUsername("client" + i);
 //            user.setPassword("pass" + i);
 //            user.setPhone("0" + i + 11111111);
-//            user.setEmail("us"+i+"@m.co");
+//            user.setEmail("us"+i+"@m.com");
 //            user.setUserRole(UserRole.CLIENT);
 //            user.setIsBad(false);
 //            user.setOrderAmount(0);
 //            repository.save(user);
 //        }
-//        for (int i = 0; i < 2; i++) {
+//        for (int i = 0; i < 50; i++) {
 //            User user = new User();
 //            user.setName("name"+i);
-//            user.setUsername("admin" + i);
+//            user.setUsername("adm" + i);
 //            user.setPassword("pass" + i);
 //            user.setPhone("0" + i + 11111111);
 //            user.setEmail("adm"+i+"@m.co");

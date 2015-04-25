@@ -137,7 +137,11 @@ tbody tr:nth-child(even) {
     border-right: 1px solid #D2D2D2;
 }
 
-.users-menu .menu-item {
+.pages-menu .menu-item:first-child {
+    border-left: 1px solid #D2D2D2;
+}
+
+.users-menu .menu-item, .pages-menu .menu-item  {
     border-right: 1px solid #D2D2D2;
 }
 

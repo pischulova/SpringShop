@@ -13,12 +13,11 @@
             <li class="menu-item"><a href="/show_clients"><spring:message code="clients"/></a></li>
             <li class="menu-item"><a href="/show_blacklist"><spring:message code="blacklist"/></a></li>
             <li class="menu-item"><a href="/show_admins"><spring:message code="admins"/></a></li>
-        </ul>
+        </ul> <br>
 
         <table width="100%">
             <thead>
             <tr>
-                <%--<th><fmt:message key="client_id"/></th>--%>
                 <th><fmt:message key="username"/></th>
                 <th><fmt:message key="name"/></th>
                 <th><fmt:message key="email"/></th>
@@ -33,9 +32,8 @@
             </thead>
 
             <tbody>
-            <c:forEach var="user" items="${usersList}">
+            <c:forEach var="user" items="${usersList.pageList}">
                 <tr>
-                        <%--<td><c:out value="${client.id}" /></td>--%>
                     <td><c:out value="${user.username}" /></td>
                     <td><c:out value="${user.name}" /></td>
                     <td><c:out value="${user.email}" /></td>
@@ -54,6 +52,28 @@
             </c:forEach>
             </tbody>
         </table><br>
+
+
+
+        <ul class="pages-menu">
+            <c:if test="${!usersList.firstPage}">
+                <li class="menu-item"><a href="/show_clients?page=${usersList.page - 1}"> Previous </a></li>
+            </c:if>
+
+            <%--<c:choose>--%>
+                <%--<c:if test="${usersList.page < 3}">--%>
+
+                <%--</c:if>--%>
+            <%--</c:choose>--%>
+
+            <c:forEach begin="${usersList.page + 1}" end="${usersList.page + 5}" var="p">
+                <li class="menu-item"><a href="/show_clients?page=${p}"> ${p} </a></li>
+            </c:forEach>
+
+            <c:if test="${!usersList.lastPage}">
+                <li class="menu-item"><a href="show_clients?page=${usersList.page + 1}"> Next </a></li>
+            </c:if>
+        </ul>    
 
     </div>
 </div>
