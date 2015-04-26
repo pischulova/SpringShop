@@ -8,6 +8,17 @@
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
 
+        <c:choose>
+            <c:when test="${listType =='clients'}">
+                <c:set var="pointer" value="show_clients"/>
+            </c:when>
+            <c:when test="${listType =='blacklist'}">
+                <c:set var="pointer" value="show_blacklist"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="pointer" value="show_admins"/>
+            </c:otherwise>
+        </c:choose>
 
         <ul class="users-menu">
             <li class="menu-item"><a href="/show_clients"><spring:message code="clients"/></a></li>
@@ -23,7 +34,7 @@
                 <th><fmt:message key="email"/></th>
                 <th><fmt:message key="phone"/></th>
 
-                <c:if test="${listType =='clients'}">
+                <c:if test="${listType =='clients' || listType =='blacklist'}">
                     <th><fmt:message key="orders"/></th>
                     <th></th>
                 </c:if>
@@ -39,11 +50,19 @@
                     <td><c:out value="${user.email}" /></td>
                     <td><c:out value="${user.phone}" /></td>
 
-                    <c:if test="${listType =='clients' || listType =='blacklist'}" >
+                    <c:if test="${listType =='clients'}" >
                         <td><c:out value="${user.orderAmount}" /></td>
                         <td>
-                            <a href="<c:url value="add_to_blacklist/?id=${user.id}"/>">
+                            <a href="<c:url value="/add_to_blacklist/?id=${user.id}"/>">
                                 <fmt:message key="to_blacklist"/>
+                            </a>
+                        </td>
+                    </c:if>
+                    <c:if test="${listType =='blacklist'}" >
+                        <td><c:out value="${user.orderAmount}" /></td>
+                        <td>
+                            <a href="<c:url value="/unlock/?id=${user.id}"/>">
+                                <fmt:message key="unlock"/>
                             </a>
                         </td>
                     </c:if>
@@ -53,27 +72,43 @@
             </tbody>
         </table><br>
 
-
-
         <ul class="pages-menu">
             <c:if test="${!usersList.firstPage}">
-                <li class="menu-item"><a href="/show_clients?page=${usersList.page - 1}"> Previous </a></li>
+                <li class="menu-item"><a href="/${pointer}?page=1"> First </a></li>
             </c:if>
 
-            <%--<c:choose>--%>
-                <%--<c:if test="${usersList.page < 3}">--%>
+            <c:choose>
+                <c:when test="${pageNumber < 5}">
+                    <c:forEach begin="1" end="${pageNumber}" var="p">
+                        <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
+                    </c:forEach>
+                </c:when>
 
-                <%--</c:if>--%>
-            <%--</c:choose>--%>
-
-            <c:forEach begin="${usersList.page + 1}" end="${usersList.page + 5}" var="p">
-                <li class="menu-item"><a href="/show_clients?page=${p}"> ${p} </a></li>
-            </c:forEach>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${usersList.page < 3}">
+                            <c:forEach begin="1" end="5" var="p">
+                                <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:when>
+                        <c:when test="${usersList.page > pageNumber - 3}">
+                            <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
+                                <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach begin="${usersList.page - 1}" end="${usersList.page + 3}" var="p">
+                                <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </c:otherwise>
+            </c:choose>
 
             <c:if test="${!usersList.lastPage}">
-                <li class="menu-item"><a href="show_clients?page=${usersList.page + 1}"> Next </a></li>
+                <li class="menu-item"><a href="/${pointer}?page=${pageNumber}"> Last </a></li>
             </c:if>
-        </ul>    
+        </ul>
 
     </div>
 </div>

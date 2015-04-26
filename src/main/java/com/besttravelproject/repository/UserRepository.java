@@ -10,6 +10,7 @@ public interface UserRepository {
     boolean delete(User user);
     boolean update(User user);
     User findByUsername(String username);
+    User findById(Long id);
     List<User> findAll();
     List<User> findAllByRole(UserRole role);
     List<User> findAllByStatus(boolean status);

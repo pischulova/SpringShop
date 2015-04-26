@@ -6,6 +6,7 @@ import com.besttravelproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service("userService")
@@ -33,6 +34,17 @@ public class UserServiceSample implements UserService {
     @Override
     public boolean update(User user) {
         return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateMakeBad(Long id, Boolean flag) {
+        User user = repository.findById(id);
+        if (null == user) {
+            return false;
+        }
+        user.setIsBad(flag);
+        return repository.update(user);
     }
 
     @Override
@@ -65,9 +77,27 @@ public class UserServiceSample implements UserService {
     public User findByUsername(String username) {
         return repository.findByUsername(username);
     }
+
+//    @Autowired
+//    FlightRepository flightRepository;
+//    @Autowired
+//    CountryRepository countryRepository;
 //
 //    @PostConstruct
-//    public void load() {
+//    public void loadFlights() {
+//        for (int i = 0; i < 100; i++) {
+//            Flight flight = new Flight();
+//            flight.setNameEn("flight" + i);
+//            flight.setNameRu("авиабилет" + i);
+//            Country country = countryRepository.findById(1 + (long) (Math.random() * ((10 - 1) + 1)));
+//            flight.setCountry(country);
+//            flight.setPrice(2000 + (int) (Math.random() * ((10000 - 2000) + 1)));
+//            flightRepository.save(flight);
+//        }
+//    }
+
+//    @PostConstruct
+//    public void loadUsers() {
 //        for (int i = 0; i < 100; i++) {
 //            User user = new User();
 //            user.setName("name"+i);
@@ -93,4 +123,5 @@ public class UserServiceSample implements UserService {
 //            repository.save(user);
 //        }
 //    }
+
 }

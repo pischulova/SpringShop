@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository("flightRepository")
@@ -17,9 +18,11 @@ public class JPAFlightRepository implements FlightRepository {
     @PersistenceContext(name = "unit1")
     private EntityManager em;
 
+    @Transactional
     @Override
     public Long save(Flight flight) {
-        return null;
+        em.persist(flight);
+        return flight.getId();
     }
 
     @Override

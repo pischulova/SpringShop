@@ -27,7 +27,9 @@ public class FlightServiceSample implements FlightService{
     @Override
     public Flight findById(Long id) {
         Flight flight = repository.findById(id);
-        flight.getCountry();
+        if (null != flight) {
+            flight.getCountry();
+        }
         return flight;
     }
 

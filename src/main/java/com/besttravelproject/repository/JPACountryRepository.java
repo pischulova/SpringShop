@@ -20,4 +20,9 @@ public class JPACountryRepository implements CountryRepository {
         Query query = em.createQuery(FIND_ALL_COUNTRIES);
         return query.getResultList();
     }
+
+    @Override
+    public Country findById(Long id) {
+        return em.find(Country.class, id);
+    }
 }

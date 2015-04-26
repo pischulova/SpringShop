@@ -8,7 +8,7 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
-        <form:form commandName="editFlightForm" action="/editflight" method="post">
+        <form:form commandName="editFlightForm" action="/edit_flight" method="post">
 
             <c:choose>
                 <c:when test="${pageContext.response.locale == 'en'}">

@@ -1,6 +1,5 @@
 package com.besttravelproject.web;
 
-import com.besttravelproject.domain.ChooseCountryForm;
 import com.besttravelproject.domain.Country;
 import com.besttravelproject.domain.EditFlightForm;
 import com.besttravelproject.domain.Flight;
@@ -21,57 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class FlightController {
+public class EditFlightController {
     @Autowired
     private FlightService flightService;
     @Autowired
     private CountryService countryService;
-
-
-    @ModelAttribute("chooseCountryForm")
-    public ChooseCountryForm constructForm() {
-        return new ChooseCountryForm();
-    }
 
     @ModelAttribute("editFlightForm")
     public EditFlightForm constructEditForm() {
         return new EditFlightForm();
     }
 
-    @RequestMapping(value = "/flights", method = RequestMethod.GET)
-    ModelAndView show(ModelAndView model) {
-        List<Flight> flights = flightService.findAll();
-
-        if (null != flights && !flights.isEmpty()) {
-            model.addObject("flightList", flights);
-        }
-
-        model.setViewName("flights");
-        return model;
-    }
-
-    @RequestMapping(value = "/flights", method = RequestMethod.POST)
-    ModelAndView showFlights(@Valid @ModelAttribute("chooseCountryForm") ChooseCountryForm form,
-                       BindingResult result, ModelAndView model) {
-
-        if (result.hasErrors()) {
-            model.setViewName("flights");
-            return model;
-        }
-
-        List<Flight> flights = flightService.findByCountry(form.getCountryName());
-
-        if (null != flights && !flights.isEmpty()) {
-            model.addObject("flightList", flights);
-        } else {
-            model.addObject("message", "nothing_found");
-        }
-
-        model.setViewName("flights");
-        return model;
-    }
-
-    @RequestMapping(value = "/editflight", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit_flight", method = RequestMethod.GET)
     ModelAndView showEditFlightPage(@RequestParam("id") Long id, ModelAndView model) {
         Flight flight = flightService.findById(id);
 
@@ -88,7 +48,7 @@ public class FlightController {
         return model;
     }
 
-    @RequestMapping(value = "/editflight", params = "save", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit_flight", params = "save", method = RequestMethod.POST)
     ModelAndView editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
                       BindingResult result, ModelAndView model) {
 
@@ -116,7 +76,7 @@ public class FlightController {
         return model;
     }
 
-    @RequestMapping(value = "/editflight", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit_flight", params = "delete", method = RequestMethod.POST)
     ModelAndView deleteFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
                            ModelAndView model) {
 

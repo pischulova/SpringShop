@@ -9,6 +9,7 @@ public interface UserService {
     Long save(User user);
     User login(String username, String password);
     boolean update(User user);
+    boolean updateMakeBad(Long id, Boolean flag);
     boolean delete(User user);
     List<User> findAll();
     List<User> findAllByRole(UserRole role);

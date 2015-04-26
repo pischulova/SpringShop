@@ -11,56 +11,111 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class ShowClientsController {
+    final static double RESULTS_PER_PAGE = 10.0;
+
     @Autowired
     UserService userService;
 
     @RequestMapping(value = "/show_clients", method = RequestMethod.GET)
     ModelAndView show(ModelAndView model, HttpServletRequest request) {
+        PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(false));
 
-        PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByRole(UserRole.CLIENT));
-        users.setPageSize(10);
-        if (null != request.getParameter("page")) {
-            int page = Integer.parseInt(request.getParameter("page"));
-            users.setPage(page);
+        if (null == users || users.getNrOfElements()==0) {
+            model.addObject("message", "nothing_found");
+            model.setViewName("show_users");
+            return model;
         }
+        int pageNumber = (int) Math.ceil(users.getNrOfElements() / RESULTS_PER_PAGE);
+
+        String paramPage = request.getParameter("page");
+        if (null != paramPage) {
+            Integer page = Integer.parseInt(paramPage);
+
+            if (null == page || page < 1 || page > pageNumber) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
+
+            users.setPageSize((int)RESULTS_PER_PAGE);
+            users.setPage(page-1);
+        }
+        model.addObject("pageNumber", pageNumber);
+
         model.addObject("usersList", users);
         model.addObject("listType", "clients");
 
-//        List<User> users = userService.findAll();
-//
-//        if (null != users && !users.isEmpty()) {
-//            model.addObject("usersList", users);
-//            model.addObject("listType", "clients");
-//        }
         model.setViewName("show_users");
         return model;
     }
 
     @RequestMapping(value = "/show_blacklist", method = RequestMethod.GET)
-    ModelAndView showBlacklist(ModelAndView model) {
-        List<User> users = userService.findAllByStatus(true);
+    ModelAndView showBlacklist(ModelAndView model, HttpServletRequest request) {
+        PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(true));
 
-        if (null != users && !users.isEmpty()) {
-            model.addObject("usersList", users);
-            model.addObject("listType", "blacklist");
+        if (null == users || users.getNrOfElements()==0) {
+            model.addObject("message", "nothing_found");
+            model.setViewName("show_users");
+            return model;
         }
+        int pageNumber = (int) Math.ceil(users.getNrOfElements() / RESULTS_PER_PAGE);
+
+        String paramPage = request.getParameter("page");
+        if (null != paramPage) {
+            Integer page = Integer.parseInt(paramPage);
+
+            if (null == page || page < 1 || page > pageNumber) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
+
+            users.setPageSize((int)RESULTS_PER_PAGE);
+            users.setPage(page-1);
+        }
+        model.addObject("pageNumber", pageNumber);
+
+        model.addObject("usersList", users);
+        model.addObject("listType", "blacklist");
+
         model.setViewName("show_users");
         return model;
     }
 
     @RequestMapping(value = "/show_admins", method = RequestMethod.GET)
-    ModelAndView showAdmins(ModelAndView model) {
-        List<User> users = userService.findAllByRole(UserRole.ADMIN);
+    ModelAndView showAdmins(ModelAndView model, HttpServletRequest request) {
+        PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByRole(UserRole.ADMIN));
 
-        if (null != users && !users.isEmpty()) {
-            model.addObject("usersList", users);
-            model.addObject("listType", "admins");
+        if (null == users || users.getNrOfElements()==0) {
+            model.addObject("message", "nothing_found");
+            model.setViewName("show_users");
+            return model;
         }
+        int pageNumber = (int) Math.ceil(users.getNrOfElements() / RESULTS_PER_PAGE);
+
+        String paramPage = request.getParameter("page");
+        if (null != paramPage) {
+            Integer page = Integer.parseInt(paramPage);
+
+            if (null == page || page < 1 || page > pageNumber) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
+
+            users.setPageSize((int)RESULTS_PER_PAGE);
+            users.setPage(page-1);
+        }
+        model.addObject("pageNumber", pageNumber);
+
+        model.addObject("usersList", users);
+        model.addObject("listType", "admins");
+
         model.setViewName("show_users");
         return model;
     }
+
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Repository("userRepository")
 public class JPAUserRepository implements UserRepository {
     static final String FIND_ALL_USERS = "SELECT u FROM User u";
-    static final String FIND_ALL_BY_STATUS = "SELECT u FROM User u WHERE u.isBad = ?1";
+    static final String FIND_ALL_CLIENTS_BY_STATUS = "SELECT u FROM User u WHERE u.isBad = ?1 AND u.userRole = ?2";
     static final String FIND_ALL_BY_ROLE = "SELECT u FROM User u WHERE u.userRole = ?1";
     static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = ?1";
 
@@ -51,6 +51,11 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
+    public User findById(Long id) {
+        return em.find(User.class, id);
+    }
+
+    @Override
     public List<User> findAll() {
         Query query = em.createQuery(FIND_ALL_USERS);
         return query.getResultList();
@@ -65,8 +70,9 @@ public class JPAUserRepository implements UserRepository {
 
     @Override
     public List<User> findAllByStatus(boolean status) {
-        Query query = em.createQuery(FIND_ALL_BY_STATUS);
+        Query query = em.createQuery(FIND_ALL_CLIENTS_BY_STATUS);
         query.setParameter(1, status);
+        query.setParameter(2, UserRole.CLIENT);
         return query.getResultList();
     }
 }

@@ -12,27 +12,8 @@
             <p><spring:message code="${message}"/></p>
         </c:if>
 
-        <%--<c:choose>--%>
-            <%--<c:when test="${pageContext.response.locale == 'en'}">--%>
-                <%--<c:set var="countryList" value="${countryListEN}"/>--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
-                <%--<c:set var="countryList" value="${countryListRU}"/>--%>
-            <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
-
-        <%--<form action="/auth" method="post">--%>
-        <%--<p>--%>
-        <%--<form:select path="countryItems">--%>
-        <%--<form:option value="NONE" label="----------" />--%>
-        <%--<form:options items="${countryList}"/>--%>
-        <%--</form:select>--%>
-
-        <%--</p>--%>
-        <%--</form>--%>
         <h1><fmt:message key="type_country"/></h1>
         <form:form method="post" commandName="chooseCountryForm" action="/flights">
-
             <form:input type="text" path="countryName"/>
             <input type="submit" value="<fmt:message key="search"/>"> <br>
             <form:errors path="countryName" cssClass="error" />
@@ -53,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="flight" items="${flightList}">
+                <c:forEach var="flight" items="${flightList.pageList}">
                     <tr>
                         <c:choose>
                             <c:when test="${pageContext.response.locale == 'en'}">
@@ -78,12 +59,12 @@
                             <c:when test="${not empty sessionScope.user}">
                                 <td>
                                     <c:if test="${sessionScope.user.userRole=='ADMIN'}">
-                                        <a href="<c:url value="editflight/?id=${flight.id}"/>">
+                                        <a href="<c:url value="/edit_flight/?id=${flight.id}"/>">
                                             <fmt:message key="edit"/>
                                         </a>
                                     </c:if>
                                     <c:if test="${sessionScope.user.userRole=='CLIENT'}">
-                                        <a href="<c:url value="addtocart/?id=${flight.id}"/>">
+                                        <a href="<c:url value="/add_to_cart/?id=${flight.id}"/>">
                                             <fmt:message key="add_to_cart"/>
                                         </a>
                                     </c:if>
@@ -94,7 +75,46 @@
                 </c:forEach>
                 </tbody>
             </c:if>
-        </table>
+        </table><br>
+
+        <ul class="pages-menu">
+            <c:if test="${!flightList.firstPage}">
+                <li class="menu-item"><a href="/flights?page=1"><fmt:message key="first"/></a></li>
+            </c:if>
+
+            <c:choose>
+                <c:when test="${pageNumber < 5}">
+                    <c:forEach begin="1" end="${pageNumber}" var="p">
+                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                    </c:forEach>
+                </c:when>
+
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${flightList.page < 3}">
+                            <c:forEach begin="1" end="5" var="p">
+                                <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:when>
+                        <c:when test="${flightList.page > pageNumber - 3}">
+                            <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
+                                <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach begin="${flightList.page - 1}" end="${flightList.page + 3}" var="p">
+                                <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${!flightList.lastPage}">
+                <li class="menu-item"><a href="/flights?page=${pageNumber}"><fmt:message key="last"/></a></li>
+            </c:if>
+        </ul>
+
     </div>
 </div>
 <%@include file="/WEB-INF/layout/footer.jsp"%>

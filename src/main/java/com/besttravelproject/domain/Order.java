@@ -64,8 +64,10 @@ public class Order {
     @PrePersist
     @PreUpdate
     private void calculateSum() {
-        for (Map.Entry<Flight, Integer> entry : flights.entrySet()) {
-            sum += entry.getKey().getPrice() * entry.getValue();
+        for (Map.Entry entry : flights.entrySet()) {
+            System.out.println(entry.toString());
+            Flight f = (Flight)entry.getKey();
+            sum += f.getPrice() * (Integer)entry.getValue();
         }
     }
 }

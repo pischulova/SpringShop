@@ -9,5 +9,20 @@ public class Cart {
         return Collections.unmodifiableMap(this.flights);
     }
 
-    /* addFlight, removeFlight, clear, toString*/
+    public void addFlight(Flight flight) {
+        flights.put(flight, 1);
+    }
+
+    public void removeFlight(Flight flight) {
+        if (flights.containsKey(flight)) {
+            flights.remove(flight);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "flights=" + flights +
+                '}';
+    }
 }
