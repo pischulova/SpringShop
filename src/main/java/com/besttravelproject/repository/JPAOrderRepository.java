@@ -41,7 +41,9 @@ public class JPAOrderRepository implements OrderRepository {
     @Override
     public Order findById(Long id) {
         Order order = em.find(Order.class, id);
-        order.getFlights().size();
+        if (null != order) {
+            order.getFlights().size();
+        }
         return order;
     }
 

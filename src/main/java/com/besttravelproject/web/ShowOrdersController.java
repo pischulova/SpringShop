@@ -35,6 +35,10 @@ public class ShowOrdersController {
             orders = new PagedListHolder<>(orderService.findAll());
         } else {
             orders = new PagedListHolder<>(orderService.findByClientId(user.getId()));
+            if (orders.getNrOfElements() == 0) {
+                model.addAttribute("message", "no_orders");
+                return "show_orders";
+            }
         }
 
         if (null == orders) {

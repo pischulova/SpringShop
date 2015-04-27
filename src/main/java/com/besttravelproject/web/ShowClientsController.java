@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ShowClientsController {
@@ -20,7 +21,13 @@ public class ShowClientsController {
     UserService userService;
 
     @RequestMapping(value = "/show_clients", method = RequestMethod.GET)
-    ModelAndView show(ModelAndView model, HttpServletRequest request) {
+    ModelAndView show(ModelAndView model, HttpServletRequest request, HttpSession session) {
+        if (null == session.getAttribute("user")) {
+            model.addObject("error_message", "page_not_found");
+            model.setViewName("error");
+            return model;
+        }
+
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(false));
 
         if (null == users || users.getNrOfElements()==0) {
@@ -32,6 +39,12 @@ public class ShowClientsController {
 
         String paramPage = request.getParameter("page");
         if (null != paramPage) {
+            if (paramPage.length() > 5) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
+
             Integer page = Integer.parseInt(paramPage);
 
             if (null == page || page < 1 || page > pageNumber) {
@@ -51,7 +64,13 @@ public class ShowClientsController {
     }
 
     @RequestMapping(value = "/show_blacklist", method = RequestMethod.GET)
-    ModelAndView showBlacklist(ModelAndView model, HttpServletRequest request) {
+    ModelAndView showBlacklist(ModelAndView model, HttpServletRequest request, HttpSession session) {
+        if (null == session.getAttribute("user")) {
+            model.addObject("error_message", "page_not_found");
+            model.setViewName("error");
+            return model;
+        }
+
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(true));
 
         if (null == users || users.getNrOfElements()==0) {
@@ -84,7 +103,13 @@ public class ShowClientsController {
     }
 
     @RequestMapping(value = "/show_admins", method = RequestMethod.GET)
-    ModelAndView showAdmins(ModelAndView model, HttpServletRequest request) {
+    ModelAndView showAdmins(ModelAndView model, HttpServletRequest request, HttpSession session) {
+        if (null == session.getAttribute("user")) {
+            model.addObject("error_message", "page_not_found");
+            model.setViewName("error");
+            return model;
+        }
+
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByRole(UserRole.ADMIN));
 
         if (null == users || users.getNrOfElements()==0) {
