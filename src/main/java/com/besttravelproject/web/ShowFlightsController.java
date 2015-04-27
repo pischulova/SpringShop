@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 public class ShowFlightsController {
-    final static double RESULTS_PER_PAGE = 10.0;
+    final static double RESULTS_PER_PAGE = 15.0;
 
     @Autowired
     private FlightService flightService;
@@ -32,7 +32,7 @@ public class ShowFlightsController {
     ModelAndView show(ModelAndView model, HttpServletRequest request) {
         PagedListHolder<Flight> flights = new PagedListHolder<>(flightService.findAll());
 
-        if (null == flights || flights.getNrOfElements()==0) {
+        if (flights.getNrOfElements()==0) {
             model.addObject("message", "nothing_found");
             model.setViewName("show_flights");
             return model;
@@ -41,9 +41,14 @@ public class ShowFlightsController {
 
         String paramPage = request.getParameter("page");
         if (null != paramPage) {
+            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
             Integer page = Integer.parseInt(paramPage);
 
-            if (null == page || page < 1 || page > pageNumber) {
+            if (page < 1 || page > pageNumber) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;
@@ -72,7 +77,7 @@ public class ShowFlightsController {
         String paramSearch = form.getCountryName();
         PagedListHolder<Flight> flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
 
-        if (null == flights || flights.getNrOfElements()==0) {
+        if (flights.getNrOfElements()==0) {
             attributes.addFlashAttribute("message", "nothing_found");
             model.setViewName("redirect:/flights");
             return model;
@@ -80,11 +85,15 @@ public class ShowFlightsController {
         int pageNumber = (int) Math.ceil(flights.getNrOfElements() / RESULTS_PER_PAGE);
 
         String paramPage = request.getParameter("page");
-
         if (null != paramPage) {
+            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
             Integer page = Integer.parseInt(paramPage);
 
-            if (null == page || page < 1 || page > pageNumber) {
+            if (page < 1 || page > pageNumber) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;

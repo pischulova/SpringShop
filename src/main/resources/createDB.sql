@@ -23,11 +23,24 @@ create table products (product_id int auto_increment, product_name_en varchar(30
 	product_name_ru varchar(30) NOT NULL, country_id int NOT NULL, price int NOT NULL,
     primary key (product_id), foreign key (country_id) references countries (country_id));
 insert into flights (nameEn, nameRu, country_id, price) values
-	('Kiev-Stockholm', 'Киев-Стокгольм', 1, 4380), ('Kiev-Malmo', 'Киев-Мальмев', 1, 5050),
+	('Kiev-Stockholm', 'Киев-Стокгольм', 1, 4380), ('Kiev-Malmo', 'Киев-Мальме', 1, 5050),
     ('Kiev-London', 'Киев-Лондон', 2, 3950), ('Kiev-Liverpool', 'Киев-Ливерпуль', 2, 4500),
     ('Kiev-Glasgow', 'Киев-Глазго', 2, 5700), ('Kiev-Colombo', 'Киев-Коломбо', 3, 9830),
     ('Kiev-Athens', 'Киев-Афины', 4, 6100), ('Kiev-Heraklion', 'Киев-Ираклион', 4, 5820),
     ('Kiev-Thessaloniki', 'Киев-Салоники', 4, 5550);
+
+insert into countries (nameEn, nameRu) values ('Germany', 'Германия'), ('France', 'Франция'),
+	('United States', 'США'), ('Italy', 'Италия'), ('Netherlands', 'Нидерланды'), ('Norway', 'Норвегия');
+insert into flights (nameEn, nameRu, country_id, price) values
+	('Kiev-Munich', 'Киев-Мюнхен', 5, 4080), ('Kiev-Dusseldorf', 'Киев-Дюссельдорф', 5, 5650),
+    ('Kiev-Berlin', 'Киев-Берлин', 5, 5850), ('Kiev-Hamburg', 'Киев-Гамбург', 5, 5600),
+    ('Kiev-Paris', 'Киев-Париж', 6, 7700), ('Kiev-Leon', 'Киев-Леон', 6, 8830),
+    ('Kiev-New York', 'Киев-Нью-Йорк', 7, 16100), ('Kiev-Washington', 'Киев-Вашингтон', 7, 15000),
+    ('Kiev-Roma', 'Киев-Рим', 8, 6550), ('Kiev-Milan', 'Киев-Милан', 8, 5900),
+    ('Kiev-Napoli', 'Киев-Неаполь', 8, 5500), ('Kiev-Amsterdam', 'Киев-Амстердам', 9, 7500),
+    ('Kiev-The Hague', 'Киев-Гаага', 9, 7770), ('Kiev-Rotterdam', 'Киев-Роттердам', 9, 8130),
+    ('Kiev-Oslo', 'Киев-Осло', 10, 6900), ('Kiev-Trondheim', 'Киев-Трондхейм', 10, 6120),
+    ('Kiev-Bergen', 'Киев-Берген', 10, 7050);
 
 create table orders (order_id int auto_increment, order_date date, client_id int, amount int,
    primary key (order_id), isApproved boolean default false, foreign key (client_id) references clients (client_id));

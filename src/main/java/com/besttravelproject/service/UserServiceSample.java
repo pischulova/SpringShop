@@ -2,6 +2,9 @@ package com.besttravelproject.service;
 
 import com.besttravelproject.domain.User;
 import com.besttravelproject.domain.UserRole;
+import com.besttravelproject.repository.CountryRepository;
+import com.besttravelproject.repository.FlightRepository;
+import com.besttravelproject.repository.OrderRepository;
 import com.besttravelproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,6 @@ public class UserServiceSample implements UserService {
     public Long save(User user) {
         user.setUserRole(UserRole.CLIENT);
         user.setIsBad(false);
-        user.setOrderAmount(0);
         return repository.save(user);
     }
 
@@ -78,14 +80,16 @@ public class UserServiceSample implements UserService {
         return repository.findByUsername(username);
     }
 
-//    @Autowired
-//    FlightRepository flightRepository;
-//    @Autowired
-//    CountryRepository countryRepository;
-//
+    @Autowired
+    FlightRepository flightRepository;
+    @Autowired
+    CountryRepository countryRepository;
+    @Autowired
+    OrderRepository orderRepository;
+
 //    @PostConstruct
 //    public void loadFlights() {
-//        for (int i = 0; i < 100; i++) {
+//        for (int i = 0; i < 5000; i++) {
 //            Flight flight = new Flight();
 //            flight.setNameEn("flight" + i);
 //            flight.setNameRu("авиабилет" + i);
@@ -95,32 +99,48 @@ public class UserServiceSample implements UserService {
 //            flightRepository.save(flight);
 //        }
 //    }
-
+//
 //    @PostConstruct
 //    public void loadUsers() {
-//        for (int i = 0; i < 100; i++) {
+//        for (int i = 0; i < 5000; i++) {
 //            User user = new User();
-//            user.setName("name"+i);
+//            user.setName("name" + i);
 //            user.setUsername("client" + i);
 //            user.setPassword("pass" + i);
-//            user.setPhone("0" + i + 11111111);
-//            user.setEmail("us"+i+"@m.com");
+//            user.setPhone("0111111111");
+//            user.setEmail("us" + i + "@m.com");
 //            user.setUserRole(UserRole.CLIENT);
 //            user.setIsBad(false);
-//            user.setOrderAmount(0);
 //            repository.save(user);
 //        }
 //        for (int i = 0; i < 50; i++) {
 //            User user = new User();
-//            user.setName("name"+i);
-//            user.setUsername("adm" + i);
+//            user.setName("name" + i);
+//            user.setUsername("admin" + i);
 //            user.setPassword("pass" + i);
-//            user.setPhone("0" + i + 11111111);
-//            user.setEmail("adm"+i+"@m.co");
+//            user.setPhone("0999999999");
+//            user.setEmail("adm" + i + "@m.com");
 //            user.setUserRole(UserRole.ADMIN);
 //            user.setIsBad(false);
-//            user.setOrderAmount(0);
 //            repository.save(user);
+//        }
+//    }
+//
+//    @PostConstruct
+//    public void loadOrders() {
+//        for (int i = 0; i < 1000; i++) {
+//            Order order = new Order();
+//            order.setDate(new Date());
+//            order.setIsApproved(false);
+//            User user = repository.findById(1 + (long) (Math.random() * ((4999 - 1) + 1)));
+//            order.setUser(user);
+//
+//            int flightNum = (int)(1 + Math.random() * ((10 - 1) + 1));
+//            for (int q = 0; q < flightNum; q++) {
+//                Flight f = flightRepository.findById(1 + (long) (Math.random() * ((4999 - 1) + 1)));
+//                order.getFlights().put(f, 1);
+//            }
+//            orderRepository.save(order);
 //        }
 //    }
 

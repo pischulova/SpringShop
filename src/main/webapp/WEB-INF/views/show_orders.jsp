@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -14,8 +14,14 @@
             </c:when>
 
             <c:otherwise>
-                <h1><fmt:message key="orders"/></h1>
                 <c:if test="${sessionScope.user.userRole=='ADMIN'}">
+                    <h2><fmt:message key="type_client_name"/></h2>
+                    <form:form method="post" commandName="searchOrderForm" action="/show_orders">
+                        <form:input type="text" path="name"/>
+                        <input type="submit" value="<fmt:message key="search"/>"> <br>
+                        <form:errors path="name" cssClass="error" />
+                    </form:form><br>
+
                     <table width="100%">
                         <thead>
                         <tr>
@@ -100,9 +106,19 @@
                     </c:if>
 
                     <c:choose>
+                        <c:when test="${pageNumber == 1}">
+                        </c:when>
+
                         <c:when test="${pageNumber < 5}">
                             <c:forEach begin="1" end="${pageNumber}" var="p">
-                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                <c:choose>
+                                    <c:when test="${ordersList.page + 1 == p}">
+                                        <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                         </c:when>
 
@@ -110,17 +126,38 @@
                             <c:choose>
                                 <c:when test="${ordersList.page < 3}">
                                     <c:forEach begin="1" end="5" var="p">
-                                        <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                        <c:choose>
+                                            <c:when test="${ordersList.page + 1 == p}">
+                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${ordersList.page > pageNumber - 3}">
                                     <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
-                                        <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                        <c:choose>
+                                            <c:when test="${ordersList.page + 1 == p}">
+                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:forEach>
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach begin="${ordersList.page - 1}" end="${ordersList.page + 3}" var="p">
-                                        <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                        <c:choose>
+                                            <c:when test="${ordersList.page + 1 == p}">
+                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>

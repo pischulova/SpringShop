@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class ShowClientsController {
-    final static double RESULTS_PER_PAGE = 10.0;
+    final static double RESULTS_PER_PAGE = 15.0;
 
     @Autowired
     UserService userService;
@@ -29,8 +29,7 @@ public class ShowClientsController {
         }
 
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(false));
-
-        if (null == users || users.getNrOfElements()==0) {
+        if (users.getNrOfElements()==0) {
             model.addObject("message", "nothing_found");
             model.setViewName("show_users");
             return model;
@@ -39,7 +38,7 @@ public class ShowClientsController {
 
         String paramPage = request.getParameter("page");
         if (null != paramPage) {
-            if (paramPage.length() > 5) {
+            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;
@@ -47,7 +46,7 @@ public class ShowClientsController {
 
             Integer page = Integer.parseInt(paramPage);
 
-            if (null == page || page < 1 || page > pageNumber) {
+            if (page < 1 || page > pageNumber) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;
@@ -73,7 +72,7 @@ public class ShowClientsController {
 
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByStatus(true));
 
-        if (null == users || users.getNrOfElements()==0) {
+        if (users.getNrOfElements()==0) {
             model.addObject("message", "nothing_found");
             model.setViewName("show_users");
             return model;
@@ -82,9 +81,14 @@ public class ShowClientsController {
 
         String paramPage = request.getParameter("page");
         if (null != paramPage) {
+            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
             Integer page = Integer.parseInt(paramPage);
 
-            if (null == page || page < 1 || page > pageNumber) {
+            if (page < 1 || page > pageNumber) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;
@@ -94,7 +98,6 @@ public class ShowClientsController {
             users.setPage(page-1);
         }
         model.addObject("pageNumber", pageNumber);
-
         model.addObject("usersList", users);
         model.addObject("listType", "blacklist");
 
@@ -112,7 +115,7 @@ public class ShowClientsController {
 
         PagedListHolder<User> users = new PagedListHolder<>(userService.findAllByRole(UserRole.ADMIN));
 
-        if (null == users || users.getNrOfElements()==0) {
+        if (users.getNrOfElements()==0) {
             model.addObject("message", "nothing_found");
             model.setViewName("show_users");
             return model;
@@ -121,9 +124,14 @@ public class ShowClientsController {
 
         String paramPage = request.getParameter("page");
         if (null != paramPage) {
+            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
+                model.addObject("error_message", "page_not_found");
+                model.setViewName("error");
+                return model;
+            }
             Integer page = Integer.parseInt(paramPage);
 
-            if (null == page || page < 1 || page > pageNumber) {
+            if (page < 1 || page > pageNumber) {
                 model.addObject("error_message", "page_not_found");
                 model.setViewName("error");
                 return model;
@@ -133,7 +141,6 @@ public class ShowClientsController {
             users.setPage(page-1);
         }
         model.addObject("pageNumber", pageNumber);
-
         model.addObject("usersList", users);
         model.addObject("listType", "admins");
 

@@ -1,6 +1,5 @@
 package com.besttravelproject.domain;
 
-import com.besttravelproject.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -29,7 +28,7 @@ public class UserFormValidator implements Validator {
             errors.rejectValue("confirmPassword", "passwords_not_match");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field_required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name_required");
 
         if (!user.getPhone().matches("0[0-9]{9}")) {
             errors.rejectValue("phone", "phone_not_valid");

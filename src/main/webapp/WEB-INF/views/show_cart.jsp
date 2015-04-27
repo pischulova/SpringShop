@@ -20,7 +20,7 @@
         </c:choose>
 
         <c:if test="${not empty sessionScope.cart}">
-            <h1><fmt:message key="current_order"/></h1>
+            <h2><fmt:message key="current_order"/></h2><br>
             <table width="100%">
                 <thead>
                 <tr>
@@ -73,17 +73,6 @@
                 <p><input type="submit" value="<fmt:message key="make_order"/>"></p>
             </form>
         </c:if>
-        <%--<c:otherwise>--%>
-        <%--<c:choose>--%>
-        <%--<c:when test="${sessionScope.orderSent=='true'}">--%>
-        <%--<fmt:message key="order_sent"/>--%>
-        <%--<c:remove var="orderSent" scope="session"/>--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-        <%--<fmt:message key="cart_empty"/>--%>
-        <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
-        <%--</c:otherwise>--%>
 
     </div>
 </div>

@@ -15,32 +15,32 @@
         <springForm:form commandName="userDTO" method="post" action="/user/register">
         <table>
             <tr>
-                <td>Username:</td>
+                <td><spring:message code="username"/> *</td>
                 <td><springForm:input path="username" /></td>
                 <td><springForm:errors path="username" cssClass="error" /></td>
             </tr>
             <tr>
-                <td>Password:</td>
+                <td><spring:message code="pass"/> *</td>
                 <td><springForm:input type="password" path="password" /></td>
                 <td><springForm:errors path="password" cssClass="error" /></td>
             </tr>
             <tr>
-                <td>Confirm password:</td>
+                <td><spring:message code="confirm_password"/></td>
                 <td><springForm:input type="password" path="confirmPassword" /></td>
                 <td><springForm:errors path="confirmPassword" cssClass="error" /></td>
             </tr>
             <tr>
-                <td>Name:</td>
+                <td><spring:message code="name"/> *</td>
                 <td><springForm:input path="name" /></td>
                 <td><springForm:errors path="name" cssClass="error" /></td>
             </tr>
             <tr>
-                <td>Email:</td>
+                <td><spring:message code="email"/> *</td>
                 <td><springForm:input path="email" /></td>
                 <td><springForm:errors path="email" cssClass="error" /></td>
             </tr>
             <tr>
-                <td>Phone:</td>
+                <td><spring:message code="phone"/> *</td>
                 <td><springForm:input path="phone" /></td>
                 <td><springForm:errors path="phone" cssClass="error" /></td>
             </tr>

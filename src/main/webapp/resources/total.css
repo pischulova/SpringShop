@@ -17,7 +17,7 @@ a {
     color: #838383;
 }
 
-a:hover, a:active {
+a:hover {
     color: #000;
 }
 
@@ -139,11 +139,8 @@ tbody tr:nth-child(even) {
     border-right: 1px solid #D2D2D2;
 }
 
-.pages-menu .menu-item:first-child {
-    border-left: 1px solid #D2D2D2;
-}
 
-.users-menu .menu-item, .pages-menu .menu-item  {
+.users-menu .menu-item  {
     border-right: 1px solid #D2D2D2;
 }
 
@@ -151,6 +148,10 @@ tbody tr:nth-child(even) {
     display: inline-block;
     padding: 0 15px;
     line-height: 27px;
+}
+
+.selected {
+    background-color:  #F4F1EA;
 }
 
 

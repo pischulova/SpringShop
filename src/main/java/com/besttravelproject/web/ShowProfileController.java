@@ -2,9 +2,9 @@ package com.besttravelproject.web;
 
 import com.besttravelproject.domain.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,12 +12,15 @@ import javax.servlet.http.HttpSession;
 public class ShowProfileController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    ModelAndView show(HttpSession session, ModelAndView model) {
+    String show(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        model.addObject("user", user);
+        if (null == user) {
+            model.addAttribute("error_message", "page_not_found");
+            return "error";
+        }
+        model.addAttribute("user", user);
 
-        model.setViewName("profile");
-        return model;
+        return "profile";
     }
 }

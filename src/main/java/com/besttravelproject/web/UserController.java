@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-//@RequestMapping(value = "/user")
 @Controller
 public class UserController {
     @Autowired

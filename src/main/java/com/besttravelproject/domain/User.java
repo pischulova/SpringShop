@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -26,15 +25,13 @@ public class User {
 
     String name;
 
-    @NotEmpty (message = "Required field")
-    @Email (message = "Invalid email address")
+    @NotEmpty (message = "Email is required field")
+    @Email(message = "Invalid email address")
     String email;
 
     String phone;
 
     Boolean isBad;
-
-    Integer orderAmount;
 
     @OneToMany(mappedBy = "user", cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
     List<Order> orders = new LinkedList<>();
@@ -89,14 +86,6 @@ public class User {
         this.isBad = isBad;
     }
 
-    public int getOrderAmount() {
-        return orderAmount;
-    }
-
-    public void setOrderAmount(int orderAmount) {
-        this.orderAmount = orderAmount;
-    }
-
     public Long getId() {
         return id;
     }
@@ -111,10 +100,6 @@ public class User {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
-    }
-
-    public void setOrderAmount(Integer orderAmount) {
-        this.orderAmount = orderAmount;
     }
 
     public List<Order> getOrders() {
