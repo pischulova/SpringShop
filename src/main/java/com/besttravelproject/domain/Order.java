@@ -23,7 +23,7 @@ public class Order {
     @Column(name = "quantity")
     private Map<Flight, Integer> flights = new HashMap<>();
 
-    Long sum;
+    Long sum = 0L;
 
     Boolean isApproved;
 
@@ -65,7 +65,6 @@ public class Order {
     @PreUpdate
     private void calculateSum() {
         for (Map.Entry entry : flights.entrySet()) {
-            System.out.println(entry.toString());
             Flight f = (Flight)entry.getKey();
             sum += f.getPrice() * (Integer)entry.getValue();
         }

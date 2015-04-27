@@ -10,5 +10,6 @@ public interface OrderRepository {
     boolean update(Order order);
     Order findById(Long id);
     List<Order> findByClientName(String name);
+    List<Order> findByClientId(Long id);
     List<Order> findAll();
 }

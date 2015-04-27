@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${userLocale}" />
-<fmt:setBundle basename="resources.bundle"/>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="springForm" uri="http://www.springframework.org/tags/form" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -10,8 +10,12 @@
     <div class="content">
         <h1><fmt:message key="orders"/></h1>
 
+        <c:if test="${not empty message}">
+            <p><spring:message code="${message}"/></p>
+        </c:if>
+
         <c:choose>
-            <c:when test="${sessionScope.isAdmin=='true'}">
+            <c:when test="${sessionScope.user.userRole=='ADMIN'}">
                 <table width="100%">
                     <thead>
                         <tr>
@@ -45,7 +49,7 @@
                 </table>
             </c:when>
 
-            <c:when test="${sessionScope.isAdmin=='false'}">
+            <c:when test="${sessionScope.user.userRole=='CLIENT'}">
                 <c:choose>
                     <c:when test="${empty sessionScope.ordersList}">
                         <fmt:message key="no_orders"/>

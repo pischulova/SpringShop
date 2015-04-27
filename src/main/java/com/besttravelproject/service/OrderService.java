@@ -9,6 +9,7 @@ public interface OrderService {
     Long save(Order order);
     List<Order> findAll();
     List<Order> findByClientName(String name);
+    List<Order> findByClientId(Long id);
     Order findById(Long id);
     boolean update(Order order);
     void delete(Order order);

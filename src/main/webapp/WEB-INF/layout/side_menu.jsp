@@ -14,7 +14,7 @@
                 <label for="login-pass"><spring:message code="pass"/></label>
                 <input type="password" name="pass" id="login-pass" required><br/>
                 <input type="submit" value="${submitText}">
-                <a href="/user"><spring:message code="sign_up"/></a><br>
+                <a href="/user" class="sign-up"><spring:message code="sign_up"/></a><br>
             </springForm:form>
         </c:when>
         <c:when test="${sessionScope.user.userRole=='ADMIN'}">

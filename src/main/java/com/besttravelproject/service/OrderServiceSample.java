@@ -17,6 +17,7 @@ public class OrderServiceSample implements OrderService {
     @Override
     public Long save(Order order) {
         order.setDate(new Date());
+        order.setIsApproved(false);
         return repository.save(order);
     }
 
@@ -33,6 +34,11 @@ public class OrderServiceSample implements OrderService {
             orders.forEach(Order::getFlights);
         }
         return orders;
+    }
+
+    @Override
+    public List<Order> findByClientId(Long id) {
+        return null;
     }
 
     @Transactional

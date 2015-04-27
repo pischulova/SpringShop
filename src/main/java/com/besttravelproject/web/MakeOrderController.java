@@ -33,7 +33,11 @@ public class MakeOrderController {
         for (Map.Entry entry : cart.getFlights().entrySet()) {
             order.getFlights().put((Flight)entry.getKey(), (Integer)entry.getValue());
         }
-        orderService.save(order);
+        Long orderId = orderService.save(order);
+        if (null != orderId) {
+            session.setAttribute("cart", null);
+            model.addAttribute("message", "order_sent");
+        }
 
         return "show_cart";
     }

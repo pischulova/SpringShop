@@ -8,12 +8,16 @@
 <div class="body">
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
-        <c:if test="${not empty message}">
-            <p><spring:message code="${message}"/></p>
-        </c:if>
-        <c:if test="${empty sessionScope.cart}">
-            <p><spring:message code="cart_empty"/></p>
-        </c:if>
+        <c:choose>
+            <c:when test="${not empty message}">
+                <p><spring:message code="${message}"/></p>
+            </c:when>
+            <c:otherwise>
+                <c:if test="${empty sessionScope.cart}">
+                    <p><spring:message code="cart_empty"/></p>
+                </c:if>
+            </c:otherwise>
+        </c:choose>
 
         <c:if test="${not empty sessionScope.cart}">
             <h1><fmt:message key="current_order"/></h1>

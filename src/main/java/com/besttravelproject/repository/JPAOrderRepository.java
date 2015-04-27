@@ -13,6 +13,7 @@ import java.util.List;
 public class JPAOrderRepository implements OrderRepository {
     static final String FIND_ALL = "SELECT o FROM Order o";
     static final String FIND_BY_CLIENT_NAME = "SELECT o FROM Order o WHERE o.user.name LIKE ?1";
+    static final String FIND_BY_CLIENT_ID = "SELECT o FROM Order o WHERE o.user.id = ?1";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
@@ -48,6 +49,13 @@ public class JPAOrderRepository implements OrderRepository {
     public List<Order> findByClientName(String name) {
         Query query = em.createQuery(FIND_BY_CLIENT_NAME);
         query.setParameter(1, "%"+ name +"%");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Order> findByClientId(Long id) {
+        Query query = em.createQuery(FIND_BY_CLIENT_ID);
+        query.setParameter(1, id);
         return query.getResultList();
     }
 
