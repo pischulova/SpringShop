@@ -74,7 +74,7 @@
 
         <ul class="pages-menu">
             <c:if test="${!usersList.firstPage}">
-                <li class="menu-item"><a href="/${pointer}?page=1"> First </a></li>
+                <li class="menu-item"><a href="/${pointer}?page=1"><fmt:message key="first"/></a></li>
             </c:if>
 
             <c:choose>
@@ -106,7 +106,7 @@
             </c:choose>
 
             <c:if test="${!usersList.lastPage}">
-                <li class="menu-item"><a href="/${pointer}?page=${pageNumber}"> Last </a></li>
+                <li class="menu-item"><a href="/${pointer}?page=${pageNumber}"><fmt:message key="last"/></a></li>
             </c:if>
         </ul>
 

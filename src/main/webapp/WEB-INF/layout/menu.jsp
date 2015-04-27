@@ -15,8 +15,6 @@
             </c:when>
         </c:choose>
     </ul>
-    <form action="/auth" method="POST" name="logout">
-        <input type="hidden" name="command" value="logout"></form>
     <ul class="lang-menu">
         <li class="menu-item">
                 <a href="<c:url value="?lang=en"/>"><spring:message code="en"/></a>

@@ -36,9 +36,14 @@ public class OrderServiceSample implements OrderService {
         return orders;
     }
 
+    @Transactional
     @Override
     public List<Order> findByClientId(Long id) {
-        return null;
+        List<Order> orders = repository.findByClientId(id);
+        if (null != orders) {
+            orders.forEach(Order::getFlights);
+        }
+        return orders;
     }
 
     @Transactional
@@ -51,6 +56,7 @@ public class OrderServiceSample implements OrderService {
         return order;
     }
 
+    @Transactional
     @Override
     public boolean update(Order order) {
         if (null != order) {

@@ -37,7 +37,6 @@ public class ShowFlightsController {
             model.setViewName("show_flights");
             return model;
         }
-
         int pageNumber = (int) Math.ceil(flights.getNrOfElements() / RESULTS_PER_PAGE);
 
         String paramPage = request.getParameter("page");
@@ -54,8 +53,8 @@ public class ShowFlightsController {
         }
         model.addObject("pageNumber", pageNumber);
         model.addObject("flightList", flights);
-        model.setViewName("show_flights");
 
+        model.setViewName("show_flights");
         return model;
     }
 

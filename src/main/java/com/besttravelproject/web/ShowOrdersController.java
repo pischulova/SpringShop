@@ -37,7 +37,7 @@ public class ShowOrdersController {
             orders = new PagedListHolder<>(orderService.findByClientId(user.getId()));
         }
 
-        if (null == orders || orders.getNrOfElements()==0) {
+        if (null == orders) {
             model.addAttribute("message", "nothing_found");
             return "show_orders";
         }
@@ -56,9 +56,7 @@ public class ShowOrdersController {
             orders.setPage(page - 1);
         }
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("orderList", orders);
-
-
+        model.addAttribute("ordersList", orders);
 
         return "show_orders";
     }

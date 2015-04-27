@@ -39,12 +39,10 @@ public class ShowClientsController {
                 model.setViewName("error");
                 return model;
             }
-
-            users.setPageSize((int)RESULTS_PER_PAGE);
-            users.setPage(page-1);
+            users.setPageSize((int) RESULTS_PER_PAGE);
+            users.setPage(page - 1);
         }
         model.addObject("pageNumber", pageNumber);
-
         model.addObject("usersList", users);
         model.addObject("listType", "clients");
 

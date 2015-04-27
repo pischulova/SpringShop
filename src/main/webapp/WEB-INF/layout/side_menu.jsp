@@ -22,12 +22,6 @@
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="/show_orders"><spring:message code="orders"/></a></li>
                 <li><a href="/show_clients"><spring:message code="clients"/></a></li>
-                <form action="/auth" method="POST" name="orders">
-                    <input type="hidden" name="command" value="show_orders">
-                </form>
-                <form action="/auth" method="POST" name="clients">
-                    <input type="hidden" name="command" value="show_clients">
-                </form>
             </ul>
         </c:when>
         <c:when test="${sessionScope.user.userRole=='CLIENT'}">
@@ -35,9 +29,6 @@
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
                 <li><a href="/show_orders"><spring:message code="my_orders"/></a></li>
                 <li><a href="/show_cart"><spring:message code="cart"/></a></li>
-                <form action="/auth" method="POST" name="orders">
-                    <input type="hidden" name="command" value="show_orders">
-                </form>
             </ul>
         </c:when>
     </c:choose>

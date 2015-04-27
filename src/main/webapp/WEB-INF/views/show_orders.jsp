@@ -29,19 +29,26 @@
                     </thead>
 
                     <tbody>
-                        <c:forEach var="order" items="${sessionScope.ordersList}">
+                        <c:forEach var="order" items="${ordersList.pageList}">
                             <tr>
                                 <td><c:out value="${order.id}"/></td>
                                 <td><c:out value="${order.date}"/></td>
-                                <td><c:out value="${order.client.name}"/></td>
-                                <td><c:out value="${order.amount}"/></td>
-                                <td><c:out value="${order.isApproved}"/></td>
+                                <td><c:out value="${order.user.name}"/></td>
+                                <td><c:out value="${order.sum}"/></td>
+
+                                <c:choose>
+                                    <c:when test="${order.isApproved == true}">
+                                        <td><fmt:message key="approved"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><fmt:message key="not_approved"/></td>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <td>
-                                    <form action="/auth" method="post">
-                                        <input type="submit" value="<fmt:message key="view"/>">
-                                        <input type="hidden" name="orderId" value="${order.id}">
-                                        <input type="hidden" name="command" value="show_orders">
-                                    </form>
+                                    <a href="<c:url value="/order?id=${order.id}"/>">
+                                        <fmt:message key="view"/>
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -51,7 +58,7 @@
 
             <c:when test="${sessionScope.user.userRole=='CLIENT'}">
                 <c:choose>
-                    <c:when test="${empty sessionScope.ordersList}">
+                    <c:when test="${empty ordersList}">
                         <fmt:message key="no_orders"/>
                     </c:when>
 
@@ -68,18 +75,23 @@
                             </thead>
 
                             <tbody>
-                                <c:forEach var="order" items="${sessionScope.ordersList}">
+                                <c:forEach var="order" items="${ordersList.pageList}">
                                     <tr>
                                         <td><c:out value="${order.id}"/></td>
                                         <td><c:out value="${order.date}"/></td>
-                                        <td><c:out value="${order.amount}"/></td>
-                                        <td><c:out value="${order.isApproved}"/></td>
+                                        <td><c:out value="${order.sum}"/></td>
+                                        <c:choose>
+                                            <c:when test="${order.isApproved == true}">
+                                                <td><fmt:message key="approved"/></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td><fmt:message key="not_approved"/></td>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <td>
-                                            <form action="/auth" method="post">
-                                                <input type="submit" value="<fmt:message key="view"/>">
-                                                <input type="hidden" name="orderId" value="${order.id}">
-                                                <input type="hidden" name="command" value="show_orders">
-                                            </form>
+                                            <a href="<c:url value="/order?id=${order.id}"/>">
+                                                <fmt:message key="view"/>
+                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>

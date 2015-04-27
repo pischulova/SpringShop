@@ -33,6 +33,12 @@ public class EditFlightController {
 
     @RequestMapping(value = "/edit_flight", method = RequestMethod.GET)
     ModelAndView showEditFlightPage(@RequestParam("id") Long id, ModelAndView model) {
+        if (null == id || id < 1) {
+            model.addObject("error_message", "page_not_found");
+            model.setViewName("error");
+            return model;
+        }
+
         Flight flight = flightService.findById(id);
 
         if (null != flight) {
