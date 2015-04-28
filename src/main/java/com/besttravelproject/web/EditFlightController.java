@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class EditFlightController {
 
     @RequestMapping(value = "/edit_flight", params = "save", method = RequestMethod.POST)
     ModelAndView editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
-                      BindingResult result, ModelAndView model) {
+                      BindingResult result, ModelAndView model, RedirectAttributes attributes) {
 
         if (result.hasErrors()) {
             populateCountryLists(model);
@@ -70,12 +71,16 @@ public class EditFlightController {
             flight.setNameEn(form.getNameEn());
             flight.setNameRu(form.getNameRu());
             flight.setCountry(form.getCountry());
-            flight.setPrice(form.getPrice());
 
-            flightService.update(flight);
-//                model.addObject("message", "flight_updated");
+            if (flight.getPrice() != form.getPrice()) {
+                flightService.setDisabledCreateNew(flight, form.getPrice());
+            } else {
+                flight.setPrice(form.getPrice());
+                flightService.update(flight);
+            }
+            attributes.addFlashAttribute("message", "flight_updated");
         } else {
-            model.addObject("message", "flight_not_updated");
+            attributes.addFlashAttribute("message", "flight_not_updated");
         }
 
         model.setViewName("redirect:/flights");
@@ -84,10 +89,12 @@ public class EditFlightController {
 
     @RequestMapping(value = "/edit_flight", params = "delete", method = RequestMethod.POST)
     ModelAndView deleteFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
-                           ModelAndView model) {
+                           ModelAndView model,  RedirectAttributes attributes) {
 
         if (null != form) {
-            flightService.deleteById(form.getId());
+            Flight flight = flightService.findById(form.getId());
+            flightService.setDisabled(flight);
+            attributes.addFlashAttribute("message", "flight_updated");
         }
         model.setViewName("redirect:/flights");
         return model;

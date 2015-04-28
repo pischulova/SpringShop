@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class ShowClientsController {
-    final static double RESULTS_PER_PAGE = 15.0;
+    final static double RESULTS_PER_PAGE = 10.0;
 
     @Autowired
     UserService userService;

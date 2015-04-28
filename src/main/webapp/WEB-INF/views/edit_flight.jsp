@@ -68,7 +68,7 @@
                 <tr>
                     <td><input type="submit" name="save" value="<fmt:message key="save"/>"></td>
                     <td><input type="submit" name="delete" value="<fmt:message key="delete"/>"
-                               onclick="return confirm('Are you sure you want to delete this item?');"></td>
+                               onclick="return confirm('<fmt:message key="confirm_delete"/>');"></td>
                     <td></td>
                 </tr>
             </table>

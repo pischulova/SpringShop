@@ -2,9 +2,6 @@ package com.besttravelproject.service;
 
 import com.besttravelproject.domain.User;
 import com.besttravelproject.domain.UserRole;
-import com.besttravelproject.repository.CountryRepository;
-import com.besttravelproject.repository.FlightRepository;
-import com.besttravelproject.repository.OrderRepository;
 import com.besttravelproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,12 +77,12 @@ public class UserServiceSample implements UserService {
         return repository.findByUsername(username);
     }
 
-    @Autowired
-    FlightRepository flightRepository;
-    @Autowired
-    CountryRepository countryRepository;
-    @Autowired
-    OrderRepository orderRepository;
+//    @Autowired
+//    FlightRepository flightRepository;
+//    @Autowired
+//    CountryRepository countryRepository;
+//    @Autowired
+//    OrderRepository orderRepository;
 
 //    @PostConstruct
 //    public void loadFlights() {

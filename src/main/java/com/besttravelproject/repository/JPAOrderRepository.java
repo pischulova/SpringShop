@@ -11,8 +11,8 @@ import java.util.List;
 
 @Repository("orderRepository")
 public class JPAOrderRepository implements OrderRepository {
-    static final String FIND_ALL = "SELECT o FROM Order o";
-    static final String FIND_BY_CLIENT_NAME = "SELECT o FROM Order o WHERE o.user.name LIKE ?1";
+    static final String FIND_ALL = "SELECT o FROM Order o ORDER BY o.date desc";
+    static final String FIND_BY_CLIENT_NAME = "SELECT o FROM Order o WHERE o.user.name LIKE ?1 ORDER BY o.date desc";
     static final String FIND_BY_CLIENT_ID = "SELECT o FROM Order o WHERE o.user.id = ?1";
 
     @PersistenceContext(name = "unit1")

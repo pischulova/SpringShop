@@ -79,7 +79,7 @@
 
         <ul class="pages-menu">
             <c:if test="${!flightList.firstPage}">
-                <li class="menu-item"><a href="/flights?page=1"><fmt:message key="first"/></a></li>
+                <li class="menu-item"><a href="/flights?page=1&search=${search}"><fmt:message key="first"/></a></li>
             </c:if>
 
             <c:choose>
@@ -90,10 +90,10 @@
                     <c:forEach begin="1" end="${pageNumber}" var="p">
                         <c:choose>
                             <c:when test="${flightList.page + 1 == p}">
-                                <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
+                                <li class="menu-item selected"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                             </c:when>
                             <c:otherwise>
-                                <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                                <li class="menu-item"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -105,10 +105,10 @@
                             <c:forEach begin="1" end="5" var="p">
                                 <c:choose>
                                     <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item selected"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -117,10 +117,10 @@
                             <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
                                 <c:choose>
                                     <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item selected"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -129,10 +129,10 @@
                             <c:forEach begin="${flightList.page - 1}" end="${flightList.page + 3}" var="p">
                                 <c:choose>
                                     <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item selected"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
+                                        <li class="menu-item"><a href="/flights?page=${p}&search=${search}"> ${p} </a></li>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -142,7 +142,7 @@
             </c:choose>
 
             <c:if test="${!flightList.lastPage}">
-                <li class="menu-item"><a href="/flights?page=${pageNumber}"><fmt:message key="last"/></a></li>
+                <li class="menu-item"><a href="/flights?page=${pageNumber}&search=${search}"><fmt:message key="last"/></a></li>
             </c:if>
         </ul>
 

@@ -18,6 +18,8 @@ public class Flight {
 
     Integer price;
 
+    Boolean isDisabled;
+
     public Flight() { }
 
     public Long getId() { return id; }
@@ -52,6 +54,18 @@ public class Flight {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 
     @Override

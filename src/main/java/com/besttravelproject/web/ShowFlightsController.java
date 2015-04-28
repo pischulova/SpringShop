@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 public class ShowFlightsController {
-    final static double RESULTS_PER_PAGE = 15.0;
+    final static double RESULTS_PER_PAGE = 10.0;
 
     @Autowired
     private FlightService flightService;
@@ -30,7 +30,16 @@ public class ShowFlightsController {
 
     @RequestMapping(value = "/flights", method = RequestMethod.GET)
     ModelAndView show(ModelAndView model, HttpServletRequest request) {
-        PagedListHolder<Flight> flights = new PagedListHolder<>(flightService.findAll());
+        String paramSearch = (String)request.getAttribute("search");
+
+        PagedListHolder<Flight> flights;
+        if (null == paramSearch || paramSearch.length()==0) {
+            paramSearch = "";
+            flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
+        } else {
+            flights = new PagedListHolder<>(flightService.findAll());
+        }
+        model.addObject("search", paramSearch);
 
         if (flights.getNrOfElements()==0) {
             model.addObject("message", "nothing_found");
@@ -75,6 +84,7 @@ public class ShowFlightsController {
         }
 
         String paramSearch = form.getCountryName();
+        model.addObject("search", paramSearch);
         PagedListHolder<Flight> flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
 
         if (flights.getNrOfElements()==0) {
