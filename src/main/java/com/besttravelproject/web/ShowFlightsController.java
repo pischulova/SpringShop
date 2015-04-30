@@ -34,10 +34,10 @@ public class ShowFlightsController {
 
         PagedListHolder<Flight> flights;
         if (null == paramSearch || paramSearch.length()==0) {
-            paramSearch = "";
-            flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
-        } else {
             flights = new PagedListHolder<>(flightService.findAll());
+
+        } else {
+            flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
         }
         model.addObject("search", paramSearch);
 
@@ -84,7 +84,7 @@ public class ShowFlightsController {
         }
 
         String paramSearch = form.getCountryName();
-        model.addObject("search", paramSearch);
+//        model.addObject("search", paramSearch);
         PagedListHolder<Flight> flights = new PagedListHolder<>(flightService.findByCountry(paramSearch));
 
         if (flights.getNrOfElements()==0) {

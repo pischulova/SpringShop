@@ -10,7 +10,7 @@ public interface FlightService {
     Flight findById(Long id);
     boolean update(Flight flight);
     boolean setDisabledCreateNew(Flight flight, Integer newPrice);
-    boolean setDisabled(Flight flight);
+    boolean setDisabled(Long id);
     void delete(Flight flight);
     void deleteById(Long id);
 }

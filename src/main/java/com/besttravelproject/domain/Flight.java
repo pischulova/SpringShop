@@ -16,7 +16,7 @@ public class Flight {
     @JoinColumn(name = "country_id")
     Country country;
 
-    Integer price;
+    Long price;
 
     Boolean isDisabled;
 
@@ -48,15 +48,11 @@ public class Flight {
         this.country = country;
     }
 
-    public int getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

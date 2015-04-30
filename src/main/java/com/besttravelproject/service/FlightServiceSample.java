@@ -45,25 +45,26 @@ public class FlightServiceSample implements FlightService{
     @Transactional
     @Override
     public boolean setDisabledCreateNew(Flight flight, Integer newPrice) {
-        if (null != flight) {
-            Flight copy = new Flight();
-            copy.setNameEn(flight.getNameEn());
-            copy.setNameRu(flight.getNameRu());
-            copy.setCountry(flight.getCountry());
-            copy.setPrice(newPrice);
-            copy.setIsDisabled(false);
-            repository.save(copy);
-
-            flight.setIsDisabled(true);
-            repository.update(flight);
-            return true;
-        }
+//        if (null != flight) {
+//            Flight copy = new Flight();
+//            copy.setNameEn(flight.getNameEn());
+//            copy.setNameRu(flight.getNameRu());
+//            copy.setCountry(flight.getCountry());
+//            copy.setPrice(newPrice);
+//            copy.setIsDisabled(false);
+//            repository.save(copy);
+//
+//            flight.setIsDisabled(true);
+//            repository.update(flight);
+//            return true;
+//        }
         return false;
     }
 
     @Transactional
     @Override
-    public boolean setDisabled(Flight flight) {
+    public boolean setDisabled(Long id) {
+        Flight flight = repository.findById(id);
         if (null != flight) {
             flight.setIsDisabled(true);
             repository.update(flight);

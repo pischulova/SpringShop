@@ -17,11 +17,14 @@ public class Order {
     @JoinColumn(name = "client_id")
     User user;
 
-    @ElementCollection
-    @CollectionTable(name="order_items", joinColumns = @JoinColumn(name="order_id"))
-    @MapKeyJoinColumn(name="flight_id", referencedColumnName = "id")
-    @Column(name = "quantity")
-    private Map<Flight, Integer> flights = new HashMap<>();
+//    @ElementCollection
+//    @CollectionTable(name="order_items", joinColumns = @JoinColumn(name="order_id"))
+//    @MapKeyJoinColumn(name="flight_id", referencedColumnName = "id")
+//    @Column(name = "quantity")
+//    private Map<Flight, Integer> flights = new HashMap<>();
+
+    @OneToMany(mappedBy = "order")
+    List<OrderItem> items = new ArrayList<>();
 
     Long sum = 0L;
 
@@ -49,9 +52,13 @@ public class Order {
         this.user = user;
     }
 
-    public Map<Flight, Integer> getFlights() { return flights; }
+    public List<OrderItem> getItems() {
+        return items;
+    }
 
-    public void setFlights(Map<Flight, Integer> flights) { this.flights = flights; }
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 
     public Long getSum() { return sum; }
 
@@ -64,9 +71,12 @@ public class Order {
     @PrePersist
     @PreUpdate
     private void calculateSum() {
-        for (Map.Entry entry : flights.entrySet()) {
-            Flight f = (Flight)entry.getKey();
-            sum += f.getPrice() * (Integer)entry.getValue();
+//        for (Map.Entry entry : flights.entrySet()) {
+//            Flight f = (Flight)entry.getKey();
+//            sum += f.getPrice() * (Integer)entry.getValue();
+//        }
+        for (OrderItem item : items) {
+
         }
     }
 }

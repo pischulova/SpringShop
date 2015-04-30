@@ -57,7 +57,7 @@ public class EditFlightController {
 
     @RequestMapping(value = "/edit_flight", params = "save", method = RequestMethod.POST)
     ModelAndView editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
-                      BindingResult result, ModelAndView model, RedirectAttributes attributes) {
+                            BindingResult result, ModelAndView model, RedirectAttributes attributes) {
 
         if (result.hasErrors()) {
             populateCountryLists(model);
@@ -71,13 +71,9 @@ public class EditFlightController {
             flight.setNameEn(form.getNameEn());
             flight.setNameRu(form.getNameRu());
             flight.setCountry(form.getCountry());
+            flight.setPrice(form.getPrice());
+            flightService.update(flight);
 
-            if (flight.getPrice() != form.getPrice()) {
-                flightService.setDisabledCreateNew(flight, form.getPrice());
-            } else {
-                flight.setPrice(form.getPrice());
-                flightService.update(flight);
-            }
             attributes.addFlashAttribute("message", "flight_updated");
         } else {
             attributes.addFlashAttribute("message", "flight_not_updated");
@@ -89,12 +85,11 @@ public class EditFlightController {
 
     @RequestMapping(value = "/edit_flight", params = "delete", method = RequestMethod.POST)
     ModelAndView deleteFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
-                           ModelAndView model,  RedirectAttributes attributes) {
+                              ModelAndView model,  RedirectAttributes attributes) {
 
         if (null != form) {
-            Flight flight = flightService.findById(form.getId());
-            flightService.setDisabled(flight);
-            attributes.addFlashAttribute("message", "flight_updated");
+            flightService.setDisabled(form.getId());
+            attributes.addFlashAttribute("message", "flight_deleted");
         }
         model.setViewName("redirect:/flights");
         return model;
