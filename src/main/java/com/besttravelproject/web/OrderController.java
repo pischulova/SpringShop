@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -13,7 +14,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @RequestMapping(value = "/order")
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
     String showOrder(@RequestParam("id") Long id, Model model) {
         if (null == id || id < 1) {
             model.addAttribute("error_message", "page_not_found");
@@ -26,11 +27,11 @@ public class OrderController {
             return "order_info";
         }
         model.addAttribute("order", order);
-        model.addAttribute("orderContents", order.getFlights());
+        model.addAttribute("orderContents", order.getItems());
         return "order_info";
     }
 
-    @RequestMapping(value = "/approve_order")
+    @RequestMapping(value = "/approve_order", method = RequestMethod.POST)
     String approveOrder(@RequestParam("id") Long id, Model model) {
         if (null == id || id < 1) {
             model.addAttribute("error_message", "page_not_found");
@@ -46,7 +47,8 @@ public class OrderController {
         orderService.update(order);
 
         model.addAttribute("order", order);
-        model.addAttribute("orderContents", order.getFlights());
+        model.addAttribute("orderContents", order.getItems());
+
         return "order_info";
     }
 }

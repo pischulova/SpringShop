@@ -55,19 +55,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="product" items="${orderContents}">
+                    <c:forEach var="item" items="${orderContents}">
                         <tr>
                             <c:if test="${pageContext.response.locale == 'en'}">
-                                <td><c:out value="${product.key.nameEn}"/></td>
-                                <td><c:out value="${product.key.country.nameEn}"/></td>
+                                <td><c:out value="${item.flight.nameEn}"/></td>
+                                <td><c:out value="${item.flight.country.nameEn}"/></td>
                             </c:if>
                             <c:if test="${pageContext.response.locale == 'ru'}">
-                                <td><c:out value="${product.key.nameRu}"/></td>
-                                <td><c:out value="${product.key.country.nameRu}"/></td>
+                                <td><c:out value="${item.flight.nameRu}"/></td>
+                                <td><c:out value="${item.flight.country.nameRu}"/></td>
                             </c:if>
 
-                            <td><c:out value="${product.key.price}"/></td>
-                            <td><c:out value="${product.value}"/></td>
+                            <td><c:out value="${item.price}"/></td>
+                            <td><c:out value="${item.quantity}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>

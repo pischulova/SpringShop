@@ -42,7 +42,7 @@ public class JPAOrderRepository implements OrderRepository {
     public Order findById(Long id) {
         Order order = em.find(Order.class, id);
         if (null != order) {
-            order.getFlights().size();
+            order.getItems().size();
         }
         return order;
     }

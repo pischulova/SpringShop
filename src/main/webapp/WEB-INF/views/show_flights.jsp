@@ -34,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="flight" items="${flightList.pageList}">
+                <c:forEach var="flight" items="${flightList}">
                     <tr>
                         <c:choose>
                             <c:when test="${pageContext.response.locale == 'en'}">
@@ -77,74 +77,9 @@
             </c:if>
         </table><br>
 
-        <ul class="pages-menu">
-            <c:if test="${!flightList.firstPage}">
-                <li class="menu-item"><a href="/flights?page=1"><fmt:message key="first"/></a></li>
-            </c:if>
-
-            <c:choose>
-                <c:when test="${pageNumber == 1}">
-                </c:when>
-
-                <c:when test="${pageNumber < 5}">
-                    <c:forEach begin="1" end="${pageNumber}" var="p">
-                        <c:choose>
-                            <c:when test="${flightList.page + 1 == p}">
-                                <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:when>
-
-                <c:otherwise>
-                    <c:choose>
-                        <c:when test="${flightList.page < 3}">
-                            <c:forEach begin="1" end="5" var="p">
-                                <c:choose>
-                                    <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-                        <c:when test="${flightList.page > pageNumber - 3}">
-                            <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
-                                <c:choose>
-                                    <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach begin="${flightList.page - 1}" end="${flightList.page + 3}" var="p">
-                                <c:choose>
-                                    <c:when test="${flightList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/flights?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
-                </c:otherwise>
-            </c:choose>
-
-            <c:if test="${!flightList.lastPage}">
-                <li class="menu-item"><a href="/flights?page=${pageNumber}"><fmt:message key="last"/></a></li>
-            </c:if>
-        </ul>
+        <jsp:include page="/WEB-INF/layout/paging.jsp">
+            <jsp:param name="link" value="flights"/>
+        </jsp:include>
 
     </div>
 </div>

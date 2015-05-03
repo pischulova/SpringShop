@@ -5,19 +5,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository("countryRepository")
 public class JPACountryRepository implements CountryRepository {
-    static final String FIND_ALL_COUNTRIES = "SELECT c FROM Country c";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
 
     @Override
     public List<Country> findAll() {
-        Query query = em.createQuery(FIND_ALL_COUNTRIES);
+        TypedQuery<Country> query = em.createNamedQuery("Country.findAll", Country.class);
         return query.getResultList();
     }
 

@@ -57,7 +57,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/register", method = RequestMethod.GET)
     String changeLangRegister() {
-        return "home";
+        return "register_user";
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.GET)

@@ -1,6 +1,6 @@
 package com.besttravelproject.service;
 
-import com.besttravelproject.domain.Order;
+import com.besttravelproject.domain.*;
 import com.besttravelproject.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("orderService")
 public class OrderServiceSample implements OrderService {
@@ -15,24 +16,36 @@ public class OrderServiceSample implements OrderService {
     private OrderRepository repository;
 
     @Override
-    public Long save(Order order) {
+    public Long makeOrder(User user, Cart cart) {
+        Order order = new Order();
+        order.setUser(user);
         order.setDate(new Date());
         order.setIsApproved(false);
+        List<OrderItem> items = order.getItems();
+        Long sum = 0L;
+        for (Map.Entry entry : cart.getFlights().entrySet()) {
+            OrderItem item = new OrderItem();
+            item.setFlight((Flight) entry.getKey());
+            item.setQuantity((Integer) entry.getValue());
+            item.setOrder(order);
+            items.add(item);
+            sum += ((Flight)entry.getKey()).getPrice();
+        }
+        order.setSum(sum);
         return repository.save(order);
     }
 
+    @Transactional
     @Override
     public List<Order> findAll() {
-        return repository.findAll();
+        List<Order> orders = repository.findAll();
+        return orders;
     }
 
     @Transactional
     @Override
     public List<Order> findByClientName(String name) {
         List<Order> orders = repository.findByClientName(name);
-        if (null != orders) {
-            orders.forEach(Order::getFlights);
-        }
         return orders;
     }
 
@@ -40,9 +53,6 @@ public class OrderServiceSample implements OrderService {
     @Override
     public List<Order> findByClientId(Long id) {
         List<Order> orders = repository.findByClientId(id);
-        if (null != orders) {
-            orders.forEach(Order::getFlights);
-        }
         return orders;
     }
 
@@ -50,9 +60,6 @@ public class OrderServiceSample implements OrderService {
     @Override
     public Order findById(Long id) {
         Order order = repository.findById(id);
-        if (null != order) {
-            order.getFlights();
-        }
         return order;
     }
 
@@ -63,10 +70,5 @@ public class OrderServiceSample implements OrderService {
             return repository.update(order);
         }
         return false;
-    }
-
-    @Override
-    public void delete(Order order) {
-
     }
 }

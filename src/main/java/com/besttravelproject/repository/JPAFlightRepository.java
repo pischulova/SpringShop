@@ -6,15 +6,12 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository("flightRepository")
 public class JPAFlightRepository implements FlightRepository {
-    static final String FIND_ALL_FLIGHTS = "SELECT f FROM Flight f where f.isDisabled = FALSE";
-    static final String FIND_BY_COUNTRY =
-            "SELECT f FROM Flight f WHERE f.isDisabled = FALSE AND " +
-                    "(f.country.nameEn LIKE ?1 OR f.country.nameRu LIKE ?2)";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
@@ -39,21 +36,35 @@ public class JPAFlightRepository implements FlightRepository {
     }
 
     @Override
-    public List<Flight> findByCountry(String country) {
-        Query query = em.createQuery(FIND_BY_COUNTRY);
+    public List<Flight> findByCountry(int limit, int offset, String country) {
+        TypedQuery<Flight> query = em.createNamedQuery("Flight.findLike", Flight.class);
         query.setParameter(1, country+"%");
         query.setParameter(2, country+"%");
-        return query.getResultList();
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 
     @Override
-    public List<Flight> findAll() {
-        Query query = em.createQuery(FIND_ALL_FLIGHTS);
-        return query.getResultList();
+    public List<Flight> findAll(int limit, int offset) {
+        TypedQuery<Flight> query = em.createNamedQuery("Flight.findAll", Flight.class);
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 
     @Override
     public Flight findById(Long id) {
         return em.find(Flight.class, id);
+    }
+
+    @Override
+    public long getRowsNumber() {
+        Query query = em.createNamedQuery("Flight.countRowsAll");
+        return (long)query.getSingleResult();
+    }
+
+    @Override
+    public long getRowsNumberByCountry(String country) {
+        Query query = em.createNamedQuery("Flight.countRowsLike");
+        query.setParameter(1, country+"%");
+        query.setParameter(2, country+"%");
+        return (long)query.getSingleResult();
     }
 }

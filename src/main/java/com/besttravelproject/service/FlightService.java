@@ -5,12 +5,13 @@ import com.besttravelproject.domain.Flight;
 import java.util.List;
 
 public interface FlightService {
-    List<Flight> findAll();
-    List<Flight> findByCountry(String country);
+    List<Flight> findAll(int limit, int offset);
+    List<Flight> findByCountry(int limit, int offset, String country);
     Flight findById(Long id);
     boolean update(Flight flight);
-    boolean setDisabledCreateNew(Flight flight, Integer newPrice);
     boolean setDisabled(Long id);
     void delete(Flight flight);
     void deleteById(Long id);
+    long getRowsNumber();
+    long getRowsNumberByCountry(String country);
 }

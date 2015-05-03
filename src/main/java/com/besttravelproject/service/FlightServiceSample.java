@@ -14,13 +14,13 @@ public class FlightServiceSample implements FlightService{
     private FlightRepository repository;
 
     @Override
-    public List<Flight> findAll() {
-        return repository.findAll();
+    public List<Flight> findAll(int limit, int offset) {
+        return repository.findAll(limit, offset);
     }
 
     @Override
-    public List<Flight> findByCountry(String country) {
-        return repository.findByCountry(country);
+    public List<Flight> findByCountry(int limit, int offset, String country) {
+        return repository.findByCountry(limit, offset, country);
     }
 
     @Transactional
@@ -39,25 +39,6 @@ public class FlightServiceSample implements FlightService{
         if (null != flight) {
             return repository.update(flight);
         }
-        return false;
-    }
-
-    @Transactional
-    @Override
-    public boolean setDisabledCreateNew(Flight flight, Integer newPrice) {
-//        if (null != flight) {
-//            Flight copy = new Flight();
-//            copy.setNameEn(flight.getNameEn());
-//            copy.setNameRu(flight.getNameRu());
-//            copy.setCountry(flight.getCountry());
-//            copy.setPrice(newPrice);
-//            copy.setIsDisabled(false);
-//            repository.save(copy);
-//
-//            flight.setIsDisabled(true);
-//            repository.update(flight);
-//            return true;
-//        }
         return false;
     }
 
@@ -87,5 +68,15 @@ public class FlightServiceSample implements FlightService{
         if (null != id) {
             repository.delete(findById(id));
         }
+    }
+
+    @Override
+    public long getRowsNumber() {
+        return repository.getRowsNumber();
+    }
+
+    @Override
+    public long getRowsNumberByCountry(String country) {
+        return repository.getRowsNumberByCountry(country);
     }
 }

@@ -17,7 +17,7 @@ public class EditFlightForm {
 
     @Min(50)
     @Max(100000)
-    Integer price;
+    Long price;
 
 
     public Long getId() {
@@ -52,11 +52,11 @@ public class EditFlightForm {
         this.country = country;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 }

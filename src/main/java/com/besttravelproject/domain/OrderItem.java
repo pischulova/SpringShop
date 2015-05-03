@@ -10,7 +10,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
 
@@ -18,7 +18,7 @@ public class OrderItem {
 
     Long price = 0L;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -59,12 +59,14 @@ public class OrderItem {
     }
 
     public void setOrder(Order order) {
-        this.order = order;
+        if(null != order) {
+            this.order = order;
+        }
     }
 
     @PrePersist
     @PreUpdate
-    private void calculateSum() {
+    private void calculatePrice() {
         price = flight.getPrice();
     }
 }

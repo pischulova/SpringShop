@@ -17,13 +17,7 @@ public class Order {
     @JoinColumn(name = "client_id")
     User user;
 
-//    @ElementCollection
-//    @CollectionTable(name="order_items", joinColumns = @JoinColumn(name="order_id"))
-//    @MapKeyJoinColumn(name="flight_id", referencedColumnName = "id")
-//    @Column(name = "quantity")
-//    private Map<Flight, Integer> flights = new HashMap<>();
-
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     List<OrderItem> items = new ArrayList<>();
 
     Long sum = 0L;
@@ -56,8 +50,11 @@ public class Order {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
+    public void addOrderItem(OrderItem item) {
+        if (items.contains(item))
+            return ;
+        items.add(item);
+        item.setOrder(this);
     }
 
     public Long getSum() { return sum; }
@@ -68,15 +65,4 @@ public class Order {
 
     public void setIsApproved(Boolean isApproved) { this.isApproved = isApproved; }
 
-    @PrePersist
-    @PreUpdate
-    private void calculateSum() {
-//        for (Map.Entry entry : flights.entrySet()) {
-//            Flight f = (Flight)entry.getKey();
-//            sum += f.getPrice() * (Integer)entry.getValue();
-//        }
-        for (OrderItem item : items) {
-
-        }
-    }
 }
