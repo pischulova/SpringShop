@@ -7,11 +7,12 @@ import java.util.List;
 
 public interface UserRepository {
     Long save(User user);
-    boolean delete(User user);
     boolean update(User user);
     User findByUsername(String username);
     User findById(Long id);
-    List<User> findAll();
-    List<User> findAllByRole(UserRole role);
-    List<User> findAllByStatus(boolean status);
+    List<User> findAllByRole(int limit, int offset, UserRole role);
+    List<User> findAllByStatus(int limit, int offset, boolean status);
+    long countByRole(UserRole role);
+    long countByStatus(boolean status);
+
 }

@@ -8,11 +8,10 @@ import java.util.List;
 public interface UserService {
     Long save(User user);
     User login(String username, String password);
-    boolean update(User user);
     boolean updateMakeBad(Long id, Boolean flag);
-    boolean delete(User user);
-    List<User> findAll();
-    List<User> findAllByRole(UserRole role);
-    List<User> findAllByStatus(Boolean status);
+    List<User> findAllByRole(int limit, int offset, UserRole role);
+    List<User> findAllByStatus(int limit, int offset, Boolean status);
     User findByUsername(String username);
+    long countByRole(UserRole role);
+    long countByStatus(Boolean status);
 }

@@ -71,12 +71,12 @@ public class FlightServiceSample implements FlightService{
     }
 
     @Override
-    public long getRowsNumber() {
-        return repository.getRowsNumber();
+    public long countAll() {
+        return repository.countAll();
     }
 
     @Override
-    public long getRowsNumberByCountry(String country) {
-        return repository.getRowsNumberByCountry(country);
+    public long countByCountry(String country) {
+        return repository.countByCountry(country);
     }
 }

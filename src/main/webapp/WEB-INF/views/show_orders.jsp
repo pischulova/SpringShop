@@ -15,6 +15,8 @@
 
             <c:otherwise>
                 <c:if test="${sessionScope.user.userRole=='ADMIN'}">
+                    <c:set var="linkBase" value="show_orders?search=${search}&"/>
+
                     <h2><fmt:message key="type_client_name"/></h2>
                     <form:form method="post" commandName="searchOrderForm" action="/show_orders">
                         <form:input type="text" path="name"/>
@@ -35,7 +37,7 @@
                         </thead>
 
                         <tbody>
-                        <c:forEach var="order" items="${ordersList.pageList}">
+                        <c:forEach var="order" items="${ordersList}">
                             <tr>
                                 <td><c:out value="${order.id}"/></td>
                                 <td><c:out value="${order.date}"/></td>
@@ -63,6 +65,7 @@
                 </c:if>
 
                 <c:if test="${sessionScope.user.userRole=='CLIENT'}">
+                    <c:set var="linkBase" value="client_orders?"/>
 
                     <table width="100%">
                         <thead>
@@ -76,7 +79,7 @@
                         </thead>
 
                         <tbody>
-                        <c:forEach var="order" items="${ordersList.pageList}">
+                        <c:forEach var="order" items="${ordersList}">
                             <tr>
                                 <td><c:out value="${order.id}"/></td>
                                 <td><c:out value="${order.date}"/></td>
@@ -100,74 +103,9 @@
                     </table>
                 </c:if>
 
-                <ul class="pages-menu">
-                    <c:if test="${!ordersList.firstPage}">
-                        <li class="menu-item"><a href="/show_orders?page=1"><fmt:message key="first"/></a></li>
-                    </c:if>
-
-                    <c:choose>
-                        <c:when test="${pageNumber == 1}">
-                        </c:when>
-
-                        <c:when test="${pageNumber < 5}">
-                            <c:forEach begin="1" end="${pageNumber}" var="p">
-                                <c:choose>
-                                    <c:when test="${ordersList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${ordersList.page < 3}">
-                                    <c:forEach begin="1" end="5" var="p">
-                                        <c:choose>
-                                            <c:when test="${ordersList.page + 1 == p}">
-                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:when>
-                                <c:when test="${ordersList.page > pageNumber - 3}">
-                                    <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
-                                        <c:choose>
-                                            <c:when test="${ordersList.page + 1 == p}">
-                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach begin="${ordersList.page - 1}" end="${ordersList.page + 3}" var="p">
-                                        <c:choose>
-                                            <c:when test="${ordersList.page + 1 == p}">
-                                                <li class="menu-item selected"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li class="menu-item"><a href="/show_orders?page=${p}"> ${p} </a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
-
-                    <c:if test="${!ordersList.lastPage}">
-                        <li class="menu-item"><a href="/show_orders?page=${pageNumber}"><fmt:message key="last"/></a></li>
-                    </c:if>
-                </ul>
+                <jsp:include page="/WEB-INF/layout/paging.jsp">
+                    <jsp:param name="link" value="${linkBase}"/>
+                </jsp:include>
 
             </c:otherwise>
         </c:choose>

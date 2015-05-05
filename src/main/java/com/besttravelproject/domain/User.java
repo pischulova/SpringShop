@@ -8,6 +8,13 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "User.findClientsByStatus", query = "SELECT u FROM User u WHERE u.isBad = ?1 AND u.userRole = ?2"),
+        @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.userRole = ?1"),
+        @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = ?1"),
+        @NamedQuery(name = "User.countClientsByStatus", query = "SELECT COUNT(u) FROM User u WHERE u.isBad = ?1 AND u.userRole = ?2"),
+        @NamedQuery(name = "User.countByRole", query = "SELECT COUNT(u) FROM User u WHERE u.userRole = ?1"),
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

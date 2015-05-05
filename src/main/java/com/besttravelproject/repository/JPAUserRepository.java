@@ -5,19 +5,11 @@ import com.besttravelproject.domain.UserRole;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 @Repository("userRepository")
 public class JPAUserRepository implements UserRepository {
-    static final String FIND_ALL_USERS = "SELECT u FROM User u";
-    static final String FIND_ALL_CLIENTS_BY_STATUS = "SELECT u FROM User u WHERE u.isBad = ?1 AND u.userRole = ?2";
-    static final String FIND_ALL_BY_ROLE = "SELECT u FROM User u WHERE u.userRole = ?1";
-    static final String FIND_BY_USERNAME = "SELECT u FROM User u WHERE u.username = ?1";
-
     @PersistenceContext(name = "unit1")
     private EntityManager em;
 
@@ -29,23 +21,20 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean delete(User user) {
-        return false;
-    }
-
-    @Override
     public boolean update(User user) {
+        User updated = em.merge(user);
+        if (null != updated)
+            return true;
         return false;
     }
-
 
     @Override
     public User findByUsername(String username) {
-        Query query = em.createQuery(FIND_BY_USERNAME);
+        TypedQuery<User> query = em.createNamedQuery("User.findByUsername", User.class);
         query.setParameter(1, username);
         User result = null;
         try {
-            result = (User) query.getSingleResult();
+            result = query.getSingleResult();
         } catch (NoResultException e) {}
         return result;
     }
@@ -56,23 +45,32 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        Query query = em.createQuery(FIND_ALL_USERS);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<User> findAllByRole(UserRole role) {
-        Query query = em.createQuery(FIND_ALL_BY_ROLE);
+    public List<User> findAllByRole(int limit, int offset, UserRole role) {
+        TypedQuery<User> query = em.createNamedQuery("User.findByRole", User.class);
         query.setParameter(1, role);
-        return query.getResultList();
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 
     @Override
-    public List<User> findAllByStatus(boolean status) {
-        Query query = em.createQuery(FIND_ALL_CLIENTS_BY_STATUS);
+    public List<User> findAllByStatus(int limit, int offset, boolean status) {
+        TypedQuery<User> query = em.createNamedQuery("User.findClientsByStatus", User.class);
         query.setParameter(1, status);
         query.setParameter(2, UserRole.CLIENT);
-        return query.getResultList();
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
+    }
+
+    @Override
+    public long countByRole(UserRole role) {
+        Query query = em.createNamedQuery("User.countByRole");
+        query.setParameter(1, role);
+        return (long)query.getSingleResult();
+    }
+
+    @Override
+    public long countByStatus(boolean status) {
+        Query query = em.createNamedQuery("User.countClientsByStatus");
+        query.setParameter(1, status);
+        query.setParameter(2, UserRole.CLIENT);
+        return (long)query.getSingleResult();
     }
 }

@@ -5,6 +5,16 @@ import java.util.*;
 
 @Entity
 @Table(name = "orders")
+@NamedQueries({
+        @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o ORDER BY o.date desc"),
+        @NamedQuery(name = "Order.findByClientName", query = "SELECT o FROM Order o WHERE o.user.name LIKE ?1 " +
+                "ORDER BY o.date desc"),
+        @NamedQuery(name = "Order.findByClientId", query = "SELECT o FROM Order o WHERE o.user.id = ?1"),
+        @NamedQuery(name = "Order.countAll", query = "SELECT COUNT(o) FROM Order o"),
+        @NamedQuery(name = "Order.countByClientName", query = "SELECT COUNT(o) FROM Order o WHERE o.user.name LIKE ?1"),
+        @NamedQuery(name = "Order.countByClientId", query = "SELECT COUNT(o) FROM Order o WHERE o.user.id = ?1")
+})
+
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -37,22 +37,22 @@ public class OrderServiceSample implements OrderService {
 
     @Transactional
     @Override
-    public List<Order> findAll() {
-        List<Order> orders = repository.findAll();
+    public List<Order> findAll(int limit, int offset) {
+        List<Order> orders = repository.findAll(limit, offset);
         return orders;
     }
 
     @Transactional
     @Override
-    public List<Order> findByClientName(String name) {
-        List<Order> orders = repository.findByClientName(name);
+    public List<Order> findByClientName(int limit, int offset, String name) {
+        List<Order> orders = repository.findByClientName(limit, offset, name);
         return orders;
     }
 
     @Transactional
     @Override
-    public List<Order> findByClientId(Long id) {
-        List<Order> orders = repository.findByClientId(id);
+    public List<Order> findByClientId(int limit, int offset, Long id) {
+        List<Order> orders = repository.findByClientId(limit, offset, id);
         return orders;
     }
 
@@ -70,5 +70,20 @@ public class OrderServiceSample implements OrderService {
             return repository.update(order);
         }
         return false;
+    }
+
+    @Override
+    public long countAll() {
+        return repository.countAll();
+    }
+
+    @Override
+    public long countByClientName(String name) {
+        return repository.countByClientName(name);
+    }
+
+    @Override
+    public long countByClientId(Long id) {
+        return repository.countByClientId(id);
     }
 }

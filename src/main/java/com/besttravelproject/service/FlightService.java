@@ -12,6 +12,6 @@ public interface FlightService {
     boolean setDisabled(Long id);
     void delete(Flight flight);
     void deleteById(Long id);
-    long getRowsNumber();
-    long getRowsNumberByCountry(String country);
+    long countAll();
+    long countByCountry(String country);
 }

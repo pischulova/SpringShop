@@ -3,25 +3,22 @@ package com.besttravelproject.web;
 import com.besttravelproject.domain.Order;
 import com.besttravelproject.domain.SearchOrderForm;
 import com.besttravelproject.domain.User;
-import com.besttravelproject.domain.UserRole;
 import com.besttravelproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ShowOrdersController {
-    final static double RESULTS_PER_PAGE = 10.0;
+    final static int RESULTS_PER_PAGE = 10;
 
     @Autowired
     OrderService orderService;
@@ -32,95 +29,89 @@ public class ShowOrdersController {
     }
 
     @RequestMapping(value = "/show_orders", method = RequestMethod.GET)
-    String showOrders(Model model, HttpSession session, HttpServletRequest request){
+    String showAllOrders(@RequestParam(value = "search", required = false) String paramSearch,
+                         @RequestParam(value = "page", required = false) Integer paramPage,
+                         Model model, RedirectAttributes attributes, HttpSession session){
+
         User user = (User)session.getAttribute("user");
-        if (null == user) {
-            model.addAttribute("error_message", "page_not_found");
-            return "error";
+
+        if (checkParamsForErrors(paramSearch, paramPage, user, attributes)) {
+            return "redirect:/orders";
         }
 
-        PagedListHolder<Order> orders;
+        if (null == paramPage) {
+            paramPage = 1;
+        }
 
-        if (user.getUserRole()== UserRole.ADMIN) {
-            orders = new PagedListHolder<>(orderService.findAll());
-            if (orders.getNrOfElements() == 0) {
-                model.addAttribute("message", "nothing_found");
-                return "show_orders";
-            }
+        List<Order> orders;
+        long pageNumber;
+
+        if (null == paramSearch || paramSearch.length()==0) {
+            orders = orderService.findAll(RESULTS_PER_PAGE, (paramPage-1)*RESULTS_PER_PAGE);
+            pageNumber = (int) Math.ceil(orderService.countAll()/(double)RESULTS_PER_PAGE);
+            paramSearch = "";
         } else {
-            orders = new PagedListHolder<>(orderService.findByClientId(user.getId()));
-            if (orders.getNrOfElements() == 0) {
-                model.addAttribute("message", "no_orders");
-                return "show_orders";
-            }
+            orders = orderService.findByClientName(RESULTS_PER_PAGE, (paramPage - 1) * RESULTS_PER_PAGE, paramSearch);
+            pageNumber = (int) Math.ceil(orderService.countByClientName(paramSearch)/(double)RESULTS_PER_PAGE);
         }
-        int pageNumber = (int) Math.ceil(orders.getNrOfElements() / RESULTS_PER_PAGE);
 
-        String paramPage = request.getParameter("page");
-        if (null != paramPage) {
-            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
-                model.addAttribute("error_message", "page_not_found");
-                return "error";
-            }
-
-            Integer page = Integer.parseInt(paramPage);
-
-            if (page < 1 || page > pageNumber) {
-                model.addAttribute("error_message", "page_not_found");
-                return "error";
-            }
-
-            orders.setPageSize((int)RESULTS_PER_PAGE);
-            orders.setPage(page - 1);
+        if (orders.size() == 0) {
+            model.addAttribute("message", "nothing_found");
+            return "show_orders";
         }
+
+        model.addAttribute("page", paramPage);
+        model.addAttribute("search", paramSearch);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("ordersList", orders);
 
         return "show_orders";
     }
 
-    @RequestMapping(value = "/show_orders", method = RequestMethod.POST)
-    String showOrdersWithParam(@Valid @ModelAttribute("chooseCountryForm") SearchOrderForm form,
-                               BindingResult result, Model model, HttpSession session,
-                               HttpServletRequest request, RedirectAttributes attributes){
-        if (result.hasErrors()) {
-            attributes.addFlashAttribute("message", "Size.searchOrderForm.name");
+
+    @RequestMapping(value = "/client_orders", method = RequestMethod.GET)
+    String showClientOrders(@RequestParam(value = "page", required = false) Integer paramPage,
+                            Model model, RedirectAttributes attributes, HttpSession session){
+
+        User user = (User)session.getAttribute("user");
+
+        if (checkParamsForErrors(null, paramPage, user, attributes)) {
             return "redirect:/flights";
         }
 
-        if (null == session.getAttribute("user")) {
-            model.addAttribute("error_message", "page_not_found");
-            return "error";
+        if (null == paramPage) {
+            paramPage = 1;
         }
 
-        PagedListHolder<Order> orders = new PagedListHolder<>(orderService.findByClientName(form.getName()));
-        if (orders.getNrOfElements() == 0) {
-            model.addAttribute("message", "nothing_found");
+        List<Order> orders = orderService.
+                findByClientId(RESULTS_PER_PAGE, (paramPage - 1) * RESULTS_PER_PAGE, user.getId());
+        long pageNumber = (int) Math.ceil(orderService.countByClientId(user.getId())/(double)RESULTS_PER_PAGE);
+
+        if (orders.size() == 0) {
+            model.addAttribute("message", "no_orders");
             return "show_orders";
         }
 
-        int pageNumber = (int) Math.ceil(orders.getNrOfElements() / RESULTS_PER_PAGE);
-
-        String paramPage = request.getParameter("page");
-        if (null != paramPage) {
-            if (paramPage.length() > 9 || !paramPage.matches("[0-9]+")) {
-                model.addAttribute("error_message", "page_not_found");
-                return "error";
-            }
-
-            Integer page = Integer.parseInt(paramPage);
-
-            if (page < 1 || page > pageNumber) {
-                model.addAttribute("error_message", "page_not_found");
-                return "error";
-            }
-
-            orders.setPageSize((int)RESULTS_PER_PAGE);
-            orders.setPage(page - 1);
-        }
+        model.addAttribute("page", paramPage);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("ordersList", orders);
 
         return "show_orders";
+    }
+
+
+    private boolean checkParamsForErrors(String paramSearch, Integer paramPage,
+                                         User user, RedirectAttributes attributes) {
+
+        if (null != paramSearch && paramSearch.length() > 20) {
+            attributes.addFlashAttribute("message", "Size.chooseCountryForm.countryName");
+            return true;
+        }
+
+        if (null == user || (null != paramPage && paramPage < 1)) {
+            attributes.addFlashAttribute("message", "nothing_found");
+            return true;
+        }
+        return false;
     }
 }

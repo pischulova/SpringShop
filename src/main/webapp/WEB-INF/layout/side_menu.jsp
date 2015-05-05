@@ -27,7 +27,7 @@
         <c:when test="${sessionScope.user.userRole=='CLIENT'}">
             <ul class="side-menu">
                 <li><a href="/profile"><spring:message code="profile"/></a></li>
-                <li><a href="/show_orders"><spring:message code="my_orders"/></a></li>
+                <li><a href="/client_orders"><spring:message code="my_orders"/></a></li>
                 <li><a href="/show_cart"><spring:message code="cart"/></a></li>
             </ul>
         </c:when>

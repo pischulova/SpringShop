@@ -30,11 +30,6 @@ public class UserServiceSample implements UserService {
         return user;
     }
 
-    @Override
-    public boolean update(User user) {
-        return false;
-    }
-
     @Transactional
     @Override
     public boolean updateMakeBad(Long id, Boolean flag) {
@@ -47,34 +42,34 @@ public class UserServiceSample implements UserService {
     }
 
     @Override
-    public boolean delete(User user) {
-        return false;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public List<User> findAllByRole(UserRole role) {
+    public List<User> findAllByRole(int limit, int offset, UserRole role) {
         if (null == role) {
             return null;
         }
-        return repository.findAllByRole(role);
+        return repository.findAllByRole(limit, offset, role);
     }
 
     @Override
-    public List<User> findAllByStatus(Boolean status) {
+    public List<User> findAllByStatus(int limit, int offset, Boolean status) {
         if (null == status) {
             return null;
         }
-        return repository.findAllByStatus(status);
+        return repository.findAllByStatus(limit, offset, status);
     }
 
     @Override
     public User findByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    @Override
+    public long countByRole(UserRole role) {
+        return repository.countByRole(role);
+    }
+
+    @Override
+    public long countByStatus(Boolean status) {
+        return repository.countByStatus(status);
     }
 
 //    @Autowired

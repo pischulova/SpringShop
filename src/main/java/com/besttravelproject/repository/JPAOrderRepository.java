@@ -6,14 +6,12 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository("orderRepository")
 public class JPAOrderRepository implements OrderRepository {
-    static final String FIND_ALL = "SELECT o FROM Order o ORDER BY o.date desc";
-    static final String FIND_BY_CLIENT_NAME = "SELECT o FROM Order o WHERE o.user.name LIKE ?1 ORDER BY o.date desc";
-    static final String FIND_BY_CLIENT_ID = "SELECT o FROM Order o WHERE o.user.id = ?1";
 
     @PersistenceContext(name = "unit1")
     private EntityManager em;
@@ -23,11 +21,6 @@ public class JPAOrderRepository implements OrderRepository {
     public Long save(Order order) {
         em.persist(order);
         return order.getId();
-    }
-
-    @Override
-    public boolean delete(Order order) {
-        return false;
     }
 
     @Override
@@ -48,22 +41,42 @@ public class JPAOrderRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> findByClientName(String name) {
-        Query query = em.createQuery(FIND_BY_CLIENT_NAME);
+    public List<Order> findByClientName(int limit, int offset, String name) {
+        TypedQuery<Order> query = em.createNamedQuery("Order.findByClientName", Order.class);
         query.setParameter(1, "%"+ name +"%");
-        return query.getResultList();
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 
     @Override
-    public List<Order> findByClientId(Long id) {
-        Query query = em.createQuery(FIND_BY_CLIENT_ID);
+    public List<Order> findByClientId(int limit, int offset, Long id) {
+        TypedQuery<Order> query = em.createNamedQuery("Order.findByClientId", Order.class);
         query.setParameter(1, id);
-        return query.getResultList();
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 
     @Override
-    public List<Order> findAll() {
-        Query query = em.createQuery(FIND_ALL);
-        return query.getResultList();
+    public List<Order> findAll(int limit, int offset) {
+        TypedQuery<Order> query = em.createNamedQuery("Order.findAll", Order.class);
+        return query.setMaxResults(limit).setFirstResult(offset).getResultList();
+    }
+
+    @Override
+    public long countAll() {
+        Query query = em.createNamedQuery("Order.countAll");
+        return (long)query.getSingleResult();
+    }
+
+    @Override
+    public long countByClientName(String name) {
+        Query query = em.createNamedQuery("Order.countByClientName");
+        query.setParameter(1, "%"+ name +"%");
+        return (long)query.getSingleResult();
+    }
+
+    @Override
+    public long countByClientId(Long id) {
+        Query query = em.createNamedQuery("Order.countByClientId");
+        query.setParameter(1, id);
+        return (long)query.getSingleResult();
     }
 }

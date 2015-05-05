@@ -13,11 +13,11 @@
         </c:if>
 
         <h2><fmt:message key="type_country"/></h2>
-        <form:form method="post" commandName="chooseCountryForm" action="/flights">
-            <form:input type="text" path="countryName"/>
+
+        <form method="get" action="/flights">
+            <input type="text" name="search" value="${search}"/>
             <input type="submit" value="<fmt:message key="search"/>"> <br>
-            <form:errors path="countryName" cssClass="error" />
-        </form:form><br>
+        </form><br>
 
         <table width="100%">
             <c:if test="${not empty flightList}">
@@ -77,8 +77,10 @@
             </c:if>
         </table><br>
 
+        <c:set var="linkBase" value="show_orders?search=${search}&"/>
+
         <jsp:include page="/WEB-INF/layout/paging.jsp">
-            <jsp:param name="link" value="flights"/>
+            <jsp:param name="link" value="flights?search=${search}&"/>
         </jsp:include>
 
     </div>

@@ -11,6 +11,6 @@ public interface FlightRepository {
     List<Flight> findByCountry(int limit, int offset, String country);
     List<Flight> findAll(int limit, int offset);
     Flight findById(Long id);
-    long getRowsNumber();
-    long getRowsNumberByCountry(String country);
+    long countAll();
+    long countByCountry(String country);
 }

@@ -37,7 +37,7 @@ public class JPAFlightRepository implements FlightRepository {
 
     @Override
     public List<Flight> findByCountry(int limit, int offset, String country) {
-        TypedQuery<Flight> query = em.createNamedQuery("Flight.findLike", Flight.class);
+        TypedQuery<Flight> query = em.createNamedQuery("Flight.findByCountry", Flight.class);
         query.setParameter(1, country+"%");
         query.setParameter(2, country+"%");
         return query.setMaxResults(limit).setFirstResult(offset).getResultList();
@@ -55,14 +55,14 @@ public class JPAFlightRepository implements FlightRepository {
     }
 
     @Override
-    public long getRowsNumber() {
-        Query query = em.createNamedQuery("Flight.countRowsAll");
+    public long countAll() {
+        Query query = em.createNamedQuery("Flight.countAll");
         return (long)query.getSingleResult();
     }
 
     @Override
-    public long getRowsNumberByCountry(String country) {
-        Query query = em.createNamedQuery("Flight.countRowsLike");
+    public long countByCountry(String country) {
+        Query query = em.createNamedQuery("Flight.countByCountry");
         query.setParameter(1, country+"%");
         query.setParameter(2, country+"%");
         return (long)query.getSingleResult();
