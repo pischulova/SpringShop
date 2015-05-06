@@ -10,13 +10,13 @@
 
         <c:choose>
             <c:when test="${listType =='clients'}">
-                <c:set var="pointer" value="show_clients"/>
+                <c:set var="linkBase" value="show_clients"/>
             </c:when>
             <c:when test="${listType =='blacklist'}">
-                <c:set var="pointer" value="show_blacklist"/>
+                <c:set var="linkBase" value="show_blacklist"/>
             </c:when>
             <c:otherwise>
-                <c:set var="pointer" value="show_admins"/>
+                <c:set var="linkBase" value="show_admins"/>
             </c:otherwise>
         </c:choose>
 
@@ -42,7 +42,7 @@
             </thead>
 
             <tbody>
-            <c:forEach var="user" items="${usersList.pageList}">
+            <c:forEach var="user" items="${usersList}">
                 <tr>
                     <td><c:out value="${user.username}" /></td>
                     <td><c:out value="${user.name}" /></td>
@@ -69,74 +69,9 @@
             </tbody>
         </table><br>
 
-        <ul class="pages-menu">
-            <c:if test="${!usersList.firstPage}">
-                <li class="menu-item"><a href="/${pointer}?page=1"><fmt:message key="first"/></a></li>
-            </c:if>
-
-            <c:choose>
-                <c:when test="${pageNumber == 1}">
-                </c:when>
-
-                <c:when test="${pageNumber < 5}">
-                    <c:forEach begin="1" end="${pageNumber}" var="p">
-                        <c:choose>
-                            <c:when test="${usersList.page + 1 == p}">
-                                <li class="menu-item selected"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:when>
-
-                <c:otherwise>
-                    <c:choose>
-                        <c:when test="${usersList.page < 3}">
-                            <c:forEach begin="1" end="5" var="p">
-                                <c:choose>
-                                    <c:when test="${usersList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-                        <c:when test="${usersList.page > pageNumber - 3}">
-                            <c:forEach begin="${pageNumber - 4}" end="${pageNumber}" var="p">
-                                <c:choose>
-                                    <c:when test="${usersList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach begin="${usersList.page - 1}" end="${usersList.page + 3}" var="p">
-                                <c:choose>
-                                    <c:when test="${usersList.page + 1 == p}">
-                                        <li class="menu-item selected"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-item"><a href="/${pointer}?page=${p}"> ${p} </a></li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
-                </c:otherwise>
-            </c:choose>
-
-            <c:if test="${!usersList.lastPage}">
-                <li class="menu-item"><a href="/${pointer}?page=${pageNumber}"><fmt:message key="last"/></a></li>
-            </c:if>
-        </ul>
+        <jsp:include page="/WEB-INF/layout/paging.jsp">
+            <jsp:param name="link" value="${linkBase}?"/>
+        </jsp:include>
 
     </div>
 </div>

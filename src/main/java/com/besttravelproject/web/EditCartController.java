@@ -23,9 +23,10 @@ public class EditCartController {
     }
 
     @RequestMapping(value = "/add_to_cart", method = RequestMethod.GET)
-    String addToCart(@RequestParam("id") Long id, HttpSession session, Model model) {
+    String addToCart(@RequestParam(value = "id") Long id,
+                     HttpSession session, Model model) {
 
-        if (null == id || id < 1) {
+        if (id < 1) {
             model.addAttribute("error_message", "page_not_found");
             return "error";
         }
@@ -48,7 +49,7 @@ public class EditCartController {
     String removeFromCart(@RequestParam("id") Long id, HttpSession session, Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
 
-        if (null == id || id < 1 || null == cart) {
+        if (id < 1 || null == cart) {
             model.addAttribute("error_message", "page_not_found");
             return "error";
         }

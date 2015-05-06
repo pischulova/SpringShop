@@ -77,8 +77,6 @@
             </c:if>
         </table><br>
 
-        <c:set var="linkBase" value="show_orders?search=${search}&"/>
-
         <jsp:include page="/WEB-INF/layout/paging.jsp">
             <jsp:param name="link" value="flights?search=${search}&"/>
         </jsp:include>

@@ -36,11 +36,11 @@ public class ShowFlightsController {
         long pageNumber;
         if (null == paramSearch || paramSearch.length()==0) {
             flights = flightService.findAll(RESULTS_PER_PAGE, (paramPage-1)*RESULTS_PER_PAGE);
-            pageNumber = (int) Math.ceil(flightService.countAll()/RESULTS_PER_PAGE);
+            pageNumber = (int) Math.ceil(flightService.countAll()/(double)RESULTS_PER_PAGE);
             paramSearch = "";
         } else {
             flights = flightService.findByCountry(RESULTS_PER_PAGE, (paramPage-1)*RESULTS_PER_PAGE, paramSearch);
-            pageNumber = (int) Math.ceil(flightService.countByCountry(paramSearch)/RESULTS_PER_PAGE);
+            pageNumber = (int) Math.ceil(flightService.countByCountry(paramSearch)/(double)RESULTS_PER_PAGE);
         }
 
         if (flights.size()==0) {

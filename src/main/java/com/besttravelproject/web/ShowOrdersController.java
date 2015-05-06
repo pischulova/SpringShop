@@ -1,13 +1,11 @@
 package com.besttravelproject.web;
 
 import com.besttravelproject.domain.Order;
-import com.besttravelproject.domain.SearchOrderForm;
 import com.besttravelproject.domain.User;
 import com.besttravelproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,11 +20,6 @@ public class ShowOrdersController {
 
     @Autowired
     OrderService orderService;
-
-    @ModelAttribute("searchOrderForm")
-    public SearchOrderForm constructForm() {
-        return new SearchOrderForm();
-    }
 
     @RequestMapping(value = "/show_orders", method = RequestMethod.GET)
     String showAllOrders(@RequestParam(value = "search", required = false) String paramSearch,

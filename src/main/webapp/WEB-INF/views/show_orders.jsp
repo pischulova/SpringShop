@@ -18,11 +18,11 @@
                     <c:set var="linkBase" value="show_orders?search=${search}&"/>
 
                     <h2><fmt:message key="type_client_name"/></h2>
-                    <form:form method="post" commandName="searchOrderForm" action="/show_orders">
-                        <form:input type="text" path="name"/>
+
+                    <form method="get" action="/show_orders">
+                        <input type="text" name="search" value="${search}"/>
                         <input type="submit" value="<fmt:message key="search"/>"> <br>
-                        <form:errors path="name" cssClass="error" />
-                    </form:form><br>
+                    </form><br>
 
                     <table width="100%">
                         <thead>
@@ -54,7 +54,7 @@
                                 </c:choose>
 
                                 <td>
-                                    <a href="<c:url value="/order?id=${order.id}"/>">
+                                    <a href="<c:url value="/show_order?id=${order.id}"/>">
                                         <fmt:message key="view"/>
                                     </a>
                                 </td>
@@ -93,7 +93,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <td>
-                                    <a href="<c:url value="/order?id=${order.id}"/>">
+                                    <a href="<c:url value="/show_order?id=${order.id}"/>">
                                         <fmt:message key="view"/>
                                     </a>
                                 </td>

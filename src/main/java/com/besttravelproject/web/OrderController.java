@@ -14,9 +14,9 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    @RequestMapping(value = "/show_order", method = RequestMethod.GET)
     String showOrder(@RequestParam("id") Long id, Model model) {
-        if (null == id || id < 1) {
+        if (id < 1) {
             model.addAttribute("error_message", "page_not_found");
             return "error";
         }

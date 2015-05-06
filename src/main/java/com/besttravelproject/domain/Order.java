@@ -14,7 +14,6 @@ import java.util.*;
         @NamedQuery(name = "Order.countByClientName", query = "SELECT COUNT(o) FROM Order o WHERE o.user.name LIKE ?1"),
         @NamedQuery(name = "Order.countByClientId", query = "SELECT COUNT(o) FROM Order o WHERE o.user.id = ?1")
 })
-
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
