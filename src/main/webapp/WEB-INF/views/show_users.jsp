@@ -15,9 +15,9 @@
             <c:when test="${listType =='blacklist'}">
                 <c:set var="linkBase" value="show_blacklist"/>
             </c:when>
-            <c:otherwise>
+            <c:when test="${listType =='admins'}">
                 <c:set var="linkBase" value="show_admins"/>
-            </c:otherwise>
+            </c:when>
         </c:choose>
 
         <ul class="users-menu">

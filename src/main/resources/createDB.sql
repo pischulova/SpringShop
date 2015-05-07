@@ -14,14 +14,8 @@ insert into clients (login, passw, name, email, phone, is_bad) values
     ('den', 'den1', 'Den Brown', 'den@mail.com', '459385760', 0);
     
 
-create table countries (country_id int auto_increment, country_name_en varchar(20) NOT NULL, 
-	country_name_ru varchar(20) NOT NULL, primary key (country_id));
-insert into countries (nameEn, nameRu) values ('Sweden', 'Швеция'), ('Great Britain', 'Великобритания'),
-	('Sri Lanka', 'Шри-Ланка'), ('Greece', 'Греция');
 
-create table products (product_id int auto_increment, product_name_en varchar(30) NOT NULL, 
-	product_name_ru varchar(30) NOT NULL, country_id int NOT NULL, price int NOT NULL,
-    primary key (product_id), foreign key (country_id) references countries (country_id));
+
 insert into flights (nameEn, nameRu, country_id, price) values
 	('Kiev-Stockholm', 'Киев-Стокгольм', 1, 4380), ('Kiev-Malmo', 'Киев-Мальме', 1, 5050),
     ('Kiev-London', 'Киев-Лондон', 2, 3950), ('Kiev-Liverpool', 'Киев-Ливерпуль', 2, 4500),
@@ -29,8 +23,12 @@ insert into flights (nameEn, nameRu, country_id, price) values
     ('Kiev-Athens', 'Киев-Афины', 4, 6100), ('Kiev-Heraklion', 'Киев-Ираклион', 4, 5820),
     ('Kiev-Thessaloniki', 'Киев-Салоники', 4, 5550);
 
-insert into countries (nameEn, nameRu) values ('Germany', 'Германия'), ('France', 'Франция'),
+create table countries (id int auto_increment, nameEn varchar(20) NOT NULL,
+	nameRu varchar(20) NOT NULL, primary key (id));
+insert into countries (nameEn, nameRu) values ('Sweden', 'Швеция'), ('Great Britain', 'Великобритания'),
+	('Sri Lanka', 'Шри-Ланка'), ('Greece', 'Греция'), ('Germany', 'Германия'), ('France', 'Франция'),
 	('United States', 'США'), ('Italy', 'Италия'), ('Netherlands', 'Нидерланды'), ('Norway', 'Норвегия');
+
 insert into flights (nameEn, nameRu, country_id, price) values
 	('Kiev-Munich', 'Киев-Мюнхен', 5, 4080), ('Kiev-Dusseldorf', 'Киев-Дюссельдорф', 5, 5650),
     ('Kiev-Berlin', 'Киев-Берлин', 5, 5850), ('Kiev-Hamburg', 'Киев-Гамбург', 5, 5600),

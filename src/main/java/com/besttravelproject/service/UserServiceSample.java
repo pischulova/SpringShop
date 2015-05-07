@@ -78,23 +78,24 @@ public class UserServiceSample implements UserService {
 //    CountryRepository countryRepository;
 //    @Autowired
 //    OrderRepository orderRepository;
-
+//
 //    @PostConstruct
 //    public void loadFlights() {
-//        for (int i = 0; i < 5000; i++) {
+//        for (int i = 0; i < 100; i++) {
 //            Flight flight = new Flight();
 //            flight.setNameEn("flight" + i);
 //            flight.setNameRu("авиабилет" + i);
 //            Country country = countryRepository.findById(1 + (long) (Math.random() * ((10 - 1) + 1)));
 //            flight.setCountry(country);
-//            flight.setPrice(2000 + (int) (Math.random() * ((10000 - 2000) + 1)));
+//            flight.setPrice(2000L + (long)(Math.random() * ((10000L - 2000L) + 1L)));
+//            flight.setIsDisabled(false);
 //            flightRepository.save(flight);
 //        }
 //    }
 //
 //    @PostConstruct
 //    public void loadUsers() {
-//        for (int i = 0; i < 5000; i++) {
+//        for (int i = 0; i < 100; i++) {
 //            User user = new User();
 //            user.setName("name" + i);
 //            user.setUsername("client" + i);
@@ -105,7 +106,7 @@ public class UserServiceSample implements UserService {
 //            user.setIsBad(false);
 //            repository.save(user);
 //        }
-//        for (int i = 0; i < 50; i++) {
+//        for (int i = 0; i < 20; i++) {
 //            User user = new User();
 //            user.setName("name" + i);
 //            user.setUsername("admin" + i);

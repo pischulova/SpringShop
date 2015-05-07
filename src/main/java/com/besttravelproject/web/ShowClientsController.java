@@ -69,7 +69,7 @@ public class ShowClientsController {
         model.addAttribute("page", paramPage);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("usersList", users);
-        model.addAttribute("listType", "clients");
+        model.addAttribute("listType", "blacklist");
 
         return "show_users";
     }
@@ -96,7 +96,7 @@ public class ShowClientsController {
         model.addAttribute("page", paramPage);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("usersList", users);
-        model.addAttribute("listType", "clients");
+        model.addAttribute("listType", "admins");
 
         return "show_users";
     }
