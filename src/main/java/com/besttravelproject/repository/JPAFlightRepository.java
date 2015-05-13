@@ -38,8 +38,7 @@ public class JPAFlightRepository implements FlightRepository {
     @Override
     public List<Flight> findByCountry(int limit, int offset, String country) {
         TypedQuery<Flight> query = em.createNamedQuery("Flight.findByCountry", Flight.class);
-        query.setParameter(1, country+"%");
-        query.setParameter(2, country+"%");
+        query.setParameter("name", country+"%");
         return query.setMaxResults(limit).setFirstResult(offset).getResultList();
     }
 

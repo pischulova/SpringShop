@@ -61,4 +61,8 @@
         <property name="basename" value="/resources/message" />
     </bean>
 
+    <!-- password encoding -->
+
+    <bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
+
 </beans>

@@ -38,17 +38,17 @@ public class UserController {
                       BindingResult bindingResult, Model model, HttpSession session) {
         validator.validate(user, bindingResult);
 
-        User foundUser = userService.findByUsername(user.getUsername());
-        if (null != foundUser) {
-            errors.rejectValue("username", "username_busy");
-            return "register_user";
-        }
-
         if (bindingResult.hasErrors()) {
             return "register_user";
         }
 
-        userService.save(user);
+        try {
+            userService.save(user);
+        } catch (IllegalArgumentException e) {
+            errors.rejectValue("username", "username_busy");
+            return "register_user";
+        }
+
         session.setAttribute("user", user);
         model.addAttribute("user", user);
         model.addAttribute("message", "sign_up_successful");

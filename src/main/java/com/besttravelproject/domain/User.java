@@ -2,9 +2,15 @@ package com.besttravelproject.domain;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +21,7 @@ import java.util.*;
         @NamedQuery(name = "User.countClientsByStatus", query = "SELECT COUNT(u) FROM User u WHERE u.isBad = ?1 AND u.userRole = ?2"),
         @NamedQuery(name = "User.countByRole", query = "SELECT COUNT(u) FROM User u WHERE u.userRole = ?1"),
 })
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -32,8 +38,8 @@ public class User {
 
     String name;
 
-    @NotEmpty (message = "Email is required field")
-    @Email(message = "Invalid email address")
+    @NotEmpty
+    @Email
     String email;
 
     String phone;
@@ -47,7 +53,37 @@ public class User {
 
     public String getUsername() { return username; }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setUsername(String username) { this.username = username; }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        HashSet<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(("ROLE_"+getUserRole()));
+        authorities.add(grantedAuthority);
+
+        return authorities;
+    }
 
     public String getPassword() {
         return password;

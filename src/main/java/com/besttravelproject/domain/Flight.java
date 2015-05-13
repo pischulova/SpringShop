@@ -7,7 +7,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f where f.isDisabled = FALSE ORDER BY f.id"),
         @NamedQuery(name = "Flight.findByCountry", query = "SELECT f FROM Flight f " +
-                        "WHERE f.isDisabled = FALSE AND (f.country.nameEn LIKE ?1 OR f.country.nameRu LIKE ?2) " +
+                        "WHERE f.isDisabled = FALSE AND (f.country.nameEn LIKE :name OR f.country.nameRu LIKE :name) " +
                         "ORDER BY f.id"),
         @NamedQuery(name = "Flight.countAll", query = "SELECT COUNT(f) FROM Flight f where f.isDisabled = FALSE"),
         @NamedQuery(name = "Flight.countByCountry", query = "SELECT COUNT(f) FROM Flight f " +

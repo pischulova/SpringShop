@@ -4,27 +4,48 @@ import com.besttravelproject.domain.User;
 import com.besttravelproject.domain.UserRole;
 import com.besttravelproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service("userService")
-public class UserServiceSample implements UserService {
+public class UserServiceSample implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private ShaPasswordEncoder passwordEncoder;
+
     @Override
     public Long save(User user) {
+        User foundUser = repository.findByUsername(user.getUsername());
+
+        if (null != foundUser) {
+            throw new IllegalArgumentException();
+        }
         user.setUserRole(UserRole.CLIENT);
         user.setIsBad(false);
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getUsername()));
+
         return repository.save(user);
     }
 
     @Override
     public User login(String username, String password) {
         User user = repository.findByUsername(username);
-        if (null == user || !password.equals(user.getPassword())) {
+
+        if (null == user) {
+            return null;
+        }
+
+        String encodedPass = passwordEncoder.encodePassword(user.getPassword(), user.getUsername());
+
+        if (!encodedPass.equals(user.getPassword())) {
             return null;
         }
         return user;
@@ -70,6 +91,15 @@ public class UserServiceSample implements UserService {
     @Override
     public long countByStatus(Boolean status) {
         return repository.countByStatus(status);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user =  repository.findByUsername(username);
+
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+
+        return userDetails;
     }
 
 //    @Autowired
