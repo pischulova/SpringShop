@@ -30,7 +30,7 @@ public class UserServiceSample implements UserService, UserDetailsService {
         }
         user.setUserRole(UserRole.CLIENT);
         user.setIsBad(false);
-        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getUsername()));
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
 
         return repository.save(user);
     }
@@ -97,7 +97,8 @@ public class UserServiceSample implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user =  repository.findByUsername(username);
 
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                        user.getUsername(), user.getPassword(), user.getAuthorities());
 
         return userDetails;
     }

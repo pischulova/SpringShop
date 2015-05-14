@@ -7,13 +7,14 @@
 
     <c:choose>
         <c:when test="${empty sessionScope.user}">
-            <spring:message code="log_in" var="submitText"/>
-            <springForm:form method="post" action="/user/login" class="login-form">
-                <label for="login-name"><spring:message code="username"/></label>
-                <input type="text" name="username" id="login-name" required><br/>
-                <label for="login-pass"><spring:message code="pass"/></label>
-                <input type="password" name="pass" id="login-pass" required><br/>
-                <input type="submit" value="${submitText}">
+            <springForm:form method="post" action="j_spring_security_check" class="login-form">
+                <label for="j_username"><spring:message code="username"/></label>
+                <input id="j_username" name="username" type="text" required><br/>
+
+                <label for="j_password"><spring:message code="pass"/></label>
+                <input id="j_password" name="pass" type="password" required><br/>
+
+                <input type="submit" value="<spring:message code="log_in"/>">
                 <a href="/user" class="sign-up"><spring:message code="sign_up"/></a><br>
             </springForm:form>
         </c:when>

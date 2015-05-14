@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -64,22 +63,22 @@ public class UserController {
     String changeLangLogin() {
         return "home";
     }
-
-    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    String loginUser(@RequestParam String username,
-                     @RequestParam String pass,
-                     Model model, HttpSession session) {
-
-        User user = userService.login(username, pass);
-        if (null == user) {
-            model.addAttribute("message", "bad_login");
-            return "home";
-        }
-
-        session.setAttribute("user", user);
-        model.addAttribute("user", user);
-        return "home";
-    }
+//
+//    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+//    String loginUser(@RequestParam String username,
+//                     @RequestParam String pass,
+//                     Model model, HttpSession session) {
+//
+//        User user = userService.login(username, pass);
+//        if (null == user) {
+//            model.addAttribute("message", "bad_login");
+//            return "home";
+//        }
+//
+//        session.setAttribute("user", user);
+//        model.addAttribute("user", user);
+//        return "home";
+//    }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     String logout(HttpSession session) {

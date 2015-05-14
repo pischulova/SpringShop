@@ -77,9 +77,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        HashSet<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        HashSet<GrantedAuthority> authorities = new HashSet();
 
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(("ROLE_"+getUserRole()));
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(("ROLE_" + getUserRole()));
         authorities.add(grantedAuthority);
 
         return authorities;
