@@ -9,22 +9,13 @@
 
     <!--<http pattern="/css/**" security="none" />-->
 
-    <http auto-config="true">
+    <http auto-config="true" use-expressions="true">
 
-        <intercept-url pattern="/user*.*" access="ROLE_ADMIN, ROLE_CLIENT"/>
-        <intercept-url pattern="/logout.*" access="ROLE_ADMIN, ROLE_CLIENT" />
-        <intercept-url pattern="/show_orders.*" access="ROLE_ADMIN" />
-        <intercept-url pattern="/client_orders.*" access="ROLE_CLIENT" />
+        <!--<intercept-url pattern="/user*.*" access="ROLE_ADMIN, ROLE_CLIENT"/>-->
+        <!--<intercept-url pattern="/logout.*" access="ROLE_ADMIN, ROLE_CLIENT" />-->
+        <!--<intercept-url pattern="/show_orders.*" access="ROLE_ADMIN" />-->
+        <!--<intercept-url pattern="/client_orders.*" access="ROLE_CLIENT" />-->
 
-        <!--<intercept-url pattern="/driver/**" access="ROLE_DRIVER"/>-->
-
-        <!--<intercept-url pattern="/addcar*.*" access="ROLE_ADMIN"/>-->
-        <!--<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
-        <!--<intercept-url pattern="/adduser.*" access="ROLE_ADMIN" />-->
-        <!--<intercept-url pattern="/showusers.*" access="ROLE_ADMIN" />-->
-        <!--<intercept-url pattern="/edituser.*" access="ROLE_ADMIN" />-->
-
-        <intercept-url pattern="/side-menu.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
         <form-login login-page="/side-menu.jsp*"
                     authentication-failure-url="/error.jsp" default-target-url="/" />
