@@ -7,26 +7,38 @@
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!--<http pattern="/css/**" security="none" />-->
+    <http pattern="/css/**" security="none" />
 
     <http auto-config="true" use-expressions="true">
 
-        <!--<intercept-url pattern="/user*.*" access="ROLE_ADMIN, ROLE_CLIENT"/>-->
-        <!--<intercept-url pattern="/logout.*" access="ROLE_ADMIN, ROLE_CLIENT" />-->
-        <!--<intercept-url pattern="/show_orders.*" access="ROLE_ADMIN" />-->
-        <!--<intercept-url pattern="/client_orders.*" access="ROLE_CLIENT" />-->
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" />
+
+        <intercept-url pattern="/client_orders*" access="hasRole('ROLE_CLIENT')" />
+        <intercept-url pattern="/show_cart" access="hasRole('ROLE_CLIENT')" />
+        <intercept-url pattern="/add_to_cart*" access="hasRole('ROLE_CLIENT')" />
+        <intercept-url pattern="/remove_from_cart*" access="hasRole('ROLE_CLIENT')" />
+        <intercept-url pattern="/make_order" access="hasRole('ROLE_CLIENT')" />
+
+        <intercept-url pattern="/show_order*" access="hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/profile" access="hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')" />
 
 
-        <form-login login-page="/side-menu.jsp*"
-                    authentication-failure-url="/error.jsp" default-target-url="/" />
+        <form-login login-page="/"
+                    authentication-failure-url="/error"
+                    default-target-url="/login" always-use-default-target='true'/>
     </http>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder" hash="sha">
-                <!--<salt-source user-property="username"/>-->
+                <salt-source user-property="username"/>
             </password-encoder>
         </authentication-provider>
     </authentication-manager>
+
+    <!-- password encoding -->
+
+    <beans:bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"
+          id="passwordEncoder"/>
 
 </beans:beans>

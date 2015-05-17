@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.Order;
 
 import com.besttravelproject.domain.Cart;
 import com.besttravelproject.domain.Flight;

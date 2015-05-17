@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <link href="/resources/total.css" rel="stylesheet" type="text/css">
+    <link href="/resources/css/total.css" rel="stylesheet" type="text/css">
     <script src="/resources/js/main.js"></script>
     <title>Best Travel</title>
 </head>

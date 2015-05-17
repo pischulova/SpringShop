@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -26,11 +27,9 @@
                     <th><fmt:message key="country"/></th>
                     <th><fmt:message key="destination"/></th>
                     <th><fmt:message key="price"/></th>
-                    <c:choose>
-                        <c:when test="${not empty sessionScope.user}">
-                            <th></th>
-                        </c:when>
-                    </c:choose>
+                    <sec:authorize access="isAuthenticated()">
+                        <th></th>
+                    </sec:authorize>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,22 +54,20 @@
 
                         <td><c:out value="${flight.price}"/></td>
 
-                        <c:choose>
-                            <c:when test="${not empty sessionScope.user}">
-                                <td>
-                                    <c:if test="${sessionScope.user.userRole=='ADMIN'}">
-                                        <a href="<c:url value="/edit_flight/?id=${flight.id}"/>">
-                                            <fmt:message key="edit"/>
-                                        </a>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user.userRole=='CLIENT'}">
-                                        <a href="<c:url value="/add_to_cart/?id=${flight.id}"/>">
-                                            <fmt:message key="add_to_cart"/>
-                                        </a>
-                                    </c:if>
-                                </td>
-                            </c:when>
-                        </c:choose>
+                        <sec:authorize access="isAuthenticated()">
+                            <td>
+                                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                    <a href="<c:url value="/admin/edit_flight?id=${flight.id}"/>">
+                                        <fmt:message key="edit"/>
+                                    </a>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ROLE_CLIENT')">
+                                    <a href="<c:url value="/add_to_cart?id=${flight.id}"/>">
+                                        <fmt:message key="add_to_cart"/>
+                                    </a>
+                                </sec:authorize>
+                            </td>
+                        </sec:authorize>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -12,7 +12,7 @@
         </c:if>
 
         <spring:message code="sign_up" var="submitText"/>
-        <springForm:form commandName="userDTO" method="post" action="/user/register">
+        <springForm:form commandName="userDTO" method="post" action="/register_user">
         <table>
             <tr>
                 <td><spring:message code="username"/> *</td>

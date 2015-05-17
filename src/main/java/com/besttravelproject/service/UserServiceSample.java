@@ -30,7 +30,7 @@ public class UserServiceSample implements UserService, UserDetailsService {
         }
         user.setUserRole(UserRole.CLIENT);
         user.setIsBad(false);
-        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getUsername()));
 
         return repository.save(user);
     }
@@ -48,6 +48,7 @@ public class UserServiceSample implements UserService, UserDetailsService {
         if (!encodedPass.equals(user.getPassword())) {
             return null;
         }
+
         return user;
     }
 
@@ -130,9 +131,10 @@ public class UserServiceSample implements UserService, UserDetailsService {
 //            User user = new User();
 //            user.setName("name" + i);
 //            user.setUsername("client" + i);
-//            user.setPassword("pass" + i);
+//            String encodedPass = passwordEncoder.encodePassword("pass" + i, "client" + i);
+//            user.setPassword(encodedPass);
 //            user.setPhone("0111111111");
-//            user.setEmail("us" + i + "@m.com");
+//            user.setEmail("us" + i + "@c.com");
 //            user.setUserRole(UserRole.CLIENT);
 //            user.setIsBad(false);
 //            repository.save(user);
@@ -141,9 +143,10 @@ public class UserServiceSample implements UserService, UserDetailsService {
 //            User user = new User();
 //            user.setName("name" + i);
 //            user.setUsername("admin" + i);
-//            user.setPassword("pass" + i);
+//            String encodedPass = passwordEncoder.encodePassword("pass" + i, "admin" + i);
+//            user.setPassword(encodedPass);
 //            user.setPhone("0999999999");
-//            user.setEmail("adm" + i + "@m.com");
+//            user.setEmail("adm" + i + "@a.com");
 //            user.setUserRole(UserRole.ADMIN);
 //            user.setIsBad(false);
 //            repository.save(user);

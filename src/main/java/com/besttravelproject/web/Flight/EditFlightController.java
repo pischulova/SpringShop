@@ -1,7 +1,7 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.Flight;
 
 import com.besttravelproject.domain.Country;
-import com.besttravelproject.domain.EditFlightForm;
+import com.besttravelproject.forms.EditFlightForm;
 import com.besttravelproject.domain.Flight;
 import com.besttravelproject.service.CountryService;
 import com.besttravelproject.service.FlightService;
@@ -32,7 +32,7 @@ public class EditFlightController {
         return new EditFlightForm();
     }
 
-    @RequestMapping(value = "/edit_flight", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/edit_flight", method = RequestMethod.GET)
     ModelAndView showEditFlightPage(@RequestParam("id") Long id, ModelAndView model) {
         if (null == id || id < 1) {
             model.addObject("error_message", "page_not_found");
@@ -55,7 +55,7 @@ public class EditFlightController {
         return model;
     }
 
-    @RequestMapping(value = "/edit_flight", params = "save", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/edit_flight", params = "save", method = RequestMethod.POST)
     ModelAndView editFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
                             BindingResult result, ModelAndView model, RedirectAttributes attributes) {
 
@@ -83,7 +83,7 @@ public class EditFlightController {
         return model;
     }
 
-    @RequestMapping(value = "/edit_flight", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/edit_flight", params = "delete", method = RequestMethod.POST)
     ModelAndView deleteFlight(@Valid @ModelAttribute("editFlightForm") EditFlightForm form,
                               ModelAndView model,  RedirectAttributes attributes) {
 
@@ -105,6 +105,5 @@ public class EditFlightController {
         }
         model.addObject("countryListEn", countryListEn);
         model.addObject("countryListRu", countryListRu);
-
     }
 }

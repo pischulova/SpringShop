@@ -1,4 +1,6 @@
-package com.besttravelproject.domain;
+package com.besttravelproject.forms;
+
+import com.besttravelproject.domain.Country;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

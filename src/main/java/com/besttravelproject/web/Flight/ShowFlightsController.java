@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.Flight;
 
 import com.besttravelproject.domain.Flight;
 import com.besttravelproject.service.FlightService;
@@ -54,7 +54,6 @@ public class ShowFlightsController {
 
         return "show_flights";
     }
-
 
     private boolean checkParamsForErrors(String paramSearch, Integer paramPage, RedirectAttributes attributes) {
         if (null != paramSearch && paramSearch.length() > 20) {

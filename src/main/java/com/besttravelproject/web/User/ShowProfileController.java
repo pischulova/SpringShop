@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.User;
 
 import com.besttravelproject.domain.User;
 import org.springframework.stereotype.Controller;

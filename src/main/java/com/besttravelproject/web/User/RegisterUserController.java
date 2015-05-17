@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.User;
 
 import com.besttravelproject.domain.User;
 import com.besttravelproject.service.UserService;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
+public class RegisterUserController {
     @Autowired
     private UserService userService;
 
@@ -25,14 +25,13 @@ public class UserController {
     @Qualifier("userValidator")
     private Validator validator;
 
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/register_user", method = RequestMethod.GET)
     String activate(Model model) {
         model.addAttribute("userDTO", new User());
         return "register_user";
     }
 
-    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register_user", method = RequestMethod.POST)
     String createUser(@Valid @ModelAttribute("userDTO") User user, Errors errors,
                       BindingResult bindingResult, Model model, HttpSession session) {
         validator.validate(user, bindingResult);
@@ -51,41 +50,6 @@ public class UserController {
         session.setAttribute("user", user);
         model.addAttribute("user", user);
         model.addAttribute("message", "sign_up_successful");
-        return "home";
-    }
-
-    @RequestMapping(value = "/user/register", method = RequestMethod.GET)
-    String changeLangRegister() {
-        return "register_user";
-    }
-
-    @RequestMapping(value = "/user/login", method = RequestMethod.GET)
-    String changeLangLogin() {
-        return "home";
-    }
-//
-//    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-//    String loginUser(@RequestParam String username,
-//                     @RequestParam String pass,
-//                     Model model, HttpSession session) {
-//
-//        User user = userService.login(username, pass);
-//        if (null == user) {
-//            model.addAttribute("message", "bad_login");
-//            return "home";
-//        }
-//
-//        session.setAttribute("user", user);
-//        model.addAttribute("user", user);
-//        return "home";
-//    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    String logout(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (null != user) {
-            session.removeAttribute("user");
-        }
         return "home";
     }
 }

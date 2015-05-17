@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.User;
 
 import com.besttravelproject.domain.User;
 import com.besttravelproject.domain.UserRole;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -20,11 +19,11 @@ public class ShowClientsController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/show_clients", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/show_clients", method = RequestMethod.GET)
     String showClients(@RequestParam(value = "page", required = false) Integer paramPage,
-                      Model model, HttpSession session) {
+                      Model model) {
 
-        if (checkParamsForErrors((User)session.getAttribute("user"), paramPage, model)) {
+        if (checkParamsForErrors(paramPage, model)) {
             return "error";
         }
 
@@ -47,11 +46,11 @@ public class ShowClientsController {
         return "show_users";
     }
 
-    @RequestMapping(value = "/show_blacklist", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/show_blacklist", method = RequestMethod.GET)
     String showBadClients(@RequestParam(value = "page", required = false) Integer paramPage,
-                Model model, HttpSession session) {
+                Model model) {
 
-        if (checkParamsForErrors((User)session.getAttribute("user"), paramPage, model)) {
+        if (checkParamsForErrors(paramPage, model)) {
             return "error";
         }
 
@@ -74,11 +73,11 @@ public class ShowClientsController {
         return "show_users";
     }
 
-    @RequestMapping(value = "/show_admins", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/show_admins", method = RequestMethod.GET)
     String showAdmins(@RequestParam(value = "page", required = false) Integer paramPage,
-                Model model, HttpSession session) {
+                Model model) {
 
-        if (checkParamsForErrors((User)session.getAttribute("user"), paramPage, model)) {
+        if (checkParamsForErrors(paramPage, model)) {
             return "error";
         }
 
@@ -101,8 +100,8 @@ public class ShowClientsController {
         return "show_users";
     }
 
-    private boolean checkParamsForErrors(User user, Integer paramPage, Model model) {
-        if (null == user || (null != paramPage && paramPage < 1)) {
+    private boolean checkParamsForErrors(Integer paramPage, Model model) {
+        if (null != paramPage && paramPage < 1) {
             model.addAttribute("error_message", "page_found");
             return true;
         }

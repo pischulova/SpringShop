@@ -1,4 +1,4 @@
-package com.besttravelproject.web;
+package com.besttravelproject.web.Order;
 
 import com.besttravelproject.domain.Order;
 import com.besttravelproject.domain.User;
@@ -21,15 +21,13 @@ public class ShowOrdersController {
     @Autowired
     OrderService orderService;
 
-    @RequestMapping(value = "/show_orders", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/show_orders", method = RequestMethod.GET)
     String showAllOrders(@RequestParam(value = "search", required = false) String paramSearch,
                          @RequestParam(value = "page", required = false) Integer paramPage,
                          Model model, RedirectAttributes attributes, HttpSession session){
 
-        User user = (User)session.getAttribute("user");
-
-        if (checkParamsForErrors(paramSearch, paramPage, user, attributes)) {
-            return "redirect:/orders";
+        if (checkParamsForErrors(paramSearch, paramPage, attributes)) {
+            return "redirect:/show_orders";
         }
 
         if (null == paramPage) {
@@ -52,7 +50,6 @@ public class ShowOrdersController {
             model.addAttribute("message", "nothing_found");
             return "show_orders";
         }
-
         model.addAttribute("page", paramPage);
         model.addAttribute("search", paramSearch);
         model.addAttribute("pageNumber", pageNumber);
@@ -68,8 +65,8 @@ public class ShowOrdersController {
 
         User user = (User)session.getAttribute("user");
 
-        if (checkParamsForErrors(null, paramPage, user, attributes)) {
-            return "redirect:/flights";
+        if (checkParamsForErrors(null, paramPage, attributes)) {
+            return "redirect:/client_orders";
         }
 
         if (null == paramPage) {
@@ -84,7 +81,6 @@ public class ShowOrdersController {
             model.addAttribute("message", "no_orders");
             return "show_orders";
         }
-
         model.addAttribute("page", paramPage);
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("ordersList", orders);
@@ -94,14 +90,14 @@ public class ShowOrdersController {
 
 
     private boolean checkParamsForErrors(String paramSearch, Integer paramPage,
-                                         User user, RedirectAttributes attributes) {
+                                         RedirectAttributes attributes) {
 
         if (null != paramSearch && paramSearch.length() > 20) {
             attributes.addFlashAttribute("message", "Size.chooseCountryForm.countryName");
             return true;
         }
 
-        if (null == user || (null != paramPage && paramPage < 1)) {
+        if (null != paramPage && paramPage < 1) {
             attributes.addFlashAttribute("message", "nothing_found");
             return true;
         }

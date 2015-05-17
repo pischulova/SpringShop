@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -14,12 +15,12 @@
             </c:when>
 
             <c:otherwise>
-                <c:if test="${sessionScope.user.userRole=='ADMIN'}">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <c:set var="linkBase" value="show_orders?search=${search}&"/>
 
                     <h2><fmt:message key="type_client_name"/></h2>
 
-                    <form method="get" action="/show_orders">
+                    <form method="get" action="/admin/show_orders">
                         <input type="text" name="search" value="${search}"/>
                         <input type="submit" value="<fmt:message key="search"/>"> <br>
                     </form><br>
@@ -62,9 +63,9 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                </c:if>
+                </sec:authorize>
 
-                <c:if test="${sessionScope.user.userRole=='CLIENT'}">
+                <sec:authorize access="hasRole('ROLE_CLIENT')">
                     <c:set var="linkBase" value="client_orders?"/>
 
                     <table width="100%">
@@ -101,7 +102,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                </c:if>
+                </sec:authorize>
 
                 <jsp:include page="/WEB-INF/layout/paging.jsp">
                     <jsp:param name="link" value="${linkBase}"/>

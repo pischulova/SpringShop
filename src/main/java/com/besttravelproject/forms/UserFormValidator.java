@@ -1,5 +1,6 @@
-package com.besttravelproject.domain;
+package com.besttravelproject.forms;
 
+import com.besttravelproject.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

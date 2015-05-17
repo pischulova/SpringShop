@@ -81,7 +81,7 @@ tbody tr:nth-child(even) {
 
 .header {
     height: 300px;
-    background-image: url(34.jpg);
+    background-image: url(../images/34.jpg);
     background-size: cover;
     overflow: hidden;
     box-shadow: 0 0 20px -5px #000;

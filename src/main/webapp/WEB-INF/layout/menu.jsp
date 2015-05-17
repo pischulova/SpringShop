@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="navigation">
-    <img class="logo" width="150" height="50" src="/resources/new-logo.png" alt=""/>
+    <img class="logo" width="150" height="50" src="/resources/images/new-logo.png" alt=""/>
     <ul class="menu">
         <li class="menu-item"><a href="/"><spring:message code="home"/></a></li>
         <li class="menu-item"><a href="/flights"><spring:message code="flights"/></a></li>
@@ -14,7 +14,6 @@
                 <a href="j_spring_security_logout"><spring:message code="log_out"/></a>
             </li>
         </sec:authorize>
-
     </ul>
 
     <ul class="lang-menu">

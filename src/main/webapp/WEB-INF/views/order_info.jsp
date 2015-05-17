@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -15,9 +16,9 @@
             <c:otherwise>
                 <h2><fmt:message key="order_details"/></h2><br>
 
-                <c:if test="${sessionScope.user.userRole=='ADMIN'}">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <fmt:message key="client"/>: <c:out value="${order.user.name}"/><br><br>
-                </c:if>
+                </sec:authorize>
 
                 <table width="100%">
                     <thead>
@@ -73,14 +74,14 @@
                     </tbody>
                 </table>
 
-                <c:if test="${sessionScope.user.userRole=='ADMIN'}">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <c:if test="${order.isApproved == false}">
-                        <form action="/approve_order" method="post">
+                        <form action="/admin/approve_order" method="post">
                             <input type="submit" value="<fmt:message key="approve"/>">
                             <input type="hidden" name="id" value="${order.id}">
                         </form>
                     </c:if>
-                </c:if>
+                </sec:authorize>
             </c:otherwise>
         </c:choose>
 
