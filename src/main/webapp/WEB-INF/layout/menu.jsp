@@ -18,10 +18,14 @@
 
     <ul class="lang-menu">
         <li class="menu-item">
-            <a href="<c:url value="?lang=en"/>"><spring:message code="en"/></a>
+            <a href="<c:url value=""><c:param name = "lang" value="en"/></c:url>">
+                <spring:message code="en"/>
+            </a>
         </li>
         <li class="menu-item">
-            <a href="<c:url value="?lang=ru"/>"><spring:message code="ru"/></a>
+            <a href="<c:url value=""><c:param name = "lang" value="ru"/></c:url>">
+                <spring:message code="ru"/>
+            </a>
         </li>
     </ul>
 </div>

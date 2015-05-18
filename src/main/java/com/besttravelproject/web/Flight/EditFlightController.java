@@ -1,17 +1,17 @@
 package com.besttravelproject.web.Flight;
 
 import com.besttravelproject.domain.Country;
-import com.besttravelproject.forms.EditFlightForm;
 import com.besttravelproject.domain.Flight;
+import com.besttravelproject.forms.EditFlightForm;
 import com.besttravelproject.service.CountryService;
 import com.besttravelproject.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,8 +32,8 @@ public class EditFlightController {
         return new EditFlightForm();
     }
 
-    @RequestMapping(value = "/admin/edit_flight", method = RequestMethod.GET)
-    ModelAndView showEditFlightPage(@RequestParam("id") Long id, ModelAndView model) {
+    @RequestMapping(value = "/admin/edit_flight/{id}", method = RequestMethod.GET)
+    ModelAndView showEditFlightPage(@PathVariable Long id, ModelAndView model) {
         if (null == id || id < 1) {
             model.addObject("error_message", "page_not_found");
             model.setViewName("error");

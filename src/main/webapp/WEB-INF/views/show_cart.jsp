@@ -49,7 +49,7 @@
                         <td><c:out value="${item.key.price}" /></td>
                         <td><c:out value="${item.value}" /></td>
                         <td>
-                            <a href="<c:url value="/remove_from_cart/?id=${item.key.id}"/>">
+                            <a href="<c:url value="/remove_from_cart/${item.key.id}"/>">
                                 <fmt:message key="remove"/>
                             </a>
                         </td>

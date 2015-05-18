@@ -4,6 +4,11 @@ import com.besttravelproject.domain.User;
 import com.besttravelproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +25,12 @@ import javax.validation.Valid;
 public class RegisterUserController {
     @Autowired
     private UserService userService;
+
+    @Autowired @Qualifier("authManager")
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     @Qualifier("userValidator")
@@ -47,9 +58,25 @@ public class RegisterUserController {
             return "register_user";
         }
 
-        session.setAttribute("user", user);
-        model.addAttribute("user", user);
-        model.addAttribute("message", "sign_up_successful");
+        try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    userDetails, user.getConfirmPassword(), userDetails.getAuthorities());
+            authManager.authenticate(auth);
+
+            if (auth.isAuthenticated()) {
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                session.setAttribute("user", user);
+                model.addAttribute("user", user);
+                model.addAttribute("message", "sign_up_successful");
+
+                return "home";
+            }
+        } catch (Exception e) {
+            model.addAttribute("error_message", "bad_login");
+            return "error";
+        }
+
         return "home";
     }
 }

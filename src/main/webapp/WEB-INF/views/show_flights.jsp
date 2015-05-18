@@ -57,12 +57,12 @@
                         <sec:authorize access="isAuthenticated()">
                             <td>
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                    <a href="<c:url value="/admin/edit_flight?id=${flight.id}"/>">
+                                    <a href="<c:url value="/admin/edit_flight/${flight.id}"/>">
                                         <fmt:message key="edit"/>
                                     </a>
                                 </sec:authorize>
                                 <sec:authorize access="hasRole('ROLE_CLIENT')">
-                                    <a href="<c:url value="/add_to_cart?id=${flight.id}"/>">
+                                    <a href="<c:url value="/add_to_cart/${flight.id}"/>">
                                         <fmt:message key="add_to_cart"/>
                                     </a>
                                 </sec:authorize>

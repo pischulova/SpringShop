@@ -5,17 +5,17 @@ import com.besttravelproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderDetailsController {
     @Autowired
     OrderService orderService;
 
-    @RequestMapping(value = "/show_order", method = RequestMethod.GET)
-    String showOrder(@RequestParam("id") Long id, Model model) {
+    @RequestMapping(value = "/show_order/{id}", method = RequestMethod.GET)
+    String showOrder(@PathVariable Long id, Model model) {
         if (id < 1) {
             model.addAttribute("error_message", "page_not_found");
             return "error";

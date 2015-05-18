@@ -10,13 +10,13 @@
 
         <c:choose>
             <c:when test="${listType =='clients'}">
-                <c:set var="linkBase" value="show_clients"/>
+                <c:set var="linkBase" value="admin/show_clients"/>
             </c:when>
             <c:when test="${listType =='blacklist'}">
-                <c:set var="linkBase" value="show_blacklist"/>
+                <c:set var="linkBase" value="admin/show_blacklist"/>
             </c:when>
             <c:when test="${listType =='admins'}">
-                <c:set var="linkBase" value="show_admins"/>
+                <c:set var="linkBase" value="admin/show_admins"/>
             </c:when>
         </c:choose>
 
@@ -51,14 +51,14 @@
 
                         <c:if test="${listType =='clients'}" >
                             <td>
-                                <a href="<c:url value="/admin/add_to_blacklist?id=${user.id}"/>">
+                                <a href="<c:url value="/admin/add_to_blacklist/${user.id}"/>">
                                     <fmt:message key="to_blacklist"/>
                                 </a>
                             </td>
                         </c:if>
                         <c:if test="${listType =='blacklist'}" >
                             <td>
-                                <a href="<c:url value="/admin/unlock?id=${user.id}"/>">
+                                <a href="<c:url value="/admin/unlock/${user.id}"/>">
                                     <fmt:message key="unlock"/>
                                 </a>
                             </td>

@@ -6,9 +6,9 @@ import com.besttravelproject.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,9 +22,8 @@ public class EditCartController {
         return "show_cart";
     }
 
-    @RequestMapping(value = "/add_to_cart", method = RequestMethod.GET)
-    String addToCart(@RequestParam(value = "id") Long id,
-                     HttpSession session, Model model) {
+    @RequestMapping(value = "/add_to_cart/{id}", method = RequestMethod.GET)
+    String addToCart(@PathVariable Long id, HttpSession session, Model model) {
 
         if (id < 1) {
             model.addAttribute("error_message", "page_not_found");
@@ -45,8 +44,8 @@ public class EditCartController {
         return "show_cart";
     }
 
-    @RequestMapping(value = "/remove_from_cart", method = RequestMethod.GET)
-    String removeFromCart(@RequestParam("id") Long id, HttpSession session, Model model) {
+    @RequestMapping(value = "/remove_from_cart/{id}", method = RequestMethod.GET)
+    String removeFromCart(@PathVariable Long id, HttpSession session, Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
 
         if (id < 1 || null == cart) {
