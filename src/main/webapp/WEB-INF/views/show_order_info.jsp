@@ -14,7 +14,7 @@
                 <p><spring:message code="${message}"/></p>
             </c:when>
             <c:otherwise>
-                <h2><fmt:message key="order_details"/></h2><br>
+                <h2><fmt:message key="order_details"/> ${order.id} </h2><br>
 
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <fmt:message key="client"/>: <c:out value="${order.user.name}"/><br><br>

@@ -28,6 +28,6 @@ public class OrderDetailsController {
         }
         model.addAttribute("order", order);
         model.addAttribute("orderContents", order.getItems());
-        return "order_info";
+        return "show_order_info_new";
     }
 }

@@ -94,7 +94,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <td>
-                                    <a href="<c:url value="/show_order/{order.id}"/>">
+                                    <a href="<c:url value="/show_order/${order.id}"/>">
                                         <fmt:message key="view"/>
                                     </a>
                                 </td>
