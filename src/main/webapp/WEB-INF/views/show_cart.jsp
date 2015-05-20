@@ -34,7 +34,7 @@
 
                 <c:set var="sum" value="${0}"/>
                 <c:set var="number" value="${0}"/>
-                <tbody>
+                <tbody class="striped">
                 <c:forEach var="item" items="${sessionScope.cart.getFlights()}">
                     <tr>
                         <c:if test="${pageContext.response.locale == 'en'}">
@@ -54,7 +54,7 @@
                             </a>
                         </td>
                     </tr>
-                    <c:set var="sum" value="${sum + item.key.price}"/>
+                    <c:set var="sum" value="${sum + item.key.price * item.value}"/>
                     <c:set var="number" value="${number + item.value}"/>
                 </c:forEach>
                 <tr>

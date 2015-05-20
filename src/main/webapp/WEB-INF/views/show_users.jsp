@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="striped">
                 <c:forEach var="user" items="${usersList}">
                     <tr>
                         <td><c:out value="${user.username}" /></td>

@@ -10,6 +10,7 @@
         <h1><fmt:message key="user_info"/></h1>
 
         <table>
+            <tbody class="striped">
             <tr>
                 <td><fmt:message key="username"/></td>
                 <td>${user.username}</td>
@@ -26,6 +27,7 @@
                 <td><fmt:message key="phone"/></td>
                 <td>${user.phone}</td>
             </tr>
+            </tbody>
         </table>
 
     </div>

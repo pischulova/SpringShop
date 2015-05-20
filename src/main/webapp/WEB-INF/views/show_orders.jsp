@@ -16,7 +16,7 @@
 
             <c:otherwise>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <c:set var="linkBase" value="show_orders?search=${search}&"/>
+                    <c:set var="linkBase" value="admin/show_orders?search=${search}&"/>
 
                     <h2><fmt:message key="type_client_name"/></h2>
 
@@ -37,7 +37,7 @@
                         </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody class="striped">
                         <c:forEach var="order" items="${ordersList}">
                             <tr>
                                 <td><c:out value="${order.id}"/></td>
@@ -79,7 +79,7 @@
                         </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody class="striped">
                         <c:forEach var="order" items="${ordersList}">
                             <tr>
                                 <td><c:out value="${order.id}"/></td>

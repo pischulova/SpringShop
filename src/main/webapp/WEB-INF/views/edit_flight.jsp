@@ -20,6 +20,7 @@
             </c:choose>
 
             <table>
+                <tbody class="striped">
                 <tr>
                     <td></td>
                     <td><form:hidden path="id" value="${flight.id}" /></td>
@@ -71,6 +72,7 @@
                                onclick="return confirm('<fmt:message key="confirm_delete"/>');"></td>
                     <td></td>
                 </tr>
+                </tbody>
             </table>
         </form:form>
     </div>

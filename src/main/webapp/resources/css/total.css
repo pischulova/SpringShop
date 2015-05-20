@@ -60,18 +60,22 @@ thead {
     background: rgba(195, 170, 150, 1);
 }
 
+thead.small {
+    background: #F4F1EA;
+    color: #000000;
+}
+
 th {
     text-align: left;
     font-weight: normal;
 }
 
 td, th {
-    /*border: 1px solid #b2b1ac;*/
     border: 0;
     padding: 0.7em 1em;
 }
 
-tbody tr:nth-child(even) {
+tbody.striped tr:nth-child(even) {
     background: #F4F1EA;
 }
 

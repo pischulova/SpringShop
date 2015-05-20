@@ -14,6 +14,7 @@
         <spring:message code="sign_up" var="submitText"/>
         <springForm:form commandName="userDTO" method="post" action="/register_user">
         <table>
+            <tbody class="striped">
             <tr>
                 <td><spring:message code="username"/> *</td>
                 <td><springForm:input path="username" /></td>
@@ -48,6 +49,7 @@
                 <td></td>
                 <td><input type="submit" value="${submitText}"></td>
             </tr>
+            </tbody>
         </table>
         </springForm:form>
 

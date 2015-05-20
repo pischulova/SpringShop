@@ -21,15 +21,15 @@ public class OrderServiceSample implements OrderService {
         order.setUser(user);
         order.setDate(new Date());
         order.setIsApproved(false);
-        List<OrderItem> items = order.getItems();
         Long sum = 0L;
         for (Map.Entry entry : cart.getFlights().entrySet()) {
+            Flight flight = (Flight) entry.getKey();
+            Integer quantity = (Integer) entry.getValue();
             OrderItem item = new OrderItem();
-            item.setFlight((Flight) entry.getKey());
-            item.setQuantity((Integer) entry.getValue());
-            item.setOrder(order);
-            items.add(item);
-            sum += ((Flight)entry.getKey()).getPrice();
+            item.setFlight(flight);
+            item.setQuantity(quantity);
+            order.addOrderItem(item);
+            sum += quantity * flight.getPrice();
         }
         order.setSum(sum);
         return repository.save(order);

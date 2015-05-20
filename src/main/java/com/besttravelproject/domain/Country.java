@@ -37,4 +37,25 @@ public class Country {
         this.nameRu = nameRu;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Country country = (Country) o;
+
+        if (!id.equals(country.id)) return false;
+        if (!nameEn.equals(country.nameEn)) return false;
+        if (!nameRu.equals(country.nameRu)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + nameEn.hashCode();
+        result = 31 * result + nameRu.hashCode();
+        return result;
+    }
 }

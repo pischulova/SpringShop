@@ -80,13 +80,24 @@ public class Flight {
 
         Flight flight = (Flight) o;
 
+        if (!country.equals(flight.country)) return false;
         if (!id.equals(flight.id)) return false;
+        if (!isDisabled.equals(flight.isDisabled)) return false;
+        if (!nameEn.equals(flight.nameEn)) return false;
+        if (!nameRu.equals(flight.nameRu)) return false;
+        if (!price.equals(flight.price)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + nameEn.hashCode();
+        result = 31 * result + nameRu.hashCode();
+        result = 31 * result + country.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + isDisabled.hashCode();
+        return result;
     }
 }

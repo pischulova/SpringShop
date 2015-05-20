@@ -32,7 +32,7 @@
                     </sec:authorize>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="striped">
                 <c:forEach var="flight" items="${flightList}">
                     <tr>
                         <c:choose>
