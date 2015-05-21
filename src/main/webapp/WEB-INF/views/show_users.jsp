@@ -63,7 +63,6 @@
                                 </a>
                             </td>
                         </c:if>
-
                     </tr>
                 </c:forEach>
                 </tbody>

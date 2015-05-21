@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="/WEB-INF/layout/header.jsp"%>
 
@@ -8,9 +9,9 @@
     <%@include file="/WEB-INF/layout/side_menu.jsp"%>
     <div class="content">
 
-        <c:if test="${not empty sessionScope.user}">
+        <sec:authorize access="isAuthenticated()">
             <p><fmt:message key="login_successful"/> ${sessionScope.user.username}.</p>
-        </c:if>
+        </sec:authorize>
 
         <c:if test="${not empty message}">
             <p><spring:message code="${message}"/></p>

@@ -2,6 +2,7 @@ package com.besttravelproject.web.Flight;
 
 import com.besttravelproject.domain.Flight;
 import com.besttravelproject.service.FlightService;
+import com.besttravelproject.web.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,7 @@ public class ShowFlightsController {
                 @RequestParam(value = "page", required = false) Integer paramPage,
                 Model model, RedirectAttributes attributes) {
 
-        if (checkParamsForErrors(paramSearch, paramPage, attributes)) {
+        if (ControllerHelper.checkParamsForErrors(paramSearch, paramPage, attributes)) {
             return "redirect:/flights";
         }
 
@@ -53,18 +54,5 @@ public class ShowFlightsController {
         model.addAttribute("flightList", flights);
 
         return "show_flights";
-    }
-
-    private boolean checkParamsForErrors(String paramSearch, Integer paramPage, RedirectAttributes attributes) {
-        if (null != paramSearch && paramSearch.length() > 20) {
-            attributes.addFlashAttribute("message", "Size.chooseCountryForm.countryName");
-            return true;
-        }
-
-        if (null != paramPage && paramPage < 1) {
-            attributes.addFlashAttribute("message", "nothing_found");
-            return true;
-        }
-        return false;
     }
 }

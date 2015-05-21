@@ -1,4 +1,4 @@
-package com.besttravelproject.web.Order;
+package com.besttravelproject.web.Cart;
 
 import com.besttravelproject.domain.Cart;
 import com.besttravelproject.domain.Flight;
@@ -13,36 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class EditCartController {
+public class RemoveFromCartController {
     @Autowired
     FlightService flightService;
-
-    @RequestMapping(value = "/show_cart", method = RequestMethod.GET)
-    String show() {
-        return "show_cart";
-    }
-
-    @RequestMapping(value = "/add_to_cart/{id}", method = RequestMethod.GET)
-    String addToCart(@PathVariable Long id, HttpSession session, Model model) {
-
-        if (id < 1) {
-            model.addAttribute("error_message", "page_not_found");
-            return "error";
-        }
-
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (null == cart) {
-            cart = new Cart();
-        }
-        Flight flight = flightService.findById(id);
-
-        if (null != flight) {
-            cart.addFlight(flight);
-        }
-        session.setAttribute("cart", cart);
-
-        return "show_cart";
-    }
 
     @RequestMapping(value = "/remove_from_cart/{id}", method = RequestMethod.GET)
     String removeFromCart(@PathVariable Long id, HttpSession session, Model model) {
@@ -59,6 +32,7 @@ public class EditCartController {
             cart.removeFlight(flight);
         }
         session.setAttribute("cart", cart);
+        model.addAttribute("cart", cart.getFlights().keySet());
 
         return "show_cart";
     }

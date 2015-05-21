@@ -1,12 +1,16 @@
 package com.besttravelproject.service;
 
-import com.besttravelproject.domain.*;
+import com.besttravelproject.domain.Cart;
+import com.besttravelproject.domain.Order;
+import com.besttravelproject.domain.OrderItem;
+import com.besttravelproject.domain.User;
 import com.besttravelproject.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,15 +26,17 @@ public class OrderServiceSample implements OrderService {
         order.setDate(new Date());
         order.setIsApproved(false);
         Long sum = 0L;
-        for (Map.Entry entry : cart.getFlights().entrySet()) {
-            Flight flight = (Flight) entry.getKey();
-            Integer quantity = (Integer) entry.getValue();
-            OrderItem item = new OrderItem();
-            item.setFlight(flight);
-            item.setQuantity(quantity);
+
+        Map<OrderItem, Object> cartFlights = cart.getFlights();
+        Iterator<Map.Entry<OrderItem, Object>> it = cartFlights.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<OrderItem, Object> entry = it.next();
+            OrderItem item = entry.getKey();
             order.addOrderItem(item);
-            sum += quantity * flight.getPrice();
+            sum += item.getQuantity() * item.getFlight().getPrice();
         }
+
         order.setSum(sum);
         return repository.save(order);
     }

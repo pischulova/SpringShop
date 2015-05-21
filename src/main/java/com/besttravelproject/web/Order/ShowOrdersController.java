@@ -1,8 +1,8 @@
 package com.besttravelproject.web.Order;
 
 import com.besttravelproject.domain.Order;
-import com.besttravelproject.domain.User;
 import com.besttravelproject.service.OrderService;
+import com.besttravelproject.web.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +26,7 @@ public class ShowOrdersController {
                          @RequestParam(value = "page", required = false) Integer paramPage,
                          Model model, RedirectAttributes attributes, HttpSession session){
 
-        if (checkParamsForErrors(paramSearch, paramPage, attributes)) {
+        if (ControllerHelper.checkParamsForErrors(paramSearch, paramPage, attributes)) {
             return "redirect:/show_orders";
         }
 
@@ -36,7 +36,6 @@ public class ShowOrdersController {
 
         List<Order> orders;
         long pageNumber;
-
         if (null == paramSearch || paramSearch.length()==0) {
             orders = orderService.findAll(RESULTS_PER_PAGE, (paramPage-1)*RESULTS_PER_PAGE);
             pageNumber = (int) Math.ceil(orderService.countAll()/(double)RESULTS_PER_PAGE);
@@ -56,51 +55,5 @@ public class ShowOrdersController {
         model.addAttribute("ordersList", orders);
 
         return "show_orders";
-    }
-
-
-    @RequestMapping(value = "/client_orders", method = RequestMethod.GET)
-    String showClientOrders(@RequestParam(value = "page", required = false) Integer paramPage,
-                            Model model, RedirectAttributes attributes, HttpSession session){
-
-        User user = (User)session.getAttribute("user");
-
-        if (checkParamsForErrors(null, paramPage, attributes)) {
-            return "redirect:/client_orders";
-        }
-
-        if (null == paramPage) {
-            paramPage = 1;
-        }
-
-        List<Order> orders = orderService.
-                findByClientId(RESULTS_PER_PAGE, (paramPage - 1) * RESULTS_PER_PAGE, user.getId());
-        long pageNumber = (int) Math.ceil(orderService.countByClientId(user.getId())/(double)RESULTS_PER_PAGE);
-
-        if (orders.size() == 0) {
-            model.addAttribute("message", "no_orders");
-            return "show_orders";
-        }
-        model.addAttribute("page", paramPage);
-        model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("ordersList", orders);
-
-        return "show_orders";
-    }
-
-
-    private boolean checkParamsForErrors(String paramSearch, Integer paramPage,
-                                         RedirectAttributes attributes) {
-
-        if (null != paramSearch && paramSearch.length() > 20) {
-            attributes.addFlashAttribute("message", "Size.chooseCountryForm.countryName");
-            return true;
-        }
-
-        if (null != paramPage && paramPage < 1) {
-            attributes.addFlashAttribute("message", "nothing_found");
-            return true;
-        }
-        return false;
     }
 }

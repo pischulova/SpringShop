@@ -15,19 +15,11 @@
             </c:when>
 
             <c:otherwise>
-                <h2><fmt:message key="type_client_name"/></h2>
-
-                <form method="get" action="/admin/show_orders">
-                    <input type="text" name="search" value="${search}"/>
-                    <input type="submit" value="<fmt:message key="search"/>"> <br>
-                </form><br>
-
                 <table width="100%">
                     <thead>
                     <tr>
                         <th><fmt:message key="order_id"/></th>
                         <th><fmt:message key="date"/></th>
-                        <th><fmt:message key="client"/></th>
                         <th><fmt:message key="amount"/></th>
                         <th><fmt:message key="status"/></th>
                         <th></th>
@@ -39,9 +31,7 @@
                         <tr>
                             <td><c:out value="${order.id}"/></td>
                             <td><c:out value="${order.date}"/></td>
-                            <td><c:out value="${order.user.name}"/></td>
                             <td><c:out value="${order.sum}"/></td>
-
                             <c:choose>
                                 <c:when test="${order.isApproved == true}">
                                     <td><fmt:message key="approved"/></td>
@@ -50,7 +40,6 @@
                                     <td><fmt:message key="not_approved"/></td>
                                 </c:otherwise>
                             </c:choose>
-
                             <td>
                                 <a href="<c:url value="/show_order/${order.id}"/>">
                                     <fmt:message key="view"/>
@@ -62,7 +51,7 @@
                 </table>
 
                 <jsp:include page="/WEB-INF/layout/paging.jsp">
-                    <jsp:param name="link" value="admin/show_orders?search=${search}&"/>
+                    <jsp:param name="link" value="client_orders?"/>
                 </jsp:include>
 
             </c:otherwise>

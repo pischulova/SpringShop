@@ -16,7 +16,7 @@ public class OrderItem {
 
     private Integer quantity;
 
-    Long price = 0L;
+    Long price;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
@@ -64,9 +64,26 @@ public class OrderItem {
         }
     }
 
-    @PrePersist
-    @PreUpdate
-    private void calculatePrice() {
-        price = flight.getPrice();
+//    @PrePersist
+//    @PreUpdate
+//    private void calculatePrice() {
+//        price = flight.getPrice();
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderItem orderItem = (OrderItem) o;
+
+        if (!flight.equals(orderItem.flight)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return flight.hashCode();
     }
 }

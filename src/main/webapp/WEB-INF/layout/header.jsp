@@ -3,7 +3,8 @@
 <html>
 <head>
     <link href="/resources/css/total.css" rel="stylesheet" type="text/css">
-    <script src="/resources/js/main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <title>Best Travel</title>
 </head>
 <body>

@@ -71,6 +71,7 @@
                     </thead>
                     <tbody class="striped">
                     <c:set var="number" value="${0}"/>
+
                     <c:forEach var="item" items="${orderContents}">
                         <tr>
                             <c:if test="${pageContext.response.locale == 'en'}">

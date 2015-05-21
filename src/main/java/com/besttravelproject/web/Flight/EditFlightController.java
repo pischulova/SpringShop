@@ -95,6 +95,7 @@ public class EditFlightController {
         return model;
     }
 
+
     private void populateCountryLists(ModelAndView model) {
         Map<Long, String> countryListEn = new HashMap<>();
         Map<Long, String> countryListRu = new HashMap<>();

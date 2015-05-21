@@ -1,31 +1,42 @@
 package com.besttravelproject.domain;
 
-import java.util.*;
+import java.util.Hashtable;
 
 public class Cart {
-    private Hashtable<Flight, Integer> flights = new Hashtable<>();
+    private Hashtable<OrderItem, Object> flights = new Hashtable<>();
+    private static final Object PRESENT = new Object();
 
-    public Hashtable<Flight, Integer> getFlights() {
+    public Hashtable<OrderItem, Object> getFlights() {
         return flights;
     }
 
     public void addFlight(Flight flight) {
-        if (flights.containsKey(flight)) {
-            Integer currentQty = flights.get(flight);
-            flights.put(flight, ++currentQty);
-            return;
+        for (OrderItem item : flights.keySet()) {
+            if (flight.equals(item.getFlight())) {
+                Integer currentQty = item.getQuantity();
+                item.setQuantity(++currentQty);
+                return;
+            }
         }
-        flights.put(flight, 1);
+        OrderItem item = new OrderItem();
+        item.setFlight(flight);
+        item.setPrice(flight.getPrice());
+        item.setQuantity(1);
+
+        flights.put(item, PRESENT);
     }
 
     public void removeFlight(Flight flight) {
-        if (flights.containsKey(flight)) {
-            Integer currentQty = flights.get(flight);
-            if (currentQty > 1) {
-                flights.put(flight, --currentQty);
+        for (OrderItem item : flights.keySet()) {
+            if (flight.equals(item.getFlight())) {
+                Integer currentQty = item.getQuantity();
+                if (currentQty > 1) {
+                    item.setQuantity(--currentQty);
+                    return;
+                }
+                flights.remove(item);
                 return;
             }
-            flights.remove(flight);
         }
     }
 }

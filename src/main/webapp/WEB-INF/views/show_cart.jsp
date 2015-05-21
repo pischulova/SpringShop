@@ -13,13 +13,13 @@
                 <p><spring:message code="${message}"/></p>
             </c:when>
             <c:otherwise>
-                <c:if test="${empty sessionScope.cart}">
+                <c:if test="${empty cart}">
                     <p><spring:message code="cart_empty"/></p>
                 </c:if>
             </c:otherwise>
         </c:choose>
 
-        <c:if test="${not empty sessionScope.cart}">
+        <c:if test="${not empty cart}">
             <h2><fmt:message key="current_order"/></h2><br>
             <table width="100%">
                 <thead>
@@ -35,27 +35,27 @@
                 <c:set var="sum" value="${0}"/>
                 <c:set var="number" value="${0}"/>
                 <tbody class="striped">
-                <c:forEach var="item" items="${sessionScope.cart.getFlights()}">
+                <c:forEach var="item" items="${cart}">
                     <tr>
                         <c:if test="${pageContext.response.locale == 'en'}">
-                            <td><c:out value="${item.key.nameEn}" /></td>
-                            <td><c:out value="${item.key.country.nameEn}" /></td>
+                            <td><c:out value="${item.flight.nameEn}" /></td>
+                            <td><c:out value="${item.flight.country.nameEn}" /></td>
                         </c:if>
                         <c:if test="${pageContext.response.locale == 'ru'}">
-                            <td><c:out value="${item.key.nameRu}" /></td>
-                            <td><c:out value="${item.key.country.nameRu}" /></td>
+                            <td><c:out value="${item.flight.nameRu}" /></td>
+                            <td><c:out value="${item.flight.country.nameRu}" /></td>
                         </c:if>
 
-                        <td><c:out value="${item.key.price}" /></td>
-                        <td><c:out value="${item.value}" /></td>
+                        <td><c:out value="${item.price}" /></td>
+                        <td><c:out value="${item.quantity}" /></td>
                         <td>
-                            <a href="<c:url value="/remove_from_cart/${item.key.id}"/>">
+                            <a href="<c:url value="/remove_from_cart/${item.flight.id}"/>">
                                 <fmt:message key="remove"/>
                             </a>
                         </td>
                     </tr>
-                    <c:set var="sum" value="${sum + item.key.price * item.value}"/>
-                    <c:set var="number" value="${number + item.value}"/>
+                    <c:set var="sum" value="${sum + item.price * item.quantity}"/>
+                    <c:set var="number" value="${number + item.quantity}"/>
                 </c:forEach>
                 <tr>
                     <td><h2><fmt:message key="total"/></h2></td>
