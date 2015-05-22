@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -25,8 +24,9 @@ public class JPAOrderRepository implements OrderRepository {
 
     @Override
     public boolean update(Order order) {
-        if (null != em.merge(order))
+        if (null != em.merge(order)) {
             return true;
+        }
         return false;
     }
 
@@ -62,21 +62,21 @@ public class JPAOrderRepository implements OrderRepository {
 
     @Override
     public long countAll() {
-        Query query = em.createNamedQuery("Order.countAll");
-        return (long)query.getSingleResult();
+        TypedQuery<Long> query = em.createNamedQuery("Order.countAll", Long.class);
+        return query.getSingleResult();
     }
 
     @Override
     public long countByClientName(String name) {
-        Query query = em.createNamedQuery("Order.countByClientName");
+        TypedQuery<Long> query = em.createNamedQuery("Order.countByClientName", Long.class);
         query.setParameter(1, "%"+ name +"%");
-        return (long)query.getSingleResult();
+        return query.getSingleResult();
     }
 
     @Override
     public long countByClientId(Long id) {
-        Query query = em.createNamedQuery("Order.countByClientId");
+        TypedQuery<Long> query = em.createNamedQuery("Order.countByClientId", Long.class);
         query.setParameter(1, id);
-        return (long)query.getSingleResult();
+        return query.getSingleResult();
     }
 }

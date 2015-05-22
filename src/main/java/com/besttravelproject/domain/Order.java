@@ -60,8 +60,9 @@ public class Order {
     }
 
     public void addOrderItem(OrderItem item) {
-        if (items.contains(item))
-            return ;
+        if (items.contains(item)) {
+            return;
+        }
         items.add(item);
         item.setOrder(this);
     }

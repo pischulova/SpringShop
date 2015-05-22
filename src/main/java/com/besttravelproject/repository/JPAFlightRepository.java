@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,8 +29,9 @@ public class JPAFlightRepository implements FlightRepository {
 
     @Override
     public boolean update(Flight flight) {
-        if (null != em.merge(flight))
+        if (null != em.merge(flight)) {
             return true;
+        }
         return false;
     }
 
@@ -55,15 +55,15 @@ public class JPAFlightRepository implements FlightRepository {
 
     @Override
     public long countAll() {
-        Query query = em.createNamedQuery("Flight.countAll");
-        return (long)query.getSingleResult();
+        TypedQuery<Long> query = em.createNamedQuery("Flight.countAll", Long.class);
+        return query.getSingleResult();
     }
 
     @Override
     public long countByCountry(String country) {
-        Query query = em.createNamedQuery("Flight.countByCountry");
-        query.setParameter(1, country+"%");
-        query.setParameter(2, country+"%");
-        return (long)query.getSingleResult();
+        TypedQuery<Long> query = em.createNamedQuery("Flight.countByCountry", Long.class);
+        query.setParameter("name", country+"%");
+
+        return query.getSingleResult();
     }
 }

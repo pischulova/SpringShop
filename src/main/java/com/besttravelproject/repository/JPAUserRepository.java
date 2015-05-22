@@ -23,8 +23,9 @@ public class JPAUserRepository implements UserRepository {
     @Override
     public boolean update(User user) {
         User updated = em.merge(user);
-        if (null != updated)
+        if (null != updated) {
             return true;
+        }
         return false;
     }
 
@@ -61,16 +62,16 @@ public class JPAUserRepository implements UserRepository {
 
     @Override
     public long countByRole(UserRole role) {
-        Query query = em.createNamedQuery("User.countByRole");
+        TypedQuery<Long> query = em.createNamedQuery("User.countByRole", Long.class);
         query.setParameter(1, role);
-        return (long)query.getSingleResult();
+        return query.getSingleResult();
     }
 
     @Override
     public long countByStatus(boolean status) {
-        Query query = em.createNamedQuery("User.countClientsByStatus");
+        TypedQuery<Long> query = em.createNamedQuery("User.countClientsByStatus", Long.class);
         query.setParameter(1, status);
         query.setParameter(2, UserRole.CLIENT);
-        return (long)query.getSingleResult();
+        return query.getSingleResult();
     }
 }

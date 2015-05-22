@@ -45,23 +45,20 @@
                     <td><fmt:message key="country"/></td>
                     <td>
                         <form:select path="country.id">
-
-                            <c:forEach var="country" items="${countryList}">
+                            <c:forEach var="countryDTO" items="${countryList}">
                                 <c:choose>
-                                    <c:when test="${flight.country.id eq country.key}">
-                                        <form:option value="${country.key}" selected="true">
-                                            <c:out value="${country.value}"/>
+                                    <c:when test="${flight.country.id eq countryDTO.id}">
+                                        <form:option value="${countryDTO.id}" selected="true">
+                                            <c:out value="${countryDTO.name}"/>
                                         </form:option>
                                     </c:when>
                                     <c:otherwise>
-                                        <form:option value="${country.key}">
-                                            <c:out value="${country.value}"/>
+                                        <form:option value="${countryDTO.id}">
+                                            <c:out value="${countryDTO.name}"/>
                                         </form:option>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:forEach>
-
                         </form:select>
                     </td>
                     <td><form:errors path="country" cssClass="error" /></td>

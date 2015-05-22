@@ -1,7 +1,6 @@
 package com.besttravelproject.domain;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 @Table(name = "order_items")
@@ -62,28 +61,5 @@ public class OrderItem {
         if(null != order) {
             this.order = order;
         }
-    }
-
-//    @PrePersist
-//    @PreUpdate
-//    private void calculatePrice() {
-//        price = flight.getPrice();
-//    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderItem orderItem = (OrderItem) o;
-
-        if (!flight.equals(orderItem.flight)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return flight.hashCode();
     }
 }
