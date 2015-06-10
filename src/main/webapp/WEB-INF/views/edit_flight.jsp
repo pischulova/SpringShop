@@ -15,7 +15,7 @@
                     <c:set var="countryList" value="${countryListEn}"/>
                 </c:when>
                 <c:otherwise>
-                    <c:set var="countryList" value="${countryListRu}"/>
+                    <c:set var="countryList" value="${countryListRu}" />
                 </c:otherwise>
             </c:choose>
 

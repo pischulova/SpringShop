@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - @localhost" uuid="2a6ec2a8-9246-4853-b918-4cc13e3f4073">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>spring_shop.*</schema-pattern>
+      <default-schemas>spring_shop.*</default-schemas>
+    </data-source>
+  </component>
+</project>
